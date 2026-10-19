@@ -1,23 +1,31 @@
 ---
 // Label and value pairs (identification data on the legal pages).
-import { inline } from '../lib/content';
+import { inlineOptional, type Tokens } from '../lib/content';
 interface Props {
 	items: { label: string; value: string }[];
-	tokens?: Record<string, string>;
+	tokens?: Tokens;
 }
 const { items, tokens = {} } = Astro.props;
+// Rows whose value has not been supplied are left out.
+const rows = items
+	.map(({ label, value }) => ({ label, html: inlineOptional(value, tokens) }))
+	.filter((r): r is { label: string; html: string } => r.html !== null);
 ---
 
-<dl class="details">
-	{
-		items.map(({ label, value }) => (
-			<div class="details__row">
-				<dt>{label}</dt>
-				<dd set:html={inline(value, tokens)} />
-			</div>
-		))
-	}
-</dl>
+{
+	rows.length > 0 && (
+		<dl class="details">
+			{
+				rows.map(({ label, html }) => (
+					<div class="details__row">
+						<dt>{label}</dt>
+						<dd set:html={html} />
+					</div>
+				))
+			}
+		</dl>
+	)
+}
 
 <style>
 	.details {

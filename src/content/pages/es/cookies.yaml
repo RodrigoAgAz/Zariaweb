@@ -9,7 +9,7 @@ sections:
       - Como no se guarda nada en su dispositivo, no hay aviso de cookies ni nada que aceptar o rechazar.
   - heading: Enlaces a otros sitios web
     paragraphs:
-      - Los enlaces al mapa de nuestra {contactLink} abren un servicio de mapas de terceros, que tiene sus propias políticas de cookies y de privacidad.
+      - Los enlaces al mapa de este sitio web abren un servicio de mapas de terceros, que tiene sus propias políticas de cookies y de privacidad.
   - heading: Cambios
     paragraphs:
       - Si en algún momento incorporamos una forma de medir las visitas, será una que no utilice cookies, y actualizaremos esta página antes de activarla. Consulte también nuestra {privacyLink}.

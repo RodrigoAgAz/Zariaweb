@@ -1,11 +1,12 @@
 // XML sitemap generated from the route map, with each page's language alternates.
 // (@astrojs/sitemap's i18n option cannot pair pages whose slugs differ by language.)
 import type { APIRoute } from 'astro';
-import { absolute, languages, pageKeys, routes } from '../lib/routes';
+import { absolute, languages, routes } from '../lib/routes';
+import { publishedKeys } from '../lib/published';
 
-export const GET: APIRoute = ({ site }) => {
+export const GET: APIRoute = async ({ site }) => {
 	const origin = site ?? 'https://zariacapital.es';
-	const urls = pageKeys.flatMap((key) =>
+	const urls = (await publishedKeys()).flatMap((key) =>
 		languages.map((lang) => {
 			const alternates = [
 				...languages.map((l) => `<xhtml:link rel="alternate" hreflang="${l}" href="${absolute(routes[key][l], origin)}"/>`),

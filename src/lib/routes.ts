@@ -7,10 +7,6 @@ export type Lang = (typeof languages)[number];
 
 export const routes = {
 	home: { en: '/', es: '/es/' },
-	firm: { en: '/firm/', es: '/es/firma/' },
-	whatWeDo: { en: '/what-we-do/', es: '/es/que-hacemos/' },
-	people: { en: '/people/', es: '/es/equipo/' },
-	contact: { en: '/contact/', es: '/es/contacto/' },
 	legalNotice: { en: '/legal-notice/', es: '/es/aviso-legal/' },
 	privacy: { en: '/privacy/', es: '/es/privacidad/' },
 	cookies: { en: '/cookies/', es: '/es/cookies/' },
@@ -20,7 +16,9 @@ export const routes = {
 export type PageKey = keyof typeof routes;
 export const pageKeys = Object.keys(routes) as PageKey[];
 
-export const mainNav: PageKey[] = ['firm', 'whatWeDo', 'people', 'contact'];
+// The site is one page plus its legal pages; the header links to sections of the home page.
+export const homeSections = ['firm', 'founder', 'contact'] as const;
+export type HomeSection = (typeof homeSections)[number];
 export const legalNav: PageKey[] = ['legalNotice', 'privacy', 'cookies', 'regulatory'];
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');

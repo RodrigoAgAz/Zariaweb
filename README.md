@@ -4,35 +4,31 @@ The public website of Zaria Capital: a static, bilingual (English and Spanish) s
 
 - **Preview:** `https://rodrigoagaz.github.io/Zariaweb/` (GitHub Pages, every page `noindex`), live once Pages is switched on (see [Deploy](#deploy)). The production host will be chosen later.
 - **Design:** [`DESIGN.md`](DESIGN.md). **Decisions:** [`DECISIONS.md`](DECISIONS.md).
-- **Screenshots:** [`screenshots/`](screenshots/) (every page at 375, 768 and 1440 px). **Audits:** [`reports/`](reports/).
+- **Screenshots:** [`screenshots/`](screenshots/) (every page at 375, 768, 1440 and 1920 px). **Audits:** [`reports/`](reports/).
 
-## Before launch: what is still missing
+## What the site shows, and what it leaves out
 
-The site shows `[TBC: …]` wherever Zaria Capital has not yet supplied information. The production build refuses to finish while any remains. Every value is entered in **one file**, [`src/content/settings.yaml`](src/content/settings.yaml), except the founder's details, which are in [`src/content/people/alonso-aznar.yaml`](src/content/people/alonso-aznar.yaml).
+The site is one page (the statement, the firm, the founder, contact) plus the legal pages linked from the footer. Nothing is shown for information Zaria Capital has not supplied: sentences, rows and sections that need it are simply left out, and the Regulatory information page is published only once there is something to put on it.
 
-| Missing input | Where it appears (English / Spanish) | Where to enter it |
+Owner inputs are all in [`src/content/settings.yaml`](src/content/settings.yaml); the founder's text is in [`src/content/people/alonso-aznar.yaml`](src/content/people/alonso-aznar.yaml).
+
+| Not yet supplied | What appears once it is | Where to enter it |
 |---|---|---|
-| Regulatory sentence for the Spanish entity | Footer of every page; Regulatory information | `entities.spain.regulatoryStatement` (en and es) |
-| Regulatory sentence for the ADGM entity (FSRA authorisation and activities, or what it is if not authorised) | Footer of every page; Regulatory information | `entities.adgm.regulatoryStatement` (en and es) |
-| Spanish entity registered name | Legal notice, Privacy, Regulatory / Aviso legal, Privacidad, Información regulatoria | `entities.spain.legalName` |
-| NIF/CIF | same three pages | `entities.spain.taxId` |
-| Registered address | same three pages | `entities.spain.registeredAddress` |
-| Registro Mercantil details | Legal notice, Regulatory | `entities.spain.registry` (en and es) |
-| ADGM entity legal name, registration number, address | Regulatory / Información regulatoria | `entities.adgm.*` |
-| Hosting provider for launch, and its log retention, location and transfer safeguard | Privacy / Privacidad | `hosting.provider`, `hosting.logDetails` (the owner will choose the host later) |
-| Founder's headshot, office, languages | People / Equipo | `alonso-aznar.yaml`: `photo`, `office`, `languages` |
-| Telephone per office (optional: omitted, not shown as TBC) | Contact | `offices.*.phone` |
-| Perpetua WOFF2 files (the licence is held; the files are needed) | Every page | See [Switching to Perpetua](#switching-eb-garamond-to-perpetua) |
-| Production domain (zariacapital.es and/or .com) | Canonicals, hreflang, sitemap, OG tags | `site` in `astro.config.mjs` (currently `https://zariacapital.es`) |
-| Team beyond the founder | People / Equipo | [Adding a person](#adding-a-person) |
-| Designer's master logo file (AI, EPS, PDF or SVG) | Header, footer, 404, OG image | Replace the files in `brand/logo/` (the current wordmark is traced from the deck artwork) |
+| Spanish entity: registered name, NIF, registered address, Registro Mercantil details | Identification block on the Legal notice; controller details in Privacy; Regulatory information page | `entities.spain.*` |
+| ADGM entity: legal name, registration number, address | Regulatory information page | `entities.adgm.*` |
+| One regulatory sentence per entity | Footer of every page; Regulatory information page | `entities.*.regulatoryStatement` (en and es) |
+| Production host and its log details | One sentence each in Privacy | `hosting.provider`, `hosting.logDetails` |
+| Perpetua WOFF2 files | The house face everywhere | See [Switching to Perpetua](#switching-eb-garamond-to-perpetua) |
+| Production domain | Canonicals, hreflang, sitemap | `site` in `astro.config.mjs` (currently `https://zariacapital.es`) |
+
+A caution, not a blocker for the preview: Spanish law (LSSI-CE, article 10) requires a business website to identify its owner (registered name, NIF, registered address, registry details), and the GDPR requires the privacy notice to name the controller and say how long server logs are kept. Supply those before the site goes live on the real domain.
 
 ## Pre-launch sign-offs (outside this build)
 
 1. **A Spanish lawyer** reviews the Legal notice / Aviso legal, Privacy / Política de privacidad and Cookies pages in both languages (LSSI-CE, GDPR, LOPDGDD).
-2. **Regulatory counsel in Spain and in ADGM** confirms that the three service descriptions (Strategic Advisory, Financing Solutions, Principal Investing) and the regulatory sentences are appropriate for a public website. Note: the copy deliberately says Zaria "works on" financing rather than "arranges" it, because arranging is a defined regulated activity; counsel should confirm or correct this.
-3. **A native Spanish speaker** reviews all Spanish copy (`src/content/pages/es/`, `src/content/ui/es.yaml`, the Spanish bio). Points to check: "empresarios" for *principals*, "instituciones vinculadas a Estados" for *sovereign-linked institutions*, "Inversión directa" for *Principal Investing*, the loanword "joint ventures", and "Abu Dabi" (Fundéu spelling) versus "Abu Dhabi".
-4. **Alonso Aznar approves his bio** (both languages) and the home page founder line.
+2. **Regulatory counsel in Spain and in ADGM** confirms that "The firm" paragraphs (advice on M&A, partnerships, market entry, capital formation and structured financing; principal investment) and the regulatory sentences are appropriate for a public website.
+3. **A native Spanish speaker** reviews all Spanish copy (`src/content/pages/es/`, `src/content/ui/es.yaml`, the Spanish bio), including the loanword "joint ventures" and "Abu Dabi" (Fundéu spelling) versus "Abu Dhabi".
+4. **Alonso Aznar approves his bio** (both languages).
 
 ## Run, build, deploy
 
@@ -41,8 +37,8 @@ Requires Node 22.
 ```sh
 npm ci
 npm run dev                # local development at http://localhost:4321
-npm run build              # preview build: every page noindex; [TBC] allowed
-npm run build:production   # production build: fails while any [TBC] remains; pages indexable
+npm run build              # preview build (GitHub Pages): every page noindex
+npm run build:production   # production build: pages indexable
 npm run build:audit        # local Lighthouse runs only: like preview but without noindex. Never deploy.
 ```
 
@@ -53,7 +49,7 @@ npm run build:audit        # local Lighthouse runs only: like preview but withou
 ```sh
 npm run build:audit && npm run serve   # serves dist/ on :4322 applying dist/_headers, like a static host
 npm run check:csp                      # every page: CSP violations, console errors, third-party requests, cookies
-npm run screenshots                    # every page at 375, 768 and 1440 px into screenshots/
+npm run screenshots                    # every page at 375, 768 and 1440 px into screenshots/ (set WIDTHS=375,768,1440,1920 for more)
 npm run lighthouse                     # Lighthouse mobile and desktop for every page into reports/
 ```
 
@@ -69,7 +65,7 @@ GitHub Pages limitations, accepted for the preview only:
 
 **Production.** Use a static host that honours `_headers` (Cloudflare Pages, Netlify or similar). Build with `npm run build:production` and publish `dist/`. After each build, `dist/_headers` contains the full CSP (the union of every page's hashes, plus `frame-ancestors 'none'`), HSTS, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options` and long-lived caching for `/_astro/*`.
 
-**Header verification.** The headers could not be verified on a deployed host: GitHub Pages does not serve them, and the session had no access to Cloudflare. They were verified locally with `scripts/serve.mjs`, which applies `dist/_headers` the way a static host does: all five headers present, 19 pages loaded with no CSP violations, no console errors, no third-party requests and no cookies (`npm run check:csp`). Repeat that check against the production host after the first deploy, and confirm in the browser's storage panel that the host sets no bot-management cookies (on Cloudflare, keep Bot Fight Mode and similar cookie-setting features off).
+**Header verification.** The headers could not be verified on a deployed host: GitHub Pages does not serve them, and the session had no access to Cloudflare. They were verified locally with `scripts/serve.mjs`, which applies `dist/_headers` the way a static host does: all five headers present, every page loaded with no CSP violations, no console errors, no third-party requests and no cookies (`npm run check:csp`). Repeat that check against the production host after the first deploy, and confirm in the browser's storage panel that the host sets no bot-management cookies (on Cloudflare, keep Bot Fight Mode and similar cookie-setting features off).
 
 ### Yearly rebuild
 
@@ -79,22 +75,18 @@ The footer reads "© {year} Zaria Capital", with the year computed at build time
 
 All copy lives in `src/content/`, separate from the components.
 
-- `src/content/pages/en/*.yaml` and `src/content/pages/es/*.yaml`: one file per page per language. Each has `title`, `description` (must be 140 to 160 characters; the build fails otherwise) and `h1`, then the page's sections.
-- `src/content/ui/en.yaml`, `es.yaml`: navigation labels, footer and other interface text.
-- `src/content/settings.yaml`: the owner inputs listed above.
-- In paragraph text you can write `[link text](https://…)`, `*italic*`, and `{tokens}` such as `{email}` or `{spainName}` that pull in owner inputs (the full list is in `src/lib/tokens.ts`).
+- `src/content/pages/en/home.yaml`, `src/content/pages/es/home.yaml`: the home page (statement, corridors, the firm, contact).
+- `src/content/people/alonso-aznar.yaml`: the founder's name, title and background, in both languages.
+- `src/content/pages/{en,es}/legal-notice.yaml`, `privacy.yaml`, `cookies.yaml`, `regulatory.yaml`: legal pages.
+- `src/content/ui/en.yaml`, `es.yaml`: header, footer and other interface text.
+- `src/content/settings.yaml`: owner inputs (email, entities, hosting, photo rights).
+- Every page file has `title` and `description` (140 to 160 characters; the build fails otherwise). In paragraph text you can write `[link text](https://…)`, `*italic*`, and `{tokens}` such as `{email}` or `{spainName}` (full list in `src/lib/tokens.ts`); a paragraph whose token has no value is left out.
 
-Copy rules (from the brief): only the facts the firm has approved; no clients, deals, numbers or rankings; no em or en dashes; typographic quotes and apostrophes; "Zaria Capital", never "Zaria Capital Partners"; no "leading", "premier", "world-class".
-
-### Adding a person
-
-1. Add a black and white headshot to `src/assets/people/` (portrait, at least 720 × 900 px; the site crops to 4:5 and renders AVIF/WebP).
-2. Copy `src/content/people/alonso-aznar.yaml` to `src/content/people/<first-last>.yaml` and fill in `order` (display order; the founder is 1), `name`, `photo` (e.g. `../../assets/people/first-last.jpg`), `title`, `office`, `languages` and a 2 to 4 sentence `bio`, each in English and Spanish. No personal emails or phone numbers.
-3. Build. The People page lists everyone in `order`.
+Copy rules: only facts the firm has approved; no clients, deals, numbers, rankings or government references; no em or en dashes; "Zaria Capital", never "Zaria Capital Partners".
 
 ### URLs
 
-Every URL in both languages is defined once in `src/lib/routes.ts`. That map generates the pages, the language switcher, `hreflang` links, navigation and `sitemap.xml`. To rename a URL, change it there and add a redirect for the old one to `public/_redirects`.
+Every URL in both languages is defined once in `src/lib/routes.ts`; it generates the pages, the language switcher, `hreflang` links and `sitemap.xml`.
 
 ## Switching EB Garamond to Perpetua
 
@@ -119,7 +111,7 @@ The current zariacapital.es runs on WordPress. This build does not touch its DNS
 |---|---|---|
 | Logos (`brand/logo/`) | Zaria Capital deck template; mark rebuilt geometrically, wordmark traced from the deck artwork | Zaria Capital. Replace with the designer's master file when available. |
 | Favicons (`brand/favicon/`, copied to `public/`) | Zaria brand kit | Zaria Capital. The manifest's icon paths are made relative in `public/` so they work on the preview subpath. |
-| Madrid aerial (`brand/imagery/`, `src/assets/images/`) | Zaria Capital deck covers | Zaria holds web rights (confirmed by the owner, 19 October 2026). Shown once, on the Firm page. Narrow screens get a square crop centred on the Metrópolis dome and Gran Vía. Setting `madridPhotoWebRights: false` removes it. |
+| Madrid aerial (`brand/imagery/`, `src/assets/images/`) | Zaria Capital deck covers | Zaria holds web rights (confirmed by the owner, 19 October 2026). Shown once, full width on the home page. Narrow screens get a square crop centred on the Metrópolis dome and Gran Vía. Setting `madridPhotoWebRights: false` removes it. |
 | OG image (`public/og-image.png`) | Generated by `scripts/og-image.mjs` from the stacked logo | Zaria Capital |
 | EB Garamond | Google Fonts via `@fontsource/eb-garamond` | SIL Open Font License 1.1 |
 
@@ -139,10 +131,10 @@ No Abu Dhabi image is used. None was proposed: a generic skyline would work agai
 
 ```
 brand/                 brand kit, unchanged (tokens.css, logos, favicons, imagery)
-src/content/           all copy and owner inputs (YAML)
+src/content/           all copy, the founder's text and owner inputs (YAML)
 src/lib/routes.ts      the route map
 src/lib/               content helpers, tokens, JSON-LD, launch gate, security headers
-src/components/        header, footer, Z device, clocks, page templates
+src/components/        header, footer, home page, Z device, clocks, Madrid photo, legal page template
 src/pages/             [...path].astro generates every page from the route map; 404; sitemap.xml
 src/styles/global.css  site scale on top of brand/tokens.css
 public/                favicons, manifest, OG image, robots.txt, _headers, _redirects, logo.png (JSON-LD)

@@ -8,17 +8,18 @@
 	/* The Z geometry: diagonals at 56 degrees from horizontal. */
 	--zc-angle: 56deg;
 
-	/* Type scale (px values in DESIGN.md). Mobile first; desktop values from 48em. */
+	/* Type scale (px values in DESIGN.md). Mobile first; larger from 48em and 90em. */
 	--fs-small: 1rem; /* 16 */
 	--fs-body: 1.125rem; /* 18 */
-	--fs-lead: 1.25rem; /* 20 */
-	--fs-h3: 1.375rem; /* 22 */
-	--fs-h2: 1.75rem; /* 28 */
+	--fs-lead: 1.3125rem; /* 21 */
+	--fs-h3: 1.5rem; /* 24 */
+	--fs-h2: 2rem; /* 32 */
+	--fs-statement: 1.75rem; /* 28 */
 	--fs-corridor: 1.75rem; /* 28 */
-	--fs-h1: clamp(2.25rem, 1.55rem + 3vw, 3.75rem); /* 36 at 320, 60 at 1440 */
-	--lh-body: 1.5;
-	--lh-tight: 1.15;
-	--measure: 34em; /* about 66 characters of body copy */
+	--fs-h1: clamp(2.5rem, 1.6rem + 4.2vw, 6.5rem); /* 40 at 320, 104 at 1920 */
+	--lh-body: 1.55;
+	--lh-tight: 1.08;
+	--measure: 36em;
 
 	/* Space scale */
 	--s-1: 0.25rem;
@@ -33,20 +34,29 @@
 	--s-10: 8rem;
 
 	/* Layout */
-	--page-max: 77.5rem; /* 1240 */
-	--gutter: clamp(1rem, 5vw, 4rem);
-	--section-space: clamp(4rem, 3rem + 5vw, 8rem);
+	--page-max: 90rem; /* 1440 */
+	--gutter: clamp(1.25rem, 5vw, 6rem);
+	--section-space: clamp(4.5rem, 3rem + 6vw, 10rem);
 	--rule: var(--zc-rule);
 	--rule-faint: 1px solid var(--zc-rule-faint);
+	--rule-on-dark: 1px solid var(--zc-green-dark);
 }
 
 @media (min-width: 48em) {
 	:root {
-		--fs-body: 1.1875rem; /* 19 */
-		--fs-lead: 1.4375rem; /* 23 */
-		--fs-h3: 1.5625rem; /* 25 */
-		--fs-h2: 2.125rem; /* 34 */
-		--fs-corridor: 2.625rem; /* 42 */
+		--fs-body: 1.25rem; /* 20 */
+		--fs-lead: 1.625rem; /* 26 */
+		--fs-h3: 1.875rem; /* 30 */
+		--fs-h2: 2.75rem; /* 44 */
+		--fs-statement: 2.5rem; /* 40 */
+	}
+}
+@media (min-width: 90em) {
+	:root {
+		--fs-body: 1.3125rem; /* 21 */
+		--fs-lead: 1.75rem; /* 28 */
+		--fs-h2: 3.25rem; /* 52 */
+		--fs-statement: 3rem; /* 48 */
 	}
 }
 
@@ -110,7 +120,7 @@ h1 {
 }
 h2 {
 	font-size: var(--fs-h2);
-	line-height: 1.2;
+	line-height: 1.12;
 }
 h3 {
 	font-size: var(--fs-h3);
@@ -217,33 +227,36 @@ address {
 }
 .lead {
 	font-size: var(--fs-lead);
-	line-height: 1.45;
+	line-height: 1.4;
 	color: var(--zc-text);
 	max-width: 30em;
+}
+
+/* The dark green ground: header, page openings and footer. */
+.on-dark {
+	background: var(--zc-logo-ink);
+	color: var(--zc-fill-light);
+}
+.on-dark h1,
+.on-dark h2,
+.on-dark h3 {
+	color: var(--zc-white);
+}
+.on-dark a {
+	color: var(--zc-white);
+}
+.on-dark :focus-visible {
+	outline-color: var(--zc-white);
 }
 .small {
 	font-size: var(--fs-small);
 	color: var(--zc-grey-accessible);
 }
-.tbc {
-	/* Missing owner input: deliberately conspicuous so it cannot be overlooked. */
-	background: var(--zc-fill-light);
-	outline: 1px dashed var(--zc-green-dark);
-	outline-offset: 1px;
-	color: var(--zc-green-deep);
-}
+
 
 /* Sections: heading in columns 1 to 4, content in 5 to 12 from 1024 px. */
 .section {
 	padding-block: var(--section-space) 0;
-}
-.section--band {
-	margin-block-start: var(--section-space);
-	padding-block: var(--section-space);
-	background: var(--zc-fill-lighter);
-}
-.section--band + .section {
-	padding-block-start: var(--section-space);
 }
 .section--ruled > .wrap {
 	position: relative;
@@ -255,7 +268,7 @@ address {
 @media (min-width: 64em) {
 	.grid {
 		grid-template-columns: repeat(12, 1fr);
-		column-gap: var(--s-6);
+		column-gap: var(--s-7);
 	}
 	.grid__label {
 		grid-column: 1 / span 4;
@@ -266,17 +279,14 @@ address {
 }
 .section--ruled .grid {
 	border-block-start: var(--rule);
-	padding-block-start: var(--s-5);
+	padding-block-start: var(--s-6);
 }
 
-/* Legal pages: many short sections, so tighter spacing. */
+/* Legal pages: many short sections, so tighter spacing and smaller headings. */
 .legal .section {
 	padding-block-start: var(--s-8);
 }
-
-/* The 56 degree cut: a band whose inline-start top corner is sliced at the Z angle,
-   like the end of the Z's lower bar. --cut is the height of the slice. */
-.cut-start {
-	--cut: clamp(2.5rem, 2rem + 2vw, 4rem);
-	clip-path: polygon(calc(var(--cut) / tan(var(--zc-angle))) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut));
+.legal h2 {
+	font-size: var(--fs-h3);
 }
+

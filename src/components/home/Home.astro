@@ -1,8 +1,12 @@
 ---
+// The site's one page: statement and corridors, the Madrid photograph, the firm, the founder,
+// and contact. Legal pages are linked from the footer.
 import ZDevice from '../ZDevice.astro';
 import OfficeClock from '../OfficeClock.astro';
-import { routes, url, type Lang } from '../../lib/routes';
-import { getPage, getUi, inline } from '../../lib/content';
+import MadridPhoto from '../MadridPhoto.astro';
+import Paragraphs from '../Paragraphs.astro';
+import { type Lang } from '../../lib/routes';
+import { emailHtml, getPage, getPeople, getSettings, getUi } from '../../lib/content';
 
 interface Props {
 	lang: Lang;
@@ -10,230 +14,200 @@ interface Props {
 const { lang } = Astro.props;
 const copy = await getPage<any>('home', lang);
 const ui = await getUi(lang);
-const whatWeDo = routes.whatWeDo[lang];
+const settings = await getSettings();
+const [founder] = await getPeople();
+const clocks = [
+	{ city: ui.cities.madrid, tz: 'Europe/Madrid', fallback: ui.clock.madridFallback },
+	{ city: ui.cities.abuDhabi, tz: 'Asia/Dubai', fallback: ui.clock.abuDhabiFallback },
+];
 ---
 
-<section class="hero">
+<section class="hero on-dark" aria-labelledby="hero-heading">
+	<ZDevice tone="dark" />
 	<div class="wrap hero__inner">
-		<h1>{copy.h1}</h1>
-		<p class="lead" set:html={inline(copy.lead)} />
-	</div>
-	<ZDevice />
-</section>
-
-<section class="section" aria-labelledby="lines-heading">
-	<div class="wrap"><div class="grid">
-		<h2 id="lines-heading" class="grid__label">{copy.lines.heading}</h2>
-		<ul role="list" class="grid__body lines">
+		<div>
+			<h1 id="hero-heading">{copy.h1}</h1>
+			<div class="hero__corridors">
+				<h2 class="visually-hidden">{copy.corridors.label}</h2>
+				<ul role="list" class="corridors">
+					{copy.corridors.items.map((item: string) => <li>{item}</li>)}
+				</ul>
+			</div>
+		</div>
+		<ul role="list" class="hero__clocks">
 			{
-				copy.lines.items.map((item: any) => (
-					<li class="lines__item">
-						<h3>
-							<a href={url(`${whatWeDo}#${item.anchor}`)}>{item.name}</a>
-						</h3>
-						<p set:html={inline(item.text)} />
+				clocks.map((c) => (
+					<li>
+						<span class="hero__city">{c.city}</span>
+						<OfficeClock timeZone={c.tz} fallback={c.fallback} suffix={ui.clock.suffix} />
 					</li>
 				))
 			}
 		</ul>
-	</div></div>
+	</div>
 </section>
 
-<section class="section section--band cut-start" aria-labelledby="corridors-heading">
-	<div class="wrap"><div class="grid">
-		<h2 id="corridors-heading" class="grid__label">{copy.corridors.heading}</h2>
-		<div class="grid__body corridors-box">
-			<ul role="list" class="corridors">
-				{copy.corridors.items.map((item: string) => <li>{item}</li>)}
-			</ul>
-		</div>
-	</div></div>
-</section>
+<MadridPhoto alt={copy.photoAlt} />
 
-<section class="section" aria-labelledby="clients-heading">
-	<div class="wrap"><div class="grid">
-		<h2 id="clients-heading" class="grid__label">{copy.clients.heading}</h2>
-		<div class="grid__body">
-			<p class="clients__intro">{copy.clients.intro}</p>
-			<ul role="list" class="clients">
-				{copy.clients.items.map((item: string) => <li set:html={inline(item)} />)}
-			</ul>
-		</div>
-	</div></div>
-</section>
-
-<section class="section section--ruled" aria-labelledby="founder-heading">
-	<div class="wrap"><div class="grid">
-		<h2 id="founder-heading" class="grid__label">{copy.founder.heading}</h2>
-		<div class="grid__body founder">
-			<p class="lead" set:html={inline(copy.founder.text)} />
-			<p><a href={url(routes.people[lang])}>{copy.founder.link}</a></p>
-		</div>
-	</div></div>
-</section>
-
-<section class="section section--ruled" aria-labelledby="offices-heading">
-	<div class="wrap"><div class="grid">
-		<h2 id="offices-heading" class="grid__label">{copy.offices.heading}</h2>
-		<div class="grid__body offices">
-			<div class="office">
-				<h3>{ui.cities.madrid}</h3>
-				<address>Calle Ayala 3<br />28001 Madrid<br />{lang === 'en' ? 'Spain' : 'España'}</address>
-				<OfficeClock timeZone="Europe/Madrid" fallback={ui.clock.madridFallback} suffix={ui.clock.suffix} />
-			</div>
-			<div class="office">
-				<h3>{ui.cities.abuDhabi}</h3>
-				<address>ADGM<br />{ui.cities.abuDhabi}<br />{lang === 'en' ? 'United Arab Emirates' : 'Emiratos Árabes Unidos'}</address>
-				<OfficeClock timeZone="Asia/Dubai" fallback={ui.clock.abuDhabiFallback} suffix={ui.clock.suffix} />
+<section class="section" id="firm" aria-labelledby="firm-heading">
+	<div class="wrap">
+		<div class="grid">
+			<h2 id="firm-heading" class="grid__label">{copy.firm.heading}</h2>
+			<div class="grid__body text-large">
+				<Paragraphs items={copy.firm.paragraphs} />
 			</div>
 		</div>
-	</div></div>
+	</div>
+</section>
+
+{
+	founder && (
+		<section class="section section--ruled" id="founder" aria-labelledby="founder-heading">
+			<div class="wrap">
+				<div class="grid">
+					<h2 id="founder-heading" class="grid__label">{copy.founder.heading}</h2>
+					<div class="grid__body">
+						<h3 class="founder__name">{founder.name}</h3>
+						<p class="founder__title">{founder.title[lang]}</p>
+						<div class="text-large founder__bio">
+							<Paragraphs items={founder.bio[lang]} />
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	)
+}
+
+<section class="section section--ruled" id="contact" aria-labelledby="contact-heading">
+	<div class="wrap">
+		<div class="grid">
+			<h2 id="contact-heading" class="grid__label">{copy.contact.heading}</h2>
+			<div class="grid__body contact">
+				{
+					copy.contact.offices.map((o: any) => (
+						<div class="contact__office">
+							<h3>{o.city}</h3>
+							<address set:html={o.lines.join('<br />')} />
+							<p>
+								<a href={o.map} rel="noopener">
+									{copy.contact.mapLink}
+									<span class="visually-hidden">, {copy.contact.mapContext.replace('{city}', o.city)}</span>
+								</a>
+							</p>
+						</div>
+					))
+				}
+				{
+					settings.email && (
+						<div class="contact__email">
+							<h3>{copy.contact.email}</h3>
+							<p set:html={emailHtml(settings.email)} />
+						</div>
+					)
+				}
+			</div>
+		</div>
+	</div>
 </section>
 
 <style>
-	/* Hero A: one sentence on white, the Z diagonal entering from the right. */
+	/* Hero: the statement on the dark green ground, the Z diagonal tone on tone behind it, the
+	   three corridors beneath, and the two offices' local time along the bottom. */
 	.hero {
 		position: relative;
 		overflow: clip;
-		padding-block: clamp(3rem, 2rem + 6vw, 8rem) clamp(13rem, 9rem + 10vw, 16rem);
-	}
-	.hero :global(.zdev) {
-		height: clamp(13rem, 9rem + 10vw, 16rem);
 	}
 	.hero__inner {
 		position: relative;
 		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: var(--s-9);
+		min-height: clamp(36rem, 84svh, 62rem);
+		padding-block: clamp(3rem, 2rem + 5vw, 8rem) var(--s-6);
 	}
 	.hero h1 {
-		max-width: 15.5em;
+		max-width: 11em;
 	}
-	.hero .lead {
-		margin-block-start: var(--s-6);
+	.hero__corridors {
+		margin-block-start: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+		max-width: 40rem;
 	}
-
+	.corridors {
+		font-size: clamp(1.375rem, 1.1rem + 1vw, 2.25rem);
+		line-height: 1.2;
+		color: var(--zc-fill-light);
+	}
+	.corridors li {
+		padding-block: var(--s-3);
+		border-block-start: 1px solid var(--zc-logo-ink-soft);
+	}
+	.hero__clocks {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--s-2) var(--s-8);
+	}
+	.hero__clocks li {
+		display: flex;
+		gap: var(--s-3);
+		align-items: baseline;
+	}
+	.hero__city {
+		color: var(--zc-white);
+	}
+	.hero__clocks :global(.office-clock) {
+		color: var(--zc-grey-light);
+		font-size: inherit;
+	}
+	.hero :global(.zdev) {
+		height: 55%;
+	}
 	@media (min-width: 64em) {
-		.hero {
-			padding-block: var(--s-9) calc(var(--s-10) + var(--s-6));
-		}
 		.hero :global(.zdev) {
 			height: 100%;
 		}
-		.hero h1 {
-			max-width: 13.5em;
-		}
-		.hero .lead {
-			max-width: 27em;
-		}
 	}
 
-	/* What we do */
-	.lines__item {
-		padding-block: var(--s-5);
-		border-block-start: var(--rule);
+	.text-large {
+		font-size: var(--fs-lead);
+		line-height: 1.45;
+		color: var(--zc-text);
+		max-width: 32em;
 	}
-	.lines__item:first-child {
-		border-block-start: 0;
-		padding-block-start: 0;
+	.text-large :global(p + p) {
+		margin-block-start: 0.9em;
 	}
-	.lines__item:last-child {
-		padding-block-end: 0;
+
+	.founder__name {
+		font-size: var(--fs-h2);
 	}
-	.lines h3 a {
-		text-decoration-color: var(--zc-grey-light);
-	}
-	.lines h3 a:hover {
-		text-decoration-color: currentColor;
-	}
-	.lines p {
+	.founder__title {
 		margin-block-start: var(--s-2);
-		max-width: var(--measure);
-	}
-	@media (min-width: 48em) {
-		.lines__item {
-			display: grid;
-			grid-template-columns: 15rem 1fr;
-			column-gap: var(--s-6);
-			align-items: baseline;
-		}
-		.lines p {
-			margin-block-start: 0;
-		}
-	}
-
-	/* Where we work: three corridors whose left ends step down the Z angle. The type scales with
-	   the column (container query units) so the longest line, plus its indent, always fits. */
-	.corridors-box {
-		container-type: inline-size;
-	}
-	.corridors {
-		--row: calc(var(--fs-corridor) * 1.2 + 2 * var(--s-4));
-		font-size: var(--fs-corridor);
-		line-height: 1.2;
-		color: var(--zc-logo-ink);
-	}
-	.corridors li {
-		padding-block: var(--s-4);
-		border-block-start: 1px solid var(--zc-grey-light);
-	}
-	.corridors li:last-child {
-		border-block-end: 1px solid var(--zc-grey-light);
-	}
-	@media (min-width: 48em) {
-		.corridors {
-			/* About 16.5em of text and indent on the longest line in either language. */
-			--fs-corridor: clamp(1.75rem, (100cqi - 3rem) / 16.5, 2.625rem);
-		}
-		.corridors li {
-			--step: 0;
-			white-space: nowrap;
-			margin-inline-start: calc(var(--step) * var(--row) / tan(var(--zc-angle)));
-		}
-		.corridors li:nth-child(1) {
-			--step: 2;
-		}
-		.corridors li:nth-child(2) {
-			--step: 1;
-		}
-	}
-
-	/* Who we work with */
-	.clients__intro {
 		color: var(--zc-grey-accessible);
 	}
-	.clients {
-		margin-block-start: var(--s-3);
-		font-size: var(--fs-lead);
-		color: var(--zc-logo-ink);
-		columns: 2 12rem;
-		column-gap: var(--s-6);
-	}
-	.clients li {
-		padding-block: var(--s-1);
-		break-inside: avoid;
+	.founder__bio {
+		margin-block-start: var(--s-6);
 	}
 
-	/* Founder */
-	.founder .lead {
-		max-width: 30em;
-	}
-	.founder p + p {
-		margin-block-start: var(--s-4);
-	}
-
-	/* Offices */
-	.offices {
+	.contact {
 		display: grid;
-		gap: var(--s-6);
+		gap: var(--s-7) var(--s-6);
 	}
 	@media (min-width: 40em) {
-		.offices {
+		.contact {
 			grid-template-columns: 1fr 1fr;
 		}
 	}
-	.office h3 {
+	.contact h3 {
+		font-size: var(--fs-h3);
 		margin-block-end: var(--s-3);
 	}
-	.office address {
-		margin-block-end: var(--s-3);
+	.contact address + p {
+		margin-block-start: var(--s-3);
+	}
+	.contact__email {
+		grid-column: 1 / -1;
 	}
 </style>

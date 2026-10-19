@@ -1,42 +1,35 @@
 title: Zaria Capital | Asesoramiento e inversión independientes
 description: Zaria Capital es una firma independiente de asesoramiento e inversión que trabaja en el sur de Europa y Latinoamérica, Oriente Medio y Estados Unidos.
-h1: Asesoramiento e inversión independientes en el sur de Europa y Latinoamérica, Oriente Medio y Estados Unidos.
-lead: Trabajamos directamente con empresarios e instituciones en operaciones y alianzas cuyo resultado depende de la confianza, el acceso, la estructuración y la ejecución sobre el terreno.
-
-lines:
-  heading: Qué hacemos
-  items:
-    - name: Asesoramiento estratégico
-      anchor: strategic-advisory
-      text: Fusiones y adquisiciones transfronterizas, alianzas estratégicas y entrada en nuevos mercados.
-    - name: Soluciones de financiación
-      anchor: financing-solutions
-      text: Captación de capital y financiación estructurada con instrumentos de capital, deuda e híbridos, para empresas, infraestructuras y emisores vinculados a Estados.
-    - name: Inversión directa
-      anchor: principal-investing
-      text: Joint ventures y coinversiones en España y Abu Dabi, con implicación operativa desde el primer día.
+h1: Asesoramiento e inversión independientes.
 
 corridors:
-  heading: Dónde trabajamos
+  label: Dónde trabajamos
   items:
     - El sur de Europa y Latinoamérica
     - Oriente Medio
     - Estados Unidos
 
-clients:
-  heading: Con quién trabajamos
-  intro: Trabajamos directamente con
-  items:
-    - Empresarios
-    - Familias
-    - Empresas
-    - Inversores
-    - Instituciones vinculadas a Estados
+photoAlt: Vista aérea del centro de Madrid en blanco y negro, a lo largo de la Gran Vía y el edificio Metrópolis con su cúpula.
+
+firm:
+  heading: La firma
+  paragraphs:
+    - Zaria Capital asesora e invierte junto a empresas, familias e inversores en situaciones transfronterizas, cuando el resultado depende de la confianza, el acceso, la estructuración y la ejecución sobre el terreno.
+    - Asesoramos en fusiones y adquisiciones transfronterizas, alianzas estratégicas y entrada en nuevos mercados, así como en captación de capital y financiación estructurada.
+    - También invertimos como principal, mediante joint ventures y coinversiones en España y Abu Dabi, con implicación operativa desde el primer día.
 
 founder:
   heading: Fundador
-  text: Zaria Capital fue fundada por Alonso Aznar, anteriormente Managing Director en Consello y CEO para España y Latinoamérica en Afiniti.
-  link: Sobre Alonso Aznar
 
-offices:
-  heading: Oficinas
+contact:
+  heading: Contacto
+  offices:
+    - city: Madrid
+      lines: [Calle Ayala 3, 28001 Madrid, España]
+      map: https://www.openstreetmap.org/search?query=Calle%20Ayala%203%2C%2028001%20Madrid
+    - city: Abu Dabi
+      lines: [ADGM, Abu Dabi, Emiratos Árabes Unidos]
+      map: https://www.openstreetmap.org/search?query=Abu%20Dhabi%20Global%20Market%2C%20Abu%20Dhabi
+  mapLink: Ver en el mapa
+  mapContext: "oficina de {city}, abre un servicio de mapas externo"
+  email: Email

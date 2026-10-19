@@ -1,11 +1,13 @@
 ---
 // Paragraphs of copy with inline links, *italic* and {tokens} (see src/lib/content.ts).
-import { inline } from '../lib/content';
+// A paragraph that needs an owner input that has not been supplied is left out.
+import { inlineOptional, type Tokens } from '../lib/content';
 interface Props {
 	items: string[];
-	tokens?: Record<string, string>;
+	tokens?: Tokens;
 }
 const { items, tokens = {} } = Astro.props;
+const html = items.map((text) => inlineOptional(text, tokens)).filter((p): p is string => p !== null);
 ---
 
-{items.map((text) => <p set:html={inline(text, tokens)} />)}
+{html.map((p) => <p set:html={p} />)}

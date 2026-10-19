@@ -27,12 +27,14 @@ const [gx2, gy2] = onEdge(400);
 interface Props {
 	class?: string;
 	gold?: boolean;
+	/** "light": pale tint on white. "dark": a lighter green, tone on tone, on the dark ground. */
+	tone?: 'light' | 'dark';
 }
-const { class: className, gold = true } = Astro.props;
+const { class: className, gold = true, tone = 'light' } = Astro.props;
 ---
 
 <svg
-	class:list={['zdev', className]}
+	class:list={['zdev', `zdev--${tone}`, className]}
 	viewBox="0 0 1200 1000"
 	preserveAspectRatio="xMaxYMax meet"
 	aria-hidden="true"
@@ -65,6 +67,9 @@ const { class: className, gold = true } = Astro.props;
 	}
 	.zdev polygon {
 		fill: var(--zc-fill-light);
+	}
+	.zdev--dark polygon {
+		fill: var(--zc-green-dark);
 	}
 	.zdev line {
 		stroke: var(--zc-gold);

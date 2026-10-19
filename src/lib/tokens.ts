@@ -1,67 +1,34 @@
-// {tokens} available to copy in src/content/pages/**: owner inputs, resolved to HTML. A missing
-// input renders as a visible [TBC: …] in the page's language, and links to it are omitted.
-import { emailHtml, esc, getSettings, valueHtml } from './content';
+// {tokens} available to copy in src/content/pages/**: owner inputs, resolved to HTML. A value that
+// has not been supplied is null, and any sentence, row or section that needs it is left out.
+import { emailHtml, esc, getSettings, type Tokens } from './content';
 import { routes, url, type Lang } from './routes';
+import { isPublished } from './published';
 
-const missing = {
-	en: {
-		spainName: 'Spanish entity registered name',
-		spainTaxId: 'NIF/CIF',
-		spainRegistry: 'Registro Mercantil details',
-		spainAddress: 'registered address',
-		spainRegulatory: 'regulatory status of the Spanish entity',
-		adgmName: 'ADGM entity legal name',
-		adgmNumber: 'ADGM registration number',
-		adgmAddress: 'ADGM entity address',
-		adgmRegulatory: 'whether the ADGM entity is authorised by the FSRA, and for which activities',
-		email: 'general contact email',
-		hostingProvider: 'hosting provider',
-		hostingLogs: 'log retention period, location and transfer safeguard',
-	},
-	es: {
-		spainName: 'denominación social de la entidad española',
-		spainTaxId: 'NIF',
-		spainRegistry: 'datos de inscripción en el Registro Mercantil',
-		spainAddress: 'domicilio social',
-		spainRegulatory: 'situación regulatoria de la entidad española',
-		adgmName: 'denominación de la entidad de ADGM',
-		adgmNumber: 'número de registro en ADGM',
-		adgmAddress: 'dirección de la entidad de ADGM',
-		adgmRegulatory: 'si la entidad de ADGM está autorizada por la FSRA, y para qué actividades',
-		email: 'email general de contacto',
-		hostingProvider: 'proveedor de alojamiento',
-		hostingLogs: 'plazo de conservación, ubicación y garantía de transferencia de los registros',
-	},
-} as const;
-
-export async function pageTokens(lang: Lang): Promise<Record<string, string>> {
+export async function pageTokens(lang: Lang): Promise<Tokens> {
 	const s = await getSettings();
-	const m = missing[lang];
 	const { spain, adgm } = s.entities;
+	const text = (v: string | null | undefined) => (v ? esc(v) : null);
 	const link = (key: keyof typeof routes, label: string) => `<a href="${url(routes[key][lang])}">${esc(label)}</a>`;
 	const labels = {
-		en: { privacy: 'privacy notice', cookies: 'cookies page', regulatory: 'regulatory information', legal: 'legal notice', contact: 'contact page' },
-		es: { privacy: 'política de privacidad', cookies: 'página de cookies', regulatory: 'información regulatoria', legal: 'aviso legal', contact: 'página de contacto' },
+		en: { privacy: 'privacy notice', cookies: 'cookies page', regulatory: 'regulatory information', legal: 'legal notice' },
+		es: { privacy: 'política de privacidad', cookies: 'página de cookies', regulatory: 'información regulatoria', legal: 'aviso legal' },
 	}[lang];
 	return {
-		spainName: valueHtml(spain.legalName, m.spainName),
-		spainTaxId: valueHtml(spain.taxId, m.spainTaxId),
-		spainRegistry: valueHtml(spain.registry[lang], m.spainRegistry),
-		spainAddress: valueHtml(spain.registeredAddress, m.spainAddress),
-		spainRegulatory: valueHtml(spain.regulatoryStatement[lang], m.spainRegulatory),
-		adgmName: valueHtml(adgm.legalName, m.adgmName),
-		adgmNumber: valueHtml(adgm.registrationNumber, m.adgmNumber),
-		adgmAddress: valueHtml(adgm.address, m.adgmAddress),
-		adgmRegulatory: valueHtml(adgm.regulatoryStatement[lang], m.adgmRegulatory),
-		email: emailHtml(s.email, m.email),
-		hostingProvider: valueHtml(s.hosting.provider, m.hostingProvider),
-		hostingLogs: valueHtml(s.hosting.logDetails[lang], m.hostingLogs),
+		spainName: text(spain.legalName),
+		spainTaxId: text(spain.taxId),
+		spainRegistry: text(spain.registry[lang]),
+		spainAddress: text(spain.registeredAddress),
+		spainRegulatory: text(spain.regulatoryStatement[lang]),
+		adgmName: text(adgm.legalName),
+		adgmNumber: text(adgm.registrationNumber),
+		adgmAddress: text(adgm.address),
+		adgmRegulatory: text(adgm.regulatoryStatement[lang]),
+		email: s.email ? emailHtml(s.email) : null,
+		hostingProvider: text(s.hosting.provider),
+		hostingLogs: text(s.hosting.logDetails[lang]),
 		privacyLink: link('privacy', labels.privacy),
 		cookiesLink: link('cookies', labels.cookies),
-		regulatoryLink: link('regulatory', labels.regulatory),
+		regulatoryLink: (await isPublished('regulatory')) ? link('regulatory', labels.regulatory) : null,
 		legalLink: link('legalNotice', labels.legal),
-		contactLink: link('contact', labels.contact),
 	};
 }
-
-export { missing as missingLabels };

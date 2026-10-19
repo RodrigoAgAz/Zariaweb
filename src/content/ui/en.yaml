@@ -1,9 +1,8 @@
 # Interface strings shared by every English page.
 nav:
   home: Home
-  firm: Firm
-  whatWeDo: What we do
-  people: People
+  firm: The firm
+  founder: Founder
   contact: Contact
   legalNotice: Legal notice
   privacy: Privacy
@@ -12,7 +11,6 @@ nav:
 skipLink: Skip to content
 homeLabel: Zaria Capital, home
 mainNavLabel: Main
-footerNavLabel: Site pages
 legalNavLabel: Legal
 languageLabel: Language
 # Visible code, then the hidden part that completes the accessible name.
@@ -23,7 +21,7 @@ current:
   en: { code: EN, hidden: ", English, current language" }
   es: { code: ES, hidden: ", español, idioma actual" }
 footer:
-  offices: Offices
+  notice: Nothing on this website is an offer or solicitation to buy or sell any security or financial product.
   copyright: "© {year} Zaria Capital"
 cities:
   madrid: Madrid

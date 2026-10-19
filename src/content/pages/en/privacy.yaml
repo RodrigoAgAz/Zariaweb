@@ -5,13 +5,15 @@ updated: Last updated 19 October 2026
 sections:
   - heading: Who is responsible for your data
     paragraphs:
-      - "The controller of your personal data is {spainName}, NIF {spainTaxId}, with registered office at {spainAddress}. You can contact us about data protection at {email}."
+      - The controller of your personal data is Zaria Capital. You can contact us about data protection at {email}.
+      - "Controller details: {spainName}, NIF {spainTaxId}, registered office at {spainAddress}."
   - heading: What this website collects
     paragraphs:
       - This website has no forms, no user accounts, no analytics and no advertising tools. It sets no cookies and loads nothing from third parties; its fonts and images are served from the site itself.
   - heading: Server logs
     paragraphs:
-      - "The website is served by a hosting provider, {hostingProvider}, which processes technical data on our behalf as a data processor: your IP address, browser and device information (user agent), the date and time of each request and the page requested."
+      - "The website is served by a hosting provider, which processes technical data on our behalf as a data processor: your IP address, browser and device information (user agent), the date and time of each request and the page requested."
+      - Our hosting provider is {hostingProvider}.
       - "Purpose: to deliver the website and keep it secure, including detecting and preventing abuse."
       - "Legal basis: our legitimate interest in operating a secure website (Article 6(1)(f) GDPR)."
       - "Retention, location and international transfers: {hostingLogs}"

@@ -4,7 +4,7 @@ import PageIntro from '../PageIntro.astro';
 import Section from '../Section.astro';
 import Paragraphs from '../Paragraphs.astro';
 import Details from '../Details.astro';
-import { getPage } from '../../lib/content';
+import { getPage, inlineOptional } from '../../lib/content';
 import { pageTokens } from '../../lib/tokens';
 import type { Lang, PageKey } from '../../lib/routes';
 
@@ -21,6 +21,11 @@ type LegalSection = {
 const { lang, page } = Astro.props;
 const copy = await getPage<{ lead?: string; updated?: string; sections: LegalSection[] }>(page, lang);
 const tokens = await pageTokens(lang);
+// A section is shown only if at least one of its sentences or rows has everything it needs.
+const has = (items: string[] = []) => items.some((t) => inlineOptional(t, tokens) !== null);
+const sections = copy.sections.filter(
+	(s) => has(s.paragraphs) || has(s.details?.map((d) => d.value)) || has(s.after),
+);
 const slug = (s: string) =>
 	s
 		.toLowerCase()
@@ -33,7 +38,7 @@ const slug = (s: string) =>
 <PageIntro h1={copy.h1} lead={copy.lead} meta={copy.updated} />
 <div class="legal">
 {
-	copy.sections.map((section, i) => (
+	sections.map((section, i) => (
 		<Section heading={section.heading} id={slug(section.heading)} ruled={i > 0}>
 			<div class="prose">
 				{section.paragraphs && <Paragraphs items={section.paragraphs} tokens={tokens} />}

@@ -2,6 +2,14 @@
 
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
+## 2026-10-19 (owner review of the live preview)
+
+- **One page, not a brochure (owner).** The owner rejected the first preview (narrow column on wide screens, washed-out Z shape, timid type) and asked for a simpler site modelled on small elite boutiques, not used to sell services. Research (Robey Warshaw's single page; Zaoui & Co's short paragraph and founders page; Ondra's team page existing only because it has a team) led to: one home page with the statement, the firm, the founder and contact, plus legal pages in the footer. The Firm, What we do, People and Contact pages were removed.
+- **No government or sovereign references (owner).** "Sovereign-linked institutions" and "sovereign-linked issuers" are removed everywhere; client types are reduced to one clause (companies, families and investors).
+- **No placeholders on the site (owner).** Nothing the owner has not supplied is shown: sentences, rows and sections that need a missing value are left out, the Regulatory information page is published only once there is something to put on it, and the footer shows regulatory sentences only once supplied. The founder's office, languages and photo are not shown.
+- **Dark green header, page openings and hero (owner direction, departing from the brief).** The brief kept dark green for the footer only; the owner found the white-ground version weak. The header and openings now sit on #1B331B with the kit's white logo files, and the Z diagonal is drawn tone on tone in #2A4520.
+- **Madrid photograph on the home page.** Full width below the hero, with web rights confirmed.
+
 ## 2026-10-19 (after Checkpoint 2)
 
 - **General email: info@zariacapital.es (owner).** Shown on Contact and the legal pages, and included in the JSON-LD.

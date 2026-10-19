@@ -54,17 +54,14 @@ const pages = defineCollection({
 		.passthrough(),
 });
 
-// One file per person, both languages in the same file. Display order is `order`.
+// The founder (one file per person, both languages in the same file), shown on the home page.
 const people = defineCollection({
 	loader: glob({ pattern: '*.yaml', base: './src/content/people' }),
-	schema: ({ image }) =>
+	schema: () =>
 		z.object({
 			order: z.number(),
 			name: z.string(),
-			photo: image().nullable(),
 			title: bilingual,
-			office: optionalBilingual,
-			languages: optionalBilingual,
 			bio: z.object({ en: z.array(z.string()).min(1), es: z.array(z.string()).min(1) }),
 		}),
 });

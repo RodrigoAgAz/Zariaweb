@@ -11,16 +11,16 @@ Skill: `web-design-guidelines` (Vercel), installed with `npx skills add vercel-l
 ## Passing
 
 - Skip link to `#main`; one H1 per page; headings in order (H1, H2, H3); landmarks: header, two labelled navs, main, footer.
-- Visible `:focus-visible` outline everywhere (2 px #2A4520, white on the footer); no `outline: none`.
-- Every `<img>` has `width` and `height`; decorative logos have `alt=""` with the name on the link; the one content photograph (Firm, behind the rights flag) has written alt text.
+- Visible `:focus-visible` outline everywhere (2 px #2A4520 on white, white on the dark green); no `outline: none`.
+- Every `<img>` has `width` and `height`; decorative logos have `alt=""` with the name on the link; the one content photograph (Madrid, on the home page) has written alt text.
 - Motion: one CSS animation, `transform` and `opacity` only, disabled under `prefers-reduced-motion`; no `transition: all`.
 - Fonts: regular Latin file preloaded, `font-display: swap`, metric-matched fallback.
 - `text-wrap: balance` on headings, `text-wrap: pretty` on paragraphs; lining tabular figures for addresses and clocks; old-style figures in prose.
 - Clocks use `Intl.DateTimeFormat` with IANA zones; no `aria-live`.
-- `scroll-padding-block-start` set for anchor targets (What we do sections).
-- No zoom blocking in the viewport meta; `theme-color` matches the white ground.
+- `scroll-padding-block-start` set for anchor targets (the home page sections).
+- No zoom blocking in the viewport meta; `theme-color` matches the dark green header.
 - No forms, no click handlers on non-interactive elements; all navigation is `<a>`.
-- No horizontal scroll at 320, 375, 768 or 1440 px (checked by `scripts/screenshot.mjs`).
+- No horizontal scroll or clipped text at 320, 375, 768, 1024, 1440 or 1920 px (checked by `scripts/screenshot.mjs`).
 
 ## Not applied, with reasons
 

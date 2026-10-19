@@ -1,7 +1,7 @@
-# Owner inputs. Every `null` is a value Zaria Capital has not supplied yet.
-# While any value is missing, the page shows "[TBC: …]" in its place and the
-# production build (npm run build:production) refuses to finish.
-# Never type "[TBC]" here: leave the value as null.
+# Owner inputs. Every `null` is a value Zaria Capital has not supplied.
+# Nothing is shown for a null value: the sentence, row or section that needs it is
+# left out, and the Regulatory information page appears only once an entity's
+# details or regulatory sentence is filled in.
 
 site:
   # General contact address. Used on Contact, the legal pages and JSON-LD.

@@ -5,13 +5,15 @@ updated: "Última actualización: 19 de octubre de 2026"
 sections:
   - heading: Responsable del tratamiento
     paragraphs:
-      - "El responsable del tratamiento de sus datos personales es {spainName}, con NIF {spainTaxId} y domicilio social en {spainAddress}. Puede dirigirse a nosotros en materia de protección de datos en {email}."
+      - El responsable del tratamiento de sus datos personales es Zaria Capital. Puede dirigirse a nosotros en materia de protección de datos en {email}.
+      - "Datos del responsable: {spainName}, con NIF {spainTaxId} y domicilio social en {spainAddress}."
   - heading: Qué datos recoge este sitio web
     paragraphs:
       - Este sitio web no tiene formularios, cuentas de usuario, herramientas de analítica ni de publicidad. No utiliza cookies ni carga contenidos de terceros; sus tipografías e imágenes se sirven desde el propio sitio.
   - heading: Registros del servidor
     paragraphs:
-      - "El sitio web se sirve a través de un proveedor de alojamiento, {hostingProvider}, que trata datos técnicos por nuestra cuenta como encargado del tratamiento: su dirección IP, la información del navegador y del dispositivo (user agent), la fecha y hora de cada solicitud y la página solicitada."
+      - "El sitio web se sirve a través de un proveedor de alojamiento, que trata datos técnicos por nuestra cuenta como encargado del tratamiento: su dirección IP, la información del navegador y del dispositivo (user agent), la fecha y hora de cada solicitud y la página solicitada."
+      - Nuestro proveedor de alojamiento es {hostingProvider}.
       - "Finalidad: ofrecer el sitio web y mantenerlo seguro, lo que incluye detectar y prevenir usos abusivos."
       - "Base jurídica: nuestro interés legítimo en mantener un sitio web seguro (artículo 6.1.f del RGPD)."
       - "Plazo de conservación, ubicación y transferencias internacionales: {hostingLogs}"

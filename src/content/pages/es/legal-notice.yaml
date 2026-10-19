@@ -5,13 +5,13 @@ updated: "Última actualización: 19 de octubre de 2026"
 sections:
   - heading: Titular del sitio web
     paragraphs:
-      - En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE), se facilitan a continuación los datos del titular de este sitio web.
+      - Este sitio web es propiedad de Zaria Capital, que lo gestiona. Puede ponerse en contacto con nosotros en {email}.
+      - "{spainName} facilita los datos siguientes en cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE)."
     details:
       - { label: Denominación social, value: "{spainName}" }
       - { label: NIF, value: "{spainTaxId}" }
       - { label: Domicilio social, value: "{spainAddress}" }
       - { label: Datos registrales, value: "{spainRegistry}" }
-      - { label: Email, value: "{email}" }
     after:
       - La situación regulatoria de cada entidad de Zaria Capital se recoge en la página de {regulatoryLink}.
   - heading: Finalidad del sitio web
@@ -22,7 +22,7 @@ sections:
       - La información de este sitio web puede cambiar sin previo aviso. Procuramos que sea exacta, pero no garantizamos que esté completa o actualizada, y no asumimos responsabilidad por las decisiones que se tomen sobre la base de ella.
   - heading: Propiedad intelectual e industrial
     paragraphs:
-      - Los contenidos de este sitio web, incluidos textos, diseño, logotipos e imágenes, pertenecen a {spainName} o se utilizan con autorización. No pueden reproducirse, distribuirse ni modificarse sin consentimiento previo por escrito, salvo en los casos permitidos por la ley.
+      - Los contenidos de este sitio web, incluidos textos, diseño, logotipos e imágenes, pertenecen a Zaria Capital o se utilizan con autorización. No pueden reproducirse, distribuirse ni modificarse sin consentimiento previo por escrito, salvo en los casos permitidos por la ley.
   - heading: Enlaces a otros sitios web
     paragraphs:
       - Este sitio web enlaza con un servicio de mapas de terceros. No somos responsables de los contenidos ni de las prácticas de otros sitios web.

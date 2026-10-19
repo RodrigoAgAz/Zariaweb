@@ -9,7 +9,7 @@ sections:
       - Because nothing is stored on your device, there is no cookie banner and nothing to accept or decline.
   - heading: Links to other websites
     paragraphs:
-      - The map links on our {contactLink} open a third-party map service, which has its own cookie and privacy policies.
+      - The map links on this website open a third-party map service, which has its own cookie and privacy policies.
   - heading: Changes
     paragraphs:
       - If we ever add a way to measure visits, it will be one that does not use cookies, and we will update this page before it goes live. See also our {privacyLink}.

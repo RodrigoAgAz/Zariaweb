@@ -10,10 +10,6 @@ export type Settings = Awaited<ReturnType<typeof getSettings>>;
 
 const fileNames: Record<PageKey, string> = {
 	home: 'home',
-	firm: 'firm',
-	whatWeDo: 'what-we-do',
-	people: 'people',
-	contact: 'contact',
 	legalNotice: 'legal-notice',
 	privacy: 'privacy',
 	cookies: 'cookies',
@@ -38,24 +34,27 @@ export async function getPeople() {
 	return (await getCollection('people')).map((p) => p.data).sort((a, b) => a.order - b.order);
 }
 
-/** Visible placeholder for an input the owner has not supplied. Never use in attributes. */
-export function tbc(description: string): string {
-	return `[TBC: ${description}]`;
-}
-
-/** The value, or a visible [TBC] placeholder. */
-export function orTbc(value: string | null | undefined, description: string): string {
-	return value ?? tbc(description);
-}
-
 const escape = (s: string) =>
 	s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+/** Token values are HTML supplied by the page (already escaped); null means "not supplied". */
+export type Tokens = Record<string, string | null>;
+
 /**
  * Renders one paragraph of copy to HTML. Supports [text](url) links, *italic* and {tokens}.
- * Token values are HTML supplied by the page (already escaped), so links to owner inputs can be
- * omitted until the input exists.
+ * Returns null when the copy needs a token whose value has not been supplied, so the caller
+ * leaves that sentence out rather than showing a gap.
  */
+export function inlineOptional(text: string, tokens: Tokens = {}): string | null {
+	const names = [...text.matchAll(/\{(\w+)\}/g)].map((m) => m[1]);
+	for (const name of names) {
+		if (!(name in tokens)) throw new Error(`Unknown token {${name}} in copy: "${text}"`);
+		if (tokens[name] === null) return null;
+	}
+	return inline(text, tokens as Record<string, string>);
+}
+
+/** Renders one paragraph of copy to HTML. Supports [text](url) links, *italic* and {tokens}. */
 export function inline(text: string, tokens: Record<string, string> = {}): string {
 	let html = escape(text);
 	html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, label, href) => {
@@ -81,19 +80,9 @@ export function typeset(html: string): string {
 	);
 }
 
-/** HTML for a visible, highlighted placeholder. */
-export function tbcHtml(description: string): string {
-	return `<span class="tbc">${escape(tbc(description))}</span>`;
-}
-
-/** HTML for a value, or its highlighted placeholder. */
-export function valueHtml(value: string | null | undefined, description: string): string {
-	return value ? escape(value) : tbcHtml(description);
-}
-
-/** An email address as a mailto link, or a visible placeholder (never a mailto to "[TBC]"). */
-export function emailHtml(email: string | null, placeholder: string): string {
-	return email ? `<a href="mailto:${escape(email)}">${escape(email)}</a>` : tbcHtml(placeholder);
+/** An email address as a mailto link. */
+export function emailHtml(email: string): string {
+	return `<a href="mailto:${escape(email)}">${escape(email)}</a>`;
 }
 
 export const esc = escape;
