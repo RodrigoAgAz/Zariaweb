@@ -1,6 +1,8 @@
 # The founder, shown on the home page.
 order: 1
 name: Alonso Aznar
+# Headshot in src/assets/people/ (shown in black and white), e.g. ../../assets/people/alonso-aznar.jpg
+photo: null
 title:
   en: Founder and CEO
   es: Fundador y CEO

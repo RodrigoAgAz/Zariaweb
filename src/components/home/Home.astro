@@ -1,6 +1,7 @@
 ---
 // The site's one page: statement and corridors, the Madrid photograph, the firm, the founder,
 // and contact. Legal pages are linked from the footer.
+import { Image } from 'astro:assets';
 import ZDevice from '../ZDevice.astro';
 import OfficeClock from '../OfficeClock.astro';
 import MadridPhoto from '../MadridPhoto.astro';
@@ -65,7 +66,20 @@ const clocks = [
 		<section class="section section--ruled" id="founder" aria-labelledby="founder-heading">
 			<div class="wrap">
 				<div class="grid">
-					<h2 id="founder-heading" class="grid__label">{copy.founder.heading}</h2>
+					<div class="grid__label">
+						<h2 id="founder-heading">{copy.founder.heading}</h2>
+						{founder.photo && (
+							<Image
+								class="founder__photo"
+								src={founder.photo}
+								alt={founder.name}
+								widths={[320, 480, 640]}
+								sizes="(min-width: 64em) 18rem, 14rem"
+								formats={['avif', 'webp']}
+								loading="lazy"
+							/>
+						)}
+					</div>
 					<div class="grid__body">
 						<h3 class="founder__name">{founder.name}</h3>
 						<p class="founder__title">{founder.title[lang]}</p>
@@ -180,6 +194,19 @@ const clocks = [
 		margin-block-start: 0.9em;
 	}
 
+	.founder__photo {
+		margin-block-start: var(--s-6);
+		width: 14rem;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		/* House style: photography is black and white. */
+		filter: grayscale(1);
+	}
+	@media (min-width: 64em) {
+		.founder__photo {
+			width: 18rem;
+		}
+	}
 	.founder__name {
 		font-size: var(--fs-h2);
 	}
