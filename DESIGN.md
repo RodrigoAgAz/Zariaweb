@@ -7,7 +7,7 @@ A discreet presence, not a services brochure. The model is the small elite bouti
 1. **Header**: white horizontal logo (white mark below 768 px), links to the three sections of the home page (The firm, Founder, Contact), EN / ES. On the home page it sits over the hero; elsewhere on the dark green ground.
 2. **Hero**: the Madrid photograph, tinted with the house green (#1B331B at 74%), with the H1 "Independent advice and investment." and the three corridors beneath it, separated by hairlines. Square crop on the Metrópolis dome and Gran Vía below 768 px.
 3. **The firm**: three short paragraphs, third person.
-4. **Founder**: name and the founder's own three-paragraph background (photo beside it once supplied, in black and white).
+4. **Founder**: name and the founder's own three-paragraph background. No photograph.
 5. **Contact**: both offices with a map link each, and the general email.
 6. **Footer**, dark green: white logo, legal links, the no-offer line, regulatory sentences once supplied, copyright.
 

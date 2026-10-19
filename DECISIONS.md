@@ -8,7 +8,7 @@ Newest first. Decisions taken by the owner are marked **(owner)**; defaults take
 - **No local times (owner).** The Madrid and Abu Dhabi clocks are removed.
 - **One voice, no repetition (owner).** "The firm" is written in the third person to match the founder's bio; the separate "Founder and CEO" line under his name is removed because the bio opens with it.
 - **Founder's bio is the owner's text (owner),** verbatim in English, translated into Spanish.
-- **Founder photo.** The site shows it in black and white once the file is in `src/assets/people/`. The image could not be downloaded from here (the network policy blocks image hosts). If the chosen photo comes from a news site, its publisher or photographer owns it; use one the firm holds the rights to.
+- **No founder photo (owner).** The site carries no photograph of the founder; the photo support was removed.
 
 ## 2026-10-19 (owner review of the live preview)
 
