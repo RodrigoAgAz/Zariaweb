@@ -24,7 +24,7 @@ One family, **Zaria Serif** (EB Garamond files until the Perpetua WOFF2 files ar
 | H3 | 24 px | 30 px | 30 px |
 | Corridors, lead, section text | 21 to 22 px | 26 px | 28 to 36 px |
 | Body | 18 px | 20 px | 21 px |
-| Small (footer, clocks) | 15 to 16 px | | |
+| Small (footer) | 15 to 16 px | | |
 
 ## Layout and colour
 Content up to 1440 px wide with a 20 to 96 px gutter; sections use a 12-column grid from 1024 px (heading in columns 1 to 4, text in 5 to 12). Square corners, no shadows, no gradients, 1 px hairlines.
