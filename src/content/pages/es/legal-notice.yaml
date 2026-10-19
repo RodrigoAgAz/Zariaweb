@@ -1,0 +1,34 @@
+title: Aviso legal | Zaria Capital
+description: "Aviso legal del sitio web de Zaria Capital: identificación de su titular conforme a la Ley 34/2002 (LSSI-CE) y condiciones de uso del sitio web."
+h1: Aviso legal
+updated: "Última actualización: 19 de octubre de 2026"
+sections:
+  - heading: Titular del sitio web
+    paragraphs:
+      - En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE), se facilitan a continuación los datos del titular de este sitio web.
+    details:
+      - { label: Denominación social, value: "{spainName}" }
+      - { label: NIF, value: "{spainTaxId}" }
+      - { label: Domicilio social, value: "{spainAddress}" }
+      - { label: Datos registrales, value: "{spainRegistry}" }
+      - { label: Email, value: "{email}" }
+    after:
+      - La situación regulatoria de cada entidad de Zaria Capital se recoge en la página de {regulatoryLink}.
+  - heading: Finalidad del sitio web
+    paragraphs:
+      - Este sitio web ofrece información general sobre Zaria Capital. No constituye asesoramiento, y nada de lo que contiene es una oferta o solicitud de compra o venta de valores o productos financieros.
+  - heading: Uso del sitio web
+    paragraphs:
+      - La información de este sitio web puede cambiar sin previo aviso. Procuramos que sea exacta, pero no garantizamos que esté completa o actualizada, y no asumimos responsabilidad por las decisiones que se tomen sobre la base de ella.
+  - heading: Propiedad intelectual e industrial
+    paragraphs:
+      - Los contenidos de este sitio web, incluidos textos, diseño, logotipos e imágenes, pertenecen a {spainName} o se utilizan con autorización. No pueden reproducirse, distribuirse ni modificarse sin consentimiento previo por escrito, salvo en los casos permitidos por la ley.
+  - heading: Enlaces a otros sitios web
+    paragraphs:
+      - Este sitio web enlaza con un servicio de mapas de terceros. No somos responsables de los contenidos ni de las prácticas de otros sitios web.
+  - heading: Protección de datos y cookies
+    paragraphs:
+      - El tratamiento de datos personales se explica en nuestra {privacyLink}. Este sitio web no utiliza cookies; consulte la {cookiesLink}.
+  - heading: Legislación aplicable
+    paragraphs:
+      - Este aviso se rige por la legislación española. Las controversias se someterán a los juzgados y tribunales de Madrid, sin perjuicio de cualquier norma imperativa que atribuya la competencia a otros tribunales.

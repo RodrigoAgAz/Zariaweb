@@ -107,7 +107,6 @@ h3 {
 }
 h1 {
 	font-size: var(--fs-h1);
-	letter-spacing: -0.01em;
 }
 h2 {
 	font-size: var(--fs-h2);
@@ -155,6 +154,10 @@ address {
 }
 address {
 	font-style: normal;
+}
+
+.nowrap {
+	white-space: nowrap;
 }
 
 .visually-hidden {
@@ -228,6 +231,47 @@ address {
 	outline: 1px dashed var(--zc-green-dark);
 	outline-offset: 1px;
 	color: var(--zc-green-deep);
+}
+
+/* Sections: heading in columns 1 to 4, content in 5 to 12 from 1024 px. */
+.section {
+	padding-block: var(--section-space) 0;
+}
+.section--band {
+	margin-block-start: var(--section-space);
+	padding-block: var(--section-space);
+	background: var(--zc-fill-lighter);
+}
+.section--band + .section {
+	padding-block-start: var(--section-space);
+}
+.section--ruled > .wrap {
+	position: relative;
+}
+.grid {
+	display: grid;
+	gap: var(--s-5);
+}
+@media (min-width: 64em) {
+	.grid {
+		grid-template-columns: repeat(12, 1fr);
+		column-gap: var(--s-6);
+	}
+	.grid__label {
+		grid-column: 1 / span 4;
+	}
+	.grid__body {
+		grid-column: 5 / -1;
+	}
+}
+.section--ruled .grid {
+	border-block-start: var(--rule);
+	padding-block-start: var(--s-5);
+}
+
+/* Legal pages: many short sections, so tighter spacing. */
+.legal .section {
+	padding-block-start: var(--s-8);
 }
 
 /* The 56 degree cut: a band whose inline-start top corner is sliced at the Z angle,

@@ -39,7 +39,16 @@ for (const width of widths) {
 	for (const route of routes) {
 		await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
 		await page.evaluate(() => document.fonts.ready);
-		const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+		// The body clips horizontal overflow, so also look for text that runs past the viewport edge.
+		const overflow = await page.evaluate(() => {
+			const page = document.documentElement.scrollWidth - window.innerWidth;
+			const clipped = [...document.querySelectorAll('h1,h2,h3,p,li,a,dd,dt,address,span')].filter((el) => {
+				if (el.closest('.zdev, .visually-hidden, .skip-link')) return false;
+				const r = el.getBoundingClientRect();
+				return r.width > 0 && (r.right > window.innerWidth + 0.5 || el.scrollWidth > el.clientWidth + 1);
+			});
+			return Math.max(page, clipped.length ? Math.max(1, ...clipped.map((el) => Math.ceil(Math.max(el.getBoundingClientRect().right - window.innerWidth, el.scrollWidth - el.clientWidth)))) : 0);
+		});
 		const slug = route.replace(/^\/|\/$/g, '').replace(/\.html$/, '');
 		const name = slug === '' ? 'en-home' : slug === 'es' ? 'es-home' : slug.startsWith('es/') ? slug.replace(/\//g, '-') : `en-${slug.replace(/\//g, '-')}`;
 		const file = join(outDir, `${name.replace(/\.html$/, '')}--${width}.png`);

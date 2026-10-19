@@ -18,7 +18,7 @@ async function walk(dir) {
 const TEXT = /\.(html|xml|txt|json|webmanifest|js|css|svg)$/;
 const NOINDEX = /<meta name="robots" content="noindex"/;
 
-/** @param {{ build: 'preview' | 'production' }} options */
+/** @param {{ build: 'preview' | 'production' | 'audit' }} options */
 export function launchGate({ build }) {
 	return {
 		name: 'zaria-launch-gate',
@@ -43,6 +43,8 @@ export function launchGate({ build }) {
 						);
 					}
 					logger.info('Launch gate passed: no [TBC] placeholders in the output.');
+				} else if (build === 'audit') {
+					logger.warn('Audit build: pages are indexable and may contain [TBC]. For local Lighthouse runs only; never deploy.');
 				} else {
 					if (indexable.length) {
 						throw new Error(`Launch gate: preview pages without noindex:\n  ${indexable.join('\n  ')}`);

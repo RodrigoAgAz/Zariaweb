@@ -1,0 +1,32 @@
+title: Privacy | Zaria Capital
+description: "How Zaria Capital handles personal data under the GDPR and Spanish data protection law: server logs, emails you send us, and your rights as a data subject."
+h1: Privacy notice
+updated: Last updated 19 October 2026
+sections:
+  - heading: Who is responsible for your data
+    paragraphs:
+      - "The controller of your personal data is {spainName}, NIF {spainTaxId}, with registered office at {spainAddress}. You can contact us about data protection at {email}."
+  - heading: What this website collects
+    paragraphs:
+      - This website has no forms, no user accounts, no analytics and no advertising tools. It sets no cookies and loads nothing from third parties; its fonts and images are served from the site itself.
+  - heading: Server logs
+    paragraphs:
+      - "The website is served by a hosting provider, {hostingProvider}, which processes technical data on our behalf as a data processor: your IP address, browser and device information (user agent), the date and time of each request and the page requested."
+      - "Purpose: to deliver the website and keep it secure, including detecting and preventing abuse."
+      - "Legal basis: our legitimate interest in operating a secure website (Article 6(1)(f) GDPR)."
+      - "Retention, location and international transfers: {hostingLogs}"
+  - heading: Emails you send us
+    paragraphs:
+      - If you write to us, we process your name, email address and whatever you include in your message, in order to reply and, where relevant, to take steps you ask for before entering into an engagement.
+      - "Legal basis: taking steps at your request before entering into a contract (Article 6(1)(b) GDPR) or, otherwise, our legitimate interest in answering enquiries (Article 6(1)(f) GDPR)."
+      - We keep this correspondence for as long as needed to deal with your enquiry, and afterwards only for as long as the law requires or allows, for example to meet legal obligations or to deal with claims.
+  - heading: Who receives your data
+    paragraphs:
+      - We do not sell personal data or share it for marketing. Our hosting and email providers process it on our behalf under data processing agreements. We may disclose it where the law requires us to.
+  - heading: Your rights
+    paragraphs:
+      - You have the right to access your personal data, to have it corrected or erased, to restrict or object to its processing, and to data portability. To exercise any of these rights, write to {email}. We may ask you to confirm your identity.
+      - If you are not satisfied with our response, you can complain to the Spanish data protection authority, the Agencia Española de Protección de Datos ([aepd.es](https://www.aepd.es)).
+  - heading: Changes to this notice
+    paragraphs:
+      - We will update this notice if the way we process personal data changes. The date at the top shows when it was last revised.

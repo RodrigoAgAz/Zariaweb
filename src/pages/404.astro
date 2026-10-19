@@ -1,0 +1,65 @@
+---
+// One bilingual page for any missing URL: English first, then Spanish, each marked with its language.
+import Base from '../layouts/Base.astro';
+import stacked from '../../brand/logo/svg/zaria-logo-stacked.svg?url';
+import { routes, url } from '../lib/routes';
+---
+
+<Base
+	lang="en"
+	page={null}
+	showHeaderBrand={false}
+	title="Page not found | Página no encontrada | Zaria Capital"
+	description="The page you were looking for does not exist or has moved. La página que busca no existe o ha cambiado de dirección. Zaria Capital, Madrid and Abu Dhabi."
+>
+	<div class="wrap not-found">
+		<a class="not-found__logo" href={url(routes.home.en)} aria-label="Zaria Capital, home">
+			<img src={stacked} alt="" width="220" height="107" />
+		</a>
+		<div class="not-found__langs">
+			<section lang="en" aria-labelledby="nf-en">
+				<h1 id="nf-en">Page not found</h1>
+				<p>The page you were looking for does not exist or has moved.</p>
+				<p><a href={url(routes.home.en)}>Go to the Zaria Capital home page</a></p>
+			</section>
+			<section lang="es" aria-labelledby="nf-es">
+				<h2 id="nf-es">Página no encontrada</h2>
+				<p>La página que busca no existe o ha cambiado de dirección.</p>
+				<p><a href={url(routes.home.es)}>Ir a la página de inicio de Zaria Capital</a></p>
+			</section>
+		</div>
+	</div>
+</Base>
+
+<style>
+	.not-found {
+		padding-block: clamp(3rem, 2rem + 5vw, 7rem) 0;
+	}
+	.not-found__logo {
+		display: inline-block;
+		margin-block-end: var(--s-8);
+	}
+	.not-found__logo img {
+		width: 220px;
+	}
+	.not-found__langs {
+		display: grid;
+		gap: var(--s-7);
+	}
+	.not-found h1,
+	.not-found h2 {
+		font-size: var(--fs-h2);
+		margin-block-end: var(--s-4);
+	}
+	.not-found p + p {
+		margin-block-start: var(--s-3);
+	}
+	@media (min-width: 48em) {
+		.not-found__langs {
+			grid-template-columns: 1fr 1fr;
+			gap: var(--s-8);
+			border-block-start: var(--rule);
+			padding-block-start: var(--s-6);
+		}
+	}
+</style>

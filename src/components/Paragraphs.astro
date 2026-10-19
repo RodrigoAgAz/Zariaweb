@@ -1,0 +1,11 @@
+---
+// Paragraphs of copy with inline links, *italic* and {tokens} (see src/lib/content.ts).
+import { inline } from '../lib/content';
+interface Props {
+	items: string[];
+	tokens?: Record<string, string>;
+}
+const { items, tokens = {} } = Astro.props;
+---
+
+{items.map((text) => <p set:html={inline(text, tokens)} />)}

@@ -1,0 +1,32 @@
+title: Privacidad | Zaria Capital
+description: "Cómo trata Zaria Capital los datos personales conforme al RGPD y a la LOPDGDD: registros del servidor, emails que nos envíe y sus derechos como interesado."
+h1: Política de privacidad
+updated: "Última actualización: 19 de octubre de 2026"
+sections:
+  - heading: Responsable del tratamiento
+    paragraphs:
+      - "El responsable del tratamiento de sus datos personales es {spainName}, con NIF {spainTaxId} y domicilio social en {spainAddress}. Puede dirigirse a nosotros en materia de protección de datos en {email}."
+  - heading: Qué datos recoge este sitio web
+    paragraphs:
+      - Este sitio web no tiene formularios, cuentas de usuario, herramientas de analítica ni de publicidad. No utiliza cookies ni carga contenidos de terceros; sus tipografías e imágenes se sirven desde el propio sitio.
+  - heading: Registros del servidor
+    paragraphs:
+      - "El sitio web se sirve a través de un proveedor de alojamiento, {hostingProvider}, que trata datos técnicos por nuestra cuenta como encargado del tratamiento: su dirección IP, la información del navegador y del dispositivo (user agent), la fecha y hora de cada solicitud y la página solicitada."
+      - "Finalidad: ofrecer el sitio web y mantenerlo seguro, lo que incluye detectar y prevenir usos abusivos."
+      - "Base jurídica: nuestro interés legítimo en mantener un sitio web seguro (artículo 6.1.f del RGPD)."
+      - "Plazo de conservación, ubicación y transferencias internacionales: {hostingLogs}"
+  - heading: Emails que nos envíe
+    paragraphs:
+      - Si nos escribe, tratamos su nombre, su dirección de email y lo que incluya en su mensaje para responderle y, en su caso, para adoptar a petición suya medidas previas a una posible relación profesional.
+      - "Base jurídica: la aplicación, a petición suya, de medidas precontractuales (artículo 6.1.b del RGPD) o, en otro caso, nuestro interés legítimo en atender consultas (artículo 6.1.f del RGPD)."
+      - Conservamos esta correspondencia el tiempo necesario para atender su consulta y, después, solo durante el plazo que la ley exija o permita, por ejemplo para cumplir obligaciones legales o atender posibles reclamaciones.
+  - heading: Destinatarios
+    paragraphs:
+      - No vendemos datos personales ni los cedemos con fines comerciales. Nuestros proveedores de alojamiento y de email los tratan por nuestra cuenta en virtud de contratos de encargo del tratamiento. Podemos comunicarlos cuando la ley nos obligue.
+  - heading: Sus derechos
+    paragraphs:
+      - Puede ejercer sus derechos de acceso, rectificación, supresión, limitación del tratamiento, oposición y portabilidad escribiendo a {email}. Podemos pedirle que acredite su identidad.
+      - Si no está conforme con nuestra respuesta, puede presentar una reclamación ante la Agencia Española de Protección de Datos ([aepd.es](https://www.aepd.es)).
+  - heading: Cambios en esta política
+    paragraphs:
+      - Actualizaremos esta política si cambia la forma en que tratamos los datos personales. La fecha que figura al principio indica su última revisión.

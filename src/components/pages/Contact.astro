@@ -1,0 +1,94 @@
+---
+import PageIntro from '../PageIntro.astro';
+import Section from '../Section.astro';
+import { getPage, getSettings, inline, valueHtml } from '../../lib/content';
+import { missingLabels, pageTokens } from '../../lib/tokens';
+import type { Lang } from '../../lib/routes';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const copy = await getPage<any>('contact', lang);
+const settings = await getSettings();
+const tokens = await pageTokens(lang);
+const cities = { en: { madrid: 'Madrid', abuDhabi: 'Abu Dhabi' }, es: { madrid: 'Madrid', abuDhabi: 'Abu Dabi' } }[lang];
+const abuStreet = settings.offices.abuDhabi.streetAddress;
+const osm = (q: string) => `https://www.openstreetmap.org/search?query=${encodeURIComponent(q)}`;
+const offices = [
+	{
+		city: cities.madrid,
+		lines: copy.offices.madrid.lines.map((l: string) => inline(l)),
+		map: copy.offices.madrid.map as string,
+		phone: settings.offices.madrid.phone,
+	},
+	{
+		city: cities.abuDhabi,
+		lines: [valueHtml(abuStreet, missingLabels[lang].abuDhabiStreet), ...copy.offices.abuDhabi.lines.map((l: string) => inline(l))],
+		// No map link until the full address is supplied: never point a map at a placeholder.
+		map: abuStreet ? osm(`${abuStreet}, Abu Dhabi, United Arab Emirates`) : null,
+		phone: settings.offices.abuDhabi.phone,
+	},
+];
+---
+
+<PageIntro h1={copy.h1} />
+
+<Section heading={copy.offices.heading} id="offices" ruled={false}>
+	<div class="offices">
+		{
+			offices.map((office) => (
+				<div class="office">
+					<h3>{office.city}</h3>
+					<address set:html={office.lines.join('<br />')} />
+					{office.phone && (
+						<p class="figures-tabular">
+							{copy.offices.phone}: <a href={`tel:${office.phone.replace(/[^+\d]/g, '')}`}>{office.phone}</a>
+						</p>
+					)}
+					{office.map && (
+						<p>
+							<a href={office.map} rel="noopener">
+								{copy.offices.mapLink}
+								<span class="visually-hidden">, {copy.offices.mapContext.replace('{city}', office.city)}</span>
+							</a>
+						</p>
+					)}
+				</div>
+			))
+		}
+	</div>
+</Section>
+
+<Section heading={copy.email.heading} id="email">
+	<div class="prose">
+		<p set:html={inline(copy.email.general, tokens)} />
+		<p>{copy.email.careers}</p>
+	</div>
+</Section>
+
+<Section heading={copy.security.heading} id="official-email">
+	<div class="prose">
+		<p set:html={inline(copy.security.note, tokens)} />
+	</div>
+</Section>
+
+<style>
+	.offices {
+		display: grid;
+		gap: var(--s-7);
+	}
+	@media (min-width: 40em) {
+		.offices {
+			grid-template-columns: 1fr 1fr;
+			gap: var(--s-6);
+		}
+	}
+	.office h3 {
+		margin-block-end: var(--s-3);
+	}
+	.office address + p,
+	.office p + p {
+		margin-block-start: var(--s-3);
+	}
+</style>

@@ -1,0 +1,23 @@
+title: What we do | Zaria Capital
+description: Strategic Advisory, Financing Solutions and Principal Investing across Southern Europe and Latin America, the Middle East and the United States.
+h1: What we do
+lead: Zaria Capital works across three business lines.
+
+lines:
+  - name: Strategic Advisory
+    anchor: strategic-advisory
+    paragraphs:
+      - We advise on cross-border M&A, strategic partnerships and market entry.
+      - We work directly with principals, families, corporates, investors and sovereign-linked institutions across Southern Europe and Latin America, the Middle East and the United States.
+  - name: Financing Solutions
+    anchor: financing-solutions
+    paragraphs:
+      - We work on capital formation and structured financing across equity, debt and hybrid instruments.
+      - Our financing work is for corporates, infrastructure and sovereign-linked issuers.
+  - name: Principal Investing
+    anchor: principal-investing
+    paragraphs:
+      - We invest as principals through joint ventures and co-investments in Spain and Abu Dhabi.
+      - We are involved in the operations of each investment from day one.
+
+notice: Nothing on this website is an offer or solicitation to buy or sell any security or financial product.

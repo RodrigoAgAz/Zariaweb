@@ -1,0 +1,24 @@
+---
+// A content section: heading in the left columns, content in the right (from 1024 px).
+interface Props {
+	heading: string;
+	id: string;
+	/** Draw a hairline above the section. */
+	ruled?: boolean;
+	/** Heading level; 2 by default. */
+	level?: 2 | 3;
+}
+const { heading, id, ruled = true, level = 2 } = Astro.props;
+const H = `h${level}` as 'h2' | 'h3';
+---
+
+<section class:list={['section', { 'section--ruled': ruled }]} id={id} aria-labelledby={`${id}-heading`}>
+	<div class="wrap">
+		<div class="grid">
+			<H id={`${id}-heading`} class="grid__label">{heading}</H>
+			<div class="grid__body">
+				<slot />
+			</div>
+		</div>
+	</div>
+</section>

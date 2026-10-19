@@ -1,0 +1,33 @@
+---
+// The opening of an inner page: H1, then an optional lead or date line.
+interface Props {
+	h1: string;
+	lead?: string;
+	meta?: string;
+}
+const { h1, lead, meta } = Astro.props;
+---
+
+<header class="page-intro">
+	<div class="wrap">
+		<h1>{h1}</h1>
+		{lead && <p class="lead">{lead}</p>}
+		{meta && <p class="small page-intro__meta">{meta}</p>}
+		<slot />
+	</div>
+</header>
+
+<style>
+	.page-intro {
+		padding-block: clamp(2.5rem, 1.5rem + 5vw, 6rem) 0;
+	}
+	.page-intro h1 {
+		max-width: 16em;
+	}
+	.page-intro .lead {
+		margin-block-start: var(--s-5);
+	}
+	.page-intro__meta {
+		margin-block-start: var(--s-4);
+	}
+</style>

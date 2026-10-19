@@ -1,0 +1,46 @@
+---
+// Legal notice, privacy, cookies and regulatory information share this template.
+import PageIntro from '../PageIntro.astro';
+import Section from '../Section.astro';
+import Paragraphs from '../Paragraphs.astro';
+import Details from '../Details.astro';
+import { getPage } from '../../lib/content';
+import { pageTokens } from '../../lib/tokens';
+import type { Lang, PageKey } from '../../lib/routes';
+
+interface Props {
+	lang: Lang;
+	page: PageKey;
+}
+type LegalSection = {
+	heading: string;
+	paragraphs?: string[];
+	details?: { label: string; value: string }[];
+	after?: string[];
+};
+const { lang, page } = Astro.props;
+const copy = await getPage<{ lead?: string; updated?: string; sections: LegalSection[] }>(page, lang);
+const tokens = await pageTokens(lang);
+const slug = (s: string) =>
+	s
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/[̀-ͯ]/g, '')
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-|-$/g, '');
+---
+
+<PageIntro h1={copy.h1} lead={copy.lead} meta={copy.updated} />
+<div class="legal">
+{
+	copy.sections.map((section, i) => (
+		<Section heading={section.heading} id={slug(section.heading)} ruled={i > 0}>
+			<div class="prose">
+				{section.paragraphs && <Paragraphs items={section.paragraphs} tokens={tokens} />}
+				{section.details && <Details items={section.details} tokens={tokens} />}
+				{section.after && <Paragraphs items={section.after} tokens={tokens} />}
+			</div>
+		</Section>
+	))
+}
+</div>

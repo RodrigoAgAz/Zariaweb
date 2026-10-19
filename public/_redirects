@@ -1,0 +1,4 @@
+# Redirects for the production host (Cloudflare Pages or Netlify). GitHub Pages ignores this file.
+# Old WordPress URLs on zariacapital.es: fill in from the live site before cut-over (see README).
+# Format: <old path> <new path> 301
+# /old-page/  /firm/  301

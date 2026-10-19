@@ -63,11 +63,22 @@ export function inline(text: string, tokens: Record<string, string> = {}): strin
 		return `<a href="${href}"${external ? ' rel="noopener"' : ''}>${label}</a>`;
 	});
 	html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+	html = typeset(html);
 	html = html.replace(/\{(\w+)\}/g, (m, name) => {
 		if (!(name in tokens)) throw new Error(`Unknown token ${m} in copy: "${text}"`);
 		return tokens[name];
 	});
 	return html;
+}
+
+/**
+ * Keeps hyphenated compounds ("cross-border", "sovereign-linked") on one line, so a line never
+ * ends on a dangling hyphen. Only touches text between tags.
+ */
+export function typeset(html: string): string {
+	return html.replace(/(<[^>]+>)|([^<]+)/g, (_m, tag, text) =>
+		tag ? tag : text.replace(/([\p{L}\d]+(?:-[\p{L}\d]+)+)/gu, '<span class="nowrap">$1</span>'),
+	);
 }
 
 /** HTML for a visible, highlighted placeholder. */

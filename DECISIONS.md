@@ -1,0 +1,15 @@
+# Decisions
+
+Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
+
+## 2026-10-19
+
+- **Homepage direction: A, typographic (owner, Checkpoint 1).** White ground, one-sentence H1, the Z diagonal as the only graphic element. Direction B (Madrid and Abu Dhabi photographs meeting along a 56 degree seam) was built, screenshotted (`screenshots/checkpoint-1/`) and set aside: it depended on two images that cannot yet be published (Madrid web rights unconfirmed, no Abu Dhabi image), it made the largest paint a photograph, and a generic Gulf skyline would undercut the positioning. The Madrid photograph can still appear once on the Firm page when rights are confirmed (`madridPhotoWebRights` in `src/content/settings.yaml`).
+- **Hosting: GitHub Pages preview, not Cloudflare (owner).** The preview is published from this private repository by GitHub Actions at `https://rodrigoagaz.github.io/Zariaweb/`. Consequences: GitHub Pages ignores `public/_headers` and `public/_redirects`, so the CSP is delivered as a `<meta>` tag (no `frame-ancestors`, which browsers ignore in meta), and HSTS, `X-Content-Type-Options` and `Permissions-Policy` cannot be set there. `public/_headers` and `public/_redirects` are kept for the production host. A GitHub Pages site is public even when the repository is private.
+- **Brand kit supplied by upload (owner).** Copied into `/brand` unchanged, without `PROMPT.md`.
+- **Network access (build).** The environment's network policy blocks `zariacapital.es`, so the WordPress page list for the 301 map could not be fetched; the README gives the steps instead.
+- **Every preview page is noindex (build).** The brief requires noindex while any `[TBC]` remains; a preview on a github.io address should never be indexed at all, so preview builds are always noindex and only `npm run build:production` can produce indexable pages (and it fails while any `[TBC]` remains).
+- **Font fallback naming (build).** Astro's Fonts API generates the metric-matched fallback (`size-adjust`, `ascent-override`, `descent-override` against Times New Roman) and names it itself, rather than "Zaria Serif Fallback". Behaviour is as the brief asks; only the internal name differs.
+- **`public/logo.png` (build).** The JSON-LD `logo` needs a stable, unhashed URL, so the stacked logo PNG from the kit sits in `/public`. It is the only file there beyond favicons, manifest, OG image and robots.txt.
+- **Spanish office name (build).** Spanish copy uses "Abu Dabi" (Fundéu/RAE spelling); English uses "Abu Dhabi". Flagged for the native-speaker review.
+- **"Financing Solutions" wording (build).** The copy says Zaria "works on" capital formation and structured financing rather than "arranges" it, because "arranging deals in investments" is a defined regulated activity in ADGM and elsewhere. Regulatory counsel should confirm all three service descriptions.

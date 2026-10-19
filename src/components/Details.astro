@@ -1,0 +1,47 @@
+---
+// Label and value pairs (identification data on the legal pages).
+import { inline } from '../lib/content';
+interface Props {
+	items: { label: string; value: string }[];
+	tokens?: Record<string, string>;
+}
+const { items, tokens = {} } = Astro.props;
+---
+
+<dl class="details">
+	{
+		items.map(({ label, value }) => (
+			<div class="details__row">
+				<dt>{label}</dt>
+				<dd set:html={inline(value, tokens)} />
+			</div>
+		))
+	}
+</dl>
+
+<style>
+	.details {
+		border-block-start: var(--rule-faint);
+	}
+	.details__row {
+		display: grid;
+		gap: var(--s-1);
+		padding-block: var(--s-3);
+		border-block-end: var(--rule-faint);
+	}
+	dt {
+		color: var(--zc-grey-accessible);
+		font-size: var(--fs-small);
+	}
+	dd {
+		margin: 0;
+		font-variant-numeric: lining-nums tabular-nums;
+	}
+	@media (min-width: 40em) {
+		.details__row {
+			grid-template-columns: 14rem 1fr;
+			column-gap: var(--s-5);
+			align-items: baseline;
+		}
+	}
+</style>

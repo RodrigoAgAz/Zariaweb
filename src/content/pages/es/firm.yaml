@@ -1,0 +1,34 @@
+title: Firma | Zaria Capital
+description: Zaria Capital es una firma independiente de asesoramiento e inversión con oficinas en Madrid y Abu Dabi y trato directo con empresarios e instituciones.
+h1: Una firma independiente de asesoramiento e inversión.
+lead: Zaria Capital asesora e invierte en el sur de Europa y Latinoamérica, Oriente Medio y Estados Unidos, desde sus oficinas en Madrid y Abu Dabi.
+
+photoAlt: Vista aérea del centro de Madrid en blanco y negro, a lo largo de la Gran Vía y el edificio Metrópolis con su cúpula.
+
+sections:
+  - heading: Quiénes somos
+    paragraphs:
+      - Zaria Capital es una firma independiente. Asesoramos e invertimos, y trabajamos directamente con quienes toman las decisiones.
+      - Nos ocupamos de operaciones y alianzas cuyo resultado depende de la confianza, el acceso, la estructuración y la ejecución sobre el terreno.
+  - heading: Cómo trabajamos
+    paragraphs:
+      - Trabajamos directamente con empresarios, familias, empresas, inversores e instituciones vinculadas a Estados.
+      - Nuestro trabajo tiene tres partes. Asesoramos en fusiones y adquisiciones transfronterizas, alianzas estratégicas y entrada en nuevos mercados. Trabajamos en captación de capital y financiación estructurada con instrumentos de capital, deuda e híbridos. E invertimos como principal, mediante joint ventures y coinversiones en España y Abu Dabi.
+      - Cuando invertimos, nos implicamos en la gestión desde el primer día.
+    link: Qué hacemos
+
+corridors:
+  heading: Dónde trabajamos
+  items:
+    - El sur de Europa y Latinoamérica
+    - Oriente Medio
+    - Estados Unidos
+
+clients:
+  heading: Con quién trabajamos
+  items:
+    - Empresarios
+    - Familias
+    - Empresas
+    - Inversores
+    - Instituciones vinculadas a Estados

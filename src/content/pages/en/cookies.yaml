@@ -1,0 +1,15 @@
+title: Cookies | Zaria Capital
+description: The Zaria Capital website sets no cookies and uses no similar technologies, analytics or third-party content, so there is no cookie banner to accept or decline.
+h1: Cookies
+updated: Last updated 19 October 2026
+sections:
+  - heading: This website sets no cookies
+    paragraphs:
+      - The Zaria Capital website does not set cookies and does not use similar technologies such as local storage, tracking pixels or device fingerprinting. It has no analytics, advertising or social media tools, and it loads no content from third parties.
+      - Because nothing is stored on your device, there is no cookie banner and nothing to accept or decline.
+  - heading: Links to other websites
+    paragraphs:
+      - The map links on our {contactLink} open a third-party map service, which has its own cookie and privacy policies.
+  - heading: Changes
+    paragraphs:
+      - If we ever add a way to measure visits, it will be one that does not use cookies, and we will update this page before it goes live. See also our {privacyLink}.

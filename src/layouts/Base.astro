@@ -14,12 +14,13 @@ interface Props {
 	description: string;
 	/** Extra JSON-LD objects for this page. */
 	jsonLd?: Record<string, unknown>[];
+	showHeaderBrand?: boolean;
 }
 
-const { lang, page, title, description, jsonLd = [] } = Astro.props;
+const { lang, page, title, description, jsonLd = [], showHeaderBrand = true } = Astro.props;
 const ui = await getUi(lang);
 const site = Astro.site ?? 'https://zariacapital.es';
-const isProduction = import.meta.env.ZARIA_BUILD === 'production';
+const noindex = import.meta.env.ZARIA_BUILD === 'preview';
 const canonical = page ? absolute(routes[page][lang], site) : null;
 const ogLocale = { en: 'en_GB', es: 'es_ES' } as const;
 const ogImageUrl = absolute('/og-image.png', site);
@@ -32,7 +33,7 @@ const ogImageUrl = absolute('/og-image.png', site);
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		{!isProduction && <meta name="robots" content="noindex" />}
+		{noindex && <meta name="robots" content="noindex" />}
 		<meta name="referrer" content="strict-origin-when-cross-origin" />
 		<meta name="theme-color" content="#FFFFFF" />
 		{canonical && <link rel="canonical" href={canonical} />}
@@ -68,8 +69,8 @@ const ogImageUrl = absolute('/og-image.png', site);
 	</head>
 	<body>
 		<a class="skip-link" href="#main">{ui.skipLink}</a>
-		<Header lang={lang} page={page} ui={ui} />
-		<main id="main" tabindex="-1">
+		<Header lang={lang} page={page} ui={ui} showBrand={showHeaderBrand} />
+		<main id="main">
 			<slot />
 		</main>
 		<Footer lang={lang} ui={ui} />

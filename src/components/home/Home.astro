@@ -1,60 +1,25 @@
 ---
-import { Picture } from 'astro:assets';
 import ZDevice from '../ZDevice.astro';
 import OfficeClock from '../OfficeClock.astro';
-import madrid from '../../assets/images/madrid-gran-via-bw.jpg';
 import { routes, url, type Lang } from '../../lib/routes';
-import { getPage, getUi } from '../../lib/content';
+import { getPage, getUi, inline } from '../../lib/content';
 
 interface Props {
 	lang: Lang;
-	/** Checkpoint 1: "a" is typographic, "b" pairs two city photographs. */
-	direction?: 'a' | 'b';
 }
-const { lang, direction = 'a' } = Astro.props;
+const { lang } = Astro.props;
 const copy = await getPage<any>('home', lang);
 const ui = await getUi(lang);
 const whatWeDo = routes.whatWeDo[lang];
 ---
 
-{
-	direction === 'a' ? (
-		<section class="hero hero--a">
-			<div class="wrap hero__inner">
-				<h1>{copy.h1}</h1>
-				<p class="lead">{copy.lead}</p>
-			</div>
-			<ZDevice />
-		</section>
-	) : (
-		<section class="hero hero--b">
-			<div class="cities">
-				<figure class="cities__city cities__city--madrid">
-					<Picture
-						src={madrid}
-						formats={['avif', 'webp']}
-						widths={[480, 720, 960, 1280, 1600]}
-						sizes="(min-width: 48em) 60vw, 100vw"
-						alt="Aerial view of central Madrid in black and white, with the domed Metrópolis building at the corner of Gran Vía."
-						loading="eager"
-						fetchpriority="high"
-					/>
-					<figcaption>{ui.cities.madrid}</figcaption>
-				</figure>
-				<figure class="cities__city cities__city--abudhabi">
-					<div class="placeholder" role="img" aria-label="Placeholder for an Abu Dhabi photograph">
-						<span>Placeholder: Abu Dhabi photograph, black and white, not yet proposed or approved</span>
-					</div>
-					<figcaption>{ui.cities.abuDhabi}</figcaption>
-				</figure>
-			</div>
-			<div class="wrap hero__inner">
-				<h1>{copy.h1}</h1>
-				<p class="lead">{copy.lead}</p>
-			</div>
-		</section>
-	)
-}
+<section class="hero">
+	<div class="wrap hero__inner">
+		<h1>{copy.h1}</h1>
+		<p class="lead" set:html={inline(copy.lead)} />
+	</div>
+	<ZDevice />
+</section>
 
 <section class="section" aria-labelledby="lines-heading">
 	<div class="wrap"><div class="grid">
@@ -66,7 +31,7 @@ const whatWeDo = routes.whatWeDo[lang];
 						<h3>
 							<a href={url(`${whatWeDo}#${item.anchor}`)}>{item.name}</a>
 						</h3>
-						<p>{item.text}</p>
+						<p set:html={inline(item.text)} />
 					</li>
 				))
 			}
@@ -77,9 +42,11 @@ const whatWeDo = routes.whatWeDo[lang];
 <section class="section section--band cut-start" aria-labelledby="corridors-heading">
 	<div class="wrap"><div class="grid">
 		<h2 id="corridors-heading" class="grid__label">{copy.corridors.heading}</h2>
-		<ul role="list" class="grid__body corridors">
-			{copy.corridors.items.map((item: string) => <li>{item}</li>)}
-		</ul>
+		<div class="grid__body corridors-box">
+			<ul role="list" class="corridors">
+				{copy.corridors.items.map((item: string) => <li>{item}</li>)}
+			</ul>
+		</div>
 	</div></div>
 </section>
 
@@ -89,7 +56,7 @@ const whatWeDo = routes.whatWeDo[lang];
 		<div class="grid__body">
 			<p class="clients__intro">{copy.clients.intro}</p>
 			<ul role="list" class="clients">
-				{copy.clients.items.map((item: string) => <li>{item}</li>)}
+				{copy.clients.items.map((item: string) => <li set:html={inline(item)} />)}
 			</ul>
 		</div>
 	</div></div>
@@ -99,7 +66,7 @@ const whatWeDo = routes.whatWeDo[lang];
 	<div class="wrap"><div class="grid">
 		<h2 id="founder-heading" class="grid__label">{copy.founder.heading}</h2>
 		<div class="grid__body founder">
-			<p class="lead">{copy.founder.text}</p>
+			<p class="lead" set:html={inline(copy.founder.text)} />
 			<p><a href={url(routes.people[lang])}>{copy.founder.link}</a></p>
 		</div>
 	</div></div>
@@ -128,11 +95,9 @@ const whatWeDo = routes.whatWeDo[lang];
 	.hero {
 		position: relative;
 		overflow: clip;
-	}
-	.hero--a {
 		padding-block: clamp(3rem, 2rem + 6vw, 8rem) clamp(13rem, 9rem + 10vw, 16rem);
 	}
-	.hero--a :global(.zdev) {
+	.hero :global(.zdev) {
 		height: clamp(13rem, 9rem + 10vw, 16rem);
 	}
 	.hero__inner {
@@ -147,112 +112,18 @@ const whatWeDo = routes.whatWeDo[lang];
 	}
 
 	@media (min-width: 64em) {
-		.hero--a {
+		.hero {
 			padding-block: var(--s-9) calc(var(--s-10) + var(--s-6));
 		}
-		.hero--a :global(.zdev) {
+		.hero :global(.zdev) {
 			height: 100%;
 		}
-		.hero--a h1 {
+		.hero h1 {
 			max-width: 13.5em;
 		}
-		.hero--a .lead {
+		.hero .lead {
 			max-width: 27em;
 		}
-	}
-
-	/* Hero B: the two cities meet along the Z diagonal. */
-	.cities {
-		--h: clamp(15rem, 10rem + 25vw, 34rem);
-		position: relative;
-		height: var(--h);
-		display: grid;
-		grid-template-columns: 1fr;
-	}
-	.cities__city {
-		grid-area: 1 / 1;
-		position: relative;
-		height: var(--h);
-	}
-	.cities__city :global(picture),
-	.cities__city :global(img),
-	.cities__city .placeholder {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: 34% 62%;
-	}
-	.cities__city--madrid :global(img) {
-		width: 66%;
-		object-position: 40% 58%;
-	}
-	.cities__city--madrid {
-		clip-path: polygon(0 0, 62% 0, calc(62% - var(--h) / tan(var(--zc-angle))) 100%, 0 100%);
-	}
-	.cities__city--abudhabi {
-		clip-path: polygon(calc(62% + 6px) 0, 100% 0, 100% 100%, calc(62% + 6px - var(--h) / tan(var(--zc-angle))) 100%);
-	}
-	.placeholder {
-		display: grid;
-		place-items: center;
-		background: var(--zc-grey-light);
-		color: var(--zc-text);
-		padding-inline-start: 50%;
-		padding-inline-end: var(--gutter);
-		font-size: var(--fs-small);
-	}
-	.cities figcaption {
-		position: absolute;
-		inset-block-end: var(--s-4);
-		background: var(--zc-white);
-		color: var(--zc-logo-ink);
-		padding: var(--s-1) var(--s-3);
-		font-size: var(--fs-small);
-	}
-	.cities__city--madrid figcaption {
-		inset-inline-start: var(--gutter);
-	}
-	.cities__city--abudhabi figcaption {
-		inset-inline-end: var(--gutter);
-	}
-	.hero--b .hero__inner {
-		padding-block: var(--s-8) var(--s-4);
-	}
-
-	/* Sections */
-	.section {
-		padding-block: var(--section-space) 0;
-	}
-	.section--band {
-		margin-block-start: var(--section-space);
-		padding-block: var(--section-space);
-		background: var(--zc-fill-lighter);
-	}
-	.section--band + .section {
-		padding-block-start: var(--section-space);
-	}
-	.section--ruled > .wrap {
-		position: relative;
-	}
-	.grid {
-		display: grid;
-		gap: var(--s-5);
-	}
-	@media (min-width: 64em) {
-		.grid {
-			grid-template-columns: repeat(12, 1fr);
-			column-gap: var(--s-6);
-		}
-		.grid__label {
-			grid-column: 1 / span 4;
-		}
-		.grid__body {
-			grid-column: 5 / -1;
-		}
-	}
-	.section--ruled .grid {
-		border-block-start: var(--rule);
-		padding-block-start: var(--s-5);
 	}
 
 	/* What we do */
@@ -289,7 +160,11 @@ const whatWeDo = routes.whatWeDo[lang];
 		}
 	}
 
-	/* Where we work: three corridors whose left ends step down the Z angle. */
+	/* Where we work: three corridors whose left ends step down the Z angle. The type scales with
+	   the column (container query units) so the longest line, plus its indent, always fits. */
+	.corridors-box {
+		container-type: inline-size;
+	}
 	.corridors {
 		--row: calc(var(--fs-corridor) * 1.2 + 2 * var(--s-4));
 		font-size: var(--fs-corridor);
@@ -304,6 +179,10 @@ const whatWeDo = routes.whatWeDo[lang];
 		border-block-end: 1px solid var(--zc-grey-light);
 	}
 	@media (min-width: 48em) {
+		.corridors {
+			/* About 16.5em of text and indent on the longest line in either language. */
+			--fs-corridor: clamp(1.75rem, (100cqi - 3rem) / 16.5, 2.625rem);
+		}
 		.corridors li {
 			--step: 0;
 			white-space: nowrap;

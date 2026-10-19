@@ -1,0 +1,34 @@
+title: Firm | Zaria Capital
+description: Zaria Capital is an independent advisory and investment firm with offices in Madrid and Abu Dhabi, working directly with principals and institutions.
+h1: An independent advisory and investment firm.
+lead: Zaria Capital advises and invests across Southern Europe and Latin America, the Middle East and the United States, from offices in Madrid and Abu Dhabi.
+
+photoAlt: Aerial view of central Madrid in black and white, looking along Gran Vía past the domed Metrópolis building.
+
+sections:
+  - heading: Who we are
+    paragraphs:
+      - Zaria Capital is independent. We advise and invest, and we work directly with the people who make the decisions.
+      - We take on transactions and partnerships where the outcome depends on trust, access, structuring and execution on the ground.
+  - heading: How we work
+    paragraphs:
+      - We work directly with principals, families, corporates, investors and sovereign-linked institutions.
+      - Our work has three parts. We advise on cross-border M&A, strategic partnerships and market entry. We work on capital formation and structured financing across equity, debt and hybrid instruments. We invest as principals, through joint ventures and co-investments in Spain and Abu Dhabi.
+      - When we invest, we are involved in the operations from day one.
+    link: What we do
+
+corridors:
+  heading: Where we work
+  items:
+    - Southern Europe and Latin America
+    - The Middle East
+    - The United States
+
+clients:
+  heading: Who we work with
+  items:
+    - Principals
+    - Families
+    - Corporates
+    - Investors
+    - Sovereign-linked institutions

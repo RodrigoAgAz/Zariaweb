@@ -7,18 +7,26 @@ interface Props {
 	lang: Lang;
 	page: PageKey | null;
 	ui: Record<string, any>;
+	/** The 404 page shows the stacked logo in its body instead. */
+	showBrand?: boolean;
 }
-const { lang, page, ui } = Astro.props;
+const { lang, page, ui, showBrand = true } = Astro.props;
 ---
 
 <header class="site-header">
 	<div class="wrap site-header__inner">
-		<a class="site-header__brand" href={url(routes.home[lang])} aria-label={ui.homeLabel}>
-			<picture>
-				<source media="(min-width: 48em)" srcset={horizontal} width="196" height="34" />
-				<img src={mark} alt="" width="36" height="30" />
-			</picture>
-		</a>
+		{
+			showBrand ? (
+				<a class="site-header__brand" href={url(routes.home[lang])} aria-label={ui.homeLabel}>
+					<picture>
+						<source media="(min-width: 48em)" srcset={horizontal} width="196" height="34" />
+						<img src={mark} alt="" width="36" height="30" />
+					</picture>
+				</a>
+			) : (
+				<span class="site-header__brand" />
+			)
+		}
 		<nav class="site-nav" aria-label={ui.mainNavLabel}>
 			<ul role="list">
 				{
@@ -123,9 +131,13 @@ const { lang, page, ui } = Astro.props;
 		color: var(--zc-grey-accessible);
 	}
 
+	/* Narrowest phones: keep the four items on one row. */
 	@media (max-width: 22.5em) {
 		.site-nav ul {
-			column-gap: var(--s-4);
+			column-gap: var(--s-3);
+		}
+		.site-nav a {
+			font-size: 1.0625rem;
 		}
 	}
 

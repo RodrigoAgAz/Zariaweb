@@ -1,0 +1,23 @@
+title: Información regulatoria | Zaria Capital
+description: "Información regulatoria de Zaria Capital: sus entidades en España y en Abu Dhabi Global Market (ADGM), sus datos registrales y su situación regulatoria."
+h1: Información regulatoria
+lead: Zaria Capital opera a través de las entidades que se indican a continuación.
+sections:
+  - heading: España
+    details:
+      - { label: Denominación social, value: "{spainName}" }
+      - { label: NIF, value: "{spainTaxId}" }
+      - { label: Domicilio social, value: "{spainAddress}" }
+      - { label: Datos registrales, value: "{spainRegistry}" }
+    after:
+      - "{spainRegulatory}"
+  - heading: Abu Dhabi Global Market
+    details:
+      - { label: Denominación social, value: "{adgmName}" }
+      - { label: Número de registro, value: "{adgmNumber}" }
+      - { label: Dirección, value: "{adgmAddress}" }
+    after:
+      - "{adgmRegulatory}"
+  - heading: Ausencia de oferta
+    paragraphs:
+      - Nada de lo contenido en este sitio web constituye una oferta o solicitud de compra o venta de valores o productos financieros.

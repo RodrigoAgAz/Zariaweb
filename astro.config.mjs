@@ -2,10 +2,12 @@
 import { defineConfig } from 'astro/config';
 import { localWithSubsets } from './src/lib/font-provider.mjs';
 import { launchGate } from './src/lib/launch-gate.mjs';
+import { securityHeaders } from './src/lib/security-headers.mjs';
 
-// ZARIA_BUILD: "preview" (default) or "production". Production fails if any [TBC] remains.
+// ZARIA_BUILD: "preview" (default, every page noindex), "production" (fails if any [TBC] remains),
+// or "audit" (local Lighthouse runs only: like preview but without noindex; never deploy it).
 // ZARIA_BASE: path the site is served from. "/" in production; "/Zariaweb/" on the GitHub Pages preview.
-const build = process.env.ZARIA_BUILD === 'production' ? 'production' : 'preview';
+const build = ['production', 'audit'].includes(process.env.ZARIA_BUILD ?? '') ? process.env.ZARIA_BUILD : 'preview';
 const base = process.env.ZARIA_BASE ?? '/';
 
 // Unicode ranges match the Latin and Latin Extended subsets of the font files.
@@ -64,5 +66,5 @@ export default defineConfig({
 			},
 		},
 	],
-	integrations: [launchGate({ build })],
+	integrations: [launchGate({ build }), securityHeaders()],
 });

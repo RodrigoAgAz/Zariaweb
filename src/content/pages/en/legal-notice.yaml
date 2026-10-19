@@ -1,0 +1,34 @@
+title: Legal notice | Zaria Capital
+description: Legal notice for the Zaria Capital website, identifying its owner under Spanish Law 34/2002 (LSSI-CE) and setting out the terms on which it may be used.
+h1: Legal notice
+updated: Last updated 19 October 2026
+sections:
+  - heading: Website owner
+    paragraphs:
+      - In accordance with Article 10 of Spanish Law 34/2002 of 11 July on information society services and electronic commerce (LSSI-CE), the owner of this website is identified below.
+    details:
+      - { label: Company name, value: "{spainName}" }
+      - { label: Tax identification number (NIF), value: "{spainTaxId}" }
+      - { label: Registered office, value: "{spainAddress}" }
+      - { label: Registration, value: "{spainRegistry}" }
+      - { label: Email, value: "{email}" }
+    after:
+      - The regulatory status of each Zaria Capital entity is set out on the {regulatoryLink} page.
+  - heading: Purpose of this website
+    paragraphs:
+      - This website gives general information about Zaria Capital. It is not advice, and nothing on it is an offer or solicitation to buy or sell any security or financial product.
+  - heading: Use of the website
+    paragraphs:
+      - The information on this website may change without notice. We take care that it is accurate, but we do not guarantee that it is complete or current, and we accept no liability for decisions taken on the basis of it.
+  - heading: Intellectual property
+    paragraphs:
+      - The content of this website, including its text, design, logos and images, belongs to {spainName} or is used with permission. It may not be reproduced, distributed or altered without prior written consent, except as the law allows.
+  - heading: Links to other websites
+    paragraphs:
+      - This website links to a third-party map service. We are not responsible for the content or practices of other websites.
+  - heading: Data protection and cookies
+    paragraphs:
+      - How we handle personal data is explained in our {privacyLink}. This website sets no cookies; see the {cookiesLink}.
+  - heading: Governing law
+    paragraphs:
+      - This notice is governed by Spanish law. Disputes are subject to the courts of Madrid, without prejudice to any mandatory rule that gives jurisdiction to other courts.

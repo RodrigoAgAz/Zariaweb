@@ -1,0 +1,15 @@
+title: Cookies | Zaria Capital
+description: El sitio web de Zaria Capital no utiliza cookies ni tecnologías similares, analítica o contenidos de terceros, por lo que no hay aviso de cookies que aceptar.
+h1: Cookies
+updated: "Última actualización: 19 de octubre de 2026"
+sections:
+  - heading: Este sitio web no utiliza cookies
+    paragraphs:
+      - El sitio web de Zaria Capital no instala cookies ni utiliza tecnologías similares, como el almacenamiento local, píxeles de seguimiento o la identificación del dispositivo. No incorpora herramientas de analítica, publicidad ni redes sociales, y no carga contenidos de terceros.
+      - Como no se guarda nada en su dispositivo, no hay aviso de cookies ni nada que aceptar o rechazar.
+  - heading: Enlaces a otros sitios web
+    paragraphs:
+      - Los enlaces al mapa de nuestra {contactLink} abren un servicio de mapas de terceros, que tiene sus propias políticas de cookies y de privacidad.
+  - heading: Cambios
+    paragraphs:
+      - Si en algún momento incorporamos una forma de medir las visitas, será una que no utilice cookies, y actualizaremos esta página antes de activarla. Consulte también nuestra {privacyLink}.

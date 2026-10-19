@@ -1,0 +1,15 @@
+# Security headers for the production host (Cloudflare Pages or Netlify read this file).
+# GitHub Pages ignores it: on the github.io preview only the <meta> CSP and referrer policy apply.
+# The CSP placeholder below is replaced after each build (src/lib/security-headers.mjs) with the union of the
+# per-page <meta> policies, including their script and style hashes, plus frame-ancestors.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+  X-Frame-Options: DENY
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: __CSP__
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
