@@ -1,54 +1,33 @@
 ---
-// The site's one page: statement and corridors, the Madrid photograph, the firm, the founder,
-// and contact. Legal pages are linked from the footer.
+// The site's one page: the statement over the Madrid photograph, the firm, the founder and
+// contact. Legal pages are linked from the footer.
 import { Image } from 'astro:assets';
-import ZDevice from '../ZDevice.astro';
-import OfficeClock from '../OfficeClock.astro';
 import MadridPhoto from '../MadridPhoto.astro';
 import Paragraphs from '../Paragraphs.astro';
 import { type Lang } from '../../lib/routes';
-import { emailHtml, getPage, getPeople, getSettings, getUi } from '../../lib/content';
+import { emailHtml, getPage, getPeople, getSettings } from '../../lib/content';
 
 interface Props {
 	lang: Lang;
 }
 const { lang } = Astro.props;
 const copy = await getPage<any>('home', lang);
-const ui = await getUi(lang);
 const settings = await getSettings();
 const [founder] = await getPeople();
-const clocks = [
-	{ city: ui.cities.madrid, tz: 'Europe/Madrid', fallback: ui.clock.madridFallback },
-	{ city: ui.cities.abuDhabi, tz: 'Asia/Dubai', fallback: ui.clock.abuDhabiFallback },
-];
 ---
 
 <section class="hero on-dark" aria-labelledby="hero-heading">
-	<ZDevice tone="dark" />
+	<MadridPhoto alt={copy.photoAlt} mode="hero" />
 	<div class="wrap hero__inner">
-		<div>
-			<h1 id="hero-heading">{copy.h1}</h1>
-			<div class="hero__corridors">
-				<h2 class="visually-hidden">{copy.corridors.label}</h2>
-				<ul role="list" class="corridors">
-					{copy.corridors.items.map((item: string) => <li>{item}</li>)}
-				</ul>
-			</div>
+		<h1 id="hero-heading">{copy.h1}</h1>
+		<div class="hero__corridors">
+			<h2 class="visually-hidden">{copy.corridors.label}</h2>
+			<ul role="list" class="corridors">
+				{copy.corridors.items.map((item: string) => <li>{item}</li>)}
+			</ul>
 		</div>
-		<ul role="list" class="hero__clocks">
-			{
-				clocks.map((c) => (
-					<li>
-						<span class="hero__city">{c.city}</span>
-						<OfficeClock timeZone={c.tz} fallback={c.fallback} suffix={ui.clock.suffix} />
-					</li>
-				))
-			}
-		</ul>
 	</div>
 </section>
-
-<MadridPhoto alt={copy.photoAlt} />
 
 <section class="section" id="firm" aria-labelledby="firm-heading">
 	<div class="wrap">
@@ -82,7 +61,6 @@ const clocks = [
 					</div>
 					<div class="grid__body">
 						<h3 class="founder__name">{founder.name}</h3>
-						<p class="founder__title">{founder.title[lang]}</p>
 						<div class="text-large founder__bio">
 							<Paragraphs items={founder.bio[lang]} />
 						</div>
@@ -126,62 +104,44 @@ const clocks = [
 </section>
 
 <style>
-	/* Hero: the statement on the dark green ground, the Z diagonal tone on tone behind it, the
-	   three corridors beneath, and the two offices' local time along the bottom. */
+	/* Hero: the statement and the three corridors over the Madrid photograph, darkened with the
+	   house green so the white type reads. The header sits on top of it. */
 	.hero {
 		position: relative;
 		overflow: clip;
+		isolation: isolate;
+	}
+	.hero::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background: color-mix(in srgb, var(--zc-logo-ink) 74%, transparent);
 	}
 	.hero__inner {
 		position: relative;
 		z-index: 1;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		gap: var(--s-9);
-		min-height: clamp(36rem, 84svh, 62rem);
-		padding-block: clamp(3rem, 2rem + 5vw, 8rem) var(--s-6);
+		justify-content: flex-end;
+		min-height: clamp(34rem, 78svh, 52rem);
+		padding-block: 9rem clamp(3rem, 2rem + 4vw, 6rem);
 	}
 	.hero h1 {
 		max-width: 11em;
 	}
 	.hero__corridors {
-		margin-block-start: clamp(2.5rem, 1.5rem + 4vw, 5rem);
-		max-width: 40rem;
+		margin-block-start: clamp(2rem, 1rem + 3vw, 3.5rem);
+		max-width: 36rem;
 	}
 	.corridors {
-		font-size: clamp(1.375rem, 1.1rem + 1vw, 2.25rem);
+		font-size: clamp(1.25rem, 1rem + 0.8vw, 1.875rem);
 		line-height: 1.2;
 		color: var(--zc-fill-light);
 	}
 	.corridors li {
 		padding-block: var(--s-3);
-		border-block-start: 1px solid var(--zc-logo-ink-soft);
-	}
-	.hero__clocks {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--s-2) var(--s-8);
-	}
-	.hero__clocks li {
-		display: flex;
-		gap: var(--s-3);
-		align-items: baseline;
-	}
-	.hero__city {
-		color: var(--zc-white);
-	}
-	.hero__clocks :global(.office-clock) {
-		color: var(--zc-grey-light);
-		font-size: inherit;
-	}
-	.hero :global(.zdev) {
-		height: 55%;
-	}
-	@media (min-width: 64em) {
-		.hero :global(.zdev) {
-			height: 100%;
-		}
+		border-block-start: 1px solid color-mix(in srgb, var(--zc-white) 30%, transparent);
 	}
 
 	.text-large {
@@ -209,10 +169,6 @@ const clocks = [
 	}
 	.founder__name {
 		font-size: var(--fs-h2);
-	}
-	.founder__title {
-		margin-block-start: var(--s-2);
-		color: var(--zc-grey-accessible);
 	}
 	.founder__bio {
 		margin-block-start: var(--s-6);

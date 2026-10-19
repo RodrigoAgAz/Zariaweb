@@ -4,15 +4,14 @@
 A discreet presence, not a services brochure. The model is the small elite boutique: Robey Warshaw's one page (what the firm does, an address, an email), Zaoui & Co's single paragraph and founders' background. The site therefore has **one page** (statement, the firm, the founder, contact) plus the legal pages the law requires, linked from the footer. No team page, no service catalogue, no client types beyond one sentence, no numbers.
 
 ## Structure
-1. **Header** on the dark green ground: white horizontal logo (white mark below 768 px), links to the three sections of the home page (The firm, Founder, Contact), EN / ES.
-2. **Hero**, dark green (#1B331B, the logo ink): the H1 "Independent advice and investment.", the three corridors beneath it separated by hairlines, and the two offices with their live local time along the bottom. The Z diagonal sits behind it in #2A4520, tone on tone, cropped by the hero edges, with the one gold rule on its edge.
-3. **Madrid photograph**, full width (21:9 from 768 px, a square crop on the Metrópolis dome and Gran Vía below).
-4. **The firm**: three short paragraphs.
-5. **Founder**: name, title, three-sentence background.
-6. **Contact**: both offices with a map link each, and the general email.
-7. **Footer**, dark green: white logo, legal links, the no-offer line, regulatory sentences once supplied, copyright.
+1. **Header**: white horizontal logo (white mark below 768 px), links to the three sections of the home page (The firm, Founder, Contact), EN / ES. On the home page it sits over the hero; elsewhere on the dark green ground.
+2. **Hero**: the Madrid photograph, tinted with the house green (#1B331B at 74%), with the H1 "Independent advice and investment." and the three corridors beneath it, separated by hairlines. Square crop on the Metrópolis dome and Gran Vía below 768 px.
+3. **The firm**: three short paragraphs, third person.
+4. **Founder**: name and the founder's own three-paragraph background (photo beside it once supplied, in black and white).
+5. **Contact**: both offices with a map link each, and the general email.
+6. **Footer**, dark green: white logo, legal links, the no-offer line, regulatory sentences once supplied, copyright.
 
-Inner (legal) pages open with the same dark band carrying their H1.
+Inner (legal) pages open with a dark green band carrying their H1 and the Z diagonal, tone on tone, at the right.
 
 ## Type
 One family, **Zaria Serif** (EB Garamond files until the Perpetua WOFF2 files are supplied), regular and italic only, no bold, no sans-serif, no uppercase.
@@ -31,10 +30,10 @@ One family, **Zaria Serif** (EB Garamond files until the Perpetua WOFF2 files ar
 Content up to 1440 px wide with a 20 to 96 px gutter; sections use a 12-column grid from 1024 px (heading in columns 1 to 4, text in 5 to 12). Square corners, no shadows, no gradients, 1 px hairlines.
 - Dark ground #1B331B (header, page openings, hero, footer); white headings and links; #EEF2EB text; #BFBFBF secondary.
 - Light ground #FFFFFF; headings #1B331B; body #333333; links #2A4520 underlined.
-- Gold #B28B33: one rule, in the hero only.
+- Gold: not used. The single gold rule lived on the old hero diagonal and went with it.
 
 ## Motion
-One moment: the hero diagonal settles into place along its own angle on load (CSS only). Nothing moves under `prefers-reduced-motion`.
+One moment: the Z diagonal on the legal page openings settles into place along its own angle on load (CSS only). Nothing moves under `prefers-reduced-motion`.
 
 ## Pages
 

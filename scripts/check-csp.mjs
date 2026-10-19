@@ -33,8 +33,6 @@ for (const route of routes) {
 			console.log(`${name}: ${h[name] ? 'present' : 'MISSING'}`);
 		headersChecked = true;
 	}
-	const clock = await page.$eval('[data-clock-tz]', (el) => el.textContent).catch(() => null);
-	if (clock !== null && !/^\d\d:\d\d /.test(clock)) problems.push(`${route}: clock did not run (${clock})`);
 }
 const cookies = await page.context().cookies();
 console.log(`${routes.length} pages loaded; cookies set: ${cookies.length}`);

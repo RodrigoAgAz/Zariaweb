@@ -2,6 +2,14 @@
 
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
+## 2026-10-19 (second owner review)
+
+- **Hero rethought (owner).** A tall dark hero above a separate photo band looked odd. The Madrid photograph is now the hero itself, tinted with the house green, with the headline and corridors over it and the header on top.
+- **No local times (owner).** The Madrid and Abu Dhabi clocks are removed.
+- **One voice, no repetition (owner).** "The firm" is written in the third person to match the founder's bio; the separate "Founder and CEO" line under his name is removed because the bio opens with it.
+- **Founder's bio is the owner's text (owner),** verbatim in English, translated into Spanish.
+- **Founder photo.** The site shows it in black and white once the file is in `src/assets/people/`. The image could not be downloaded from here (the network policy blocks image hosts). If the chosen photo comes from a news site, its publisher or photographer owns it; use one the firm holds the rights to.
+
 ## 2026-10-19 (owner review of the live preview)
 
 - **One page, not a brochure (owner).** The owner rejected the first preview (narrow column on wide screens, washed-out Z shape, timid type) and asked for a simpler site modelled on small elite boutiques, not used to sell services. Research (Robey Warshaw's single page; Zaoui & Co's short paragraph and founders page; Ondra's team page existing only because it has a team) led to: one home page with the statement, the firm, the founder and contact, plus legal pages in the footer. The Firm, What we do, People and Contact pages were removed.

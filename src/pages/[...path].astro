@@ -20,6 +20,6 @@ const Page = pageComponents[key];
 const jsonLd = key === 'home' ? [await organizationJsonLd(Astro.site)] : [];
 ---
 
-<Base lang={lang} page={key} title={copy.title} description={copy.description} jsonLd={jsonLd}>
+<Base lang={lang} page={key} title={copy.title} description={copy.description} jsonLd={jsonLd} headerOverlay={key === 'home'}>
 	<Page lang={lang} page={key} />
 </Base>

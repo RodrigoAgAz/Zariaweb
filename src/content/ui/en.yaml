@@ -26,8 +26,3 @@ footer:
 cities:
   madrid: Madrid
   abuDhabi: Abu Dhabi
-clock:
-  # Shown when JavaScript is off; replaced by the live local time when it runs.
-  madridFallback: Madrid (CET/CEST)
-  abuDhabiFallback: Abu Dhabi (GST, UTC+4)
-  suffix: local time

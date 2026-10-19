@@ -1,6 +1,7 @@
 ---
 // The opening of an inner page: H1 and an optional lead or date line on the dark green ground,
-// continuing the header band.
+// continuing the header band, with the Z diagonal tone on tone at the right.
+import ZDevice from './ZDevice.astro';
 interface Props {
 	h1: string;
 	lead?: string;
@@ -10,6 +11,7 @@ const { h1, lead, meta } = Astro.props;
 ---
 
 <header class="page-intro on-dark">
+	<ZDevice tone="dark" gold={false} />
 	<div class="wrap">
 		<h1>{h1}</h1>
 		{lead && <p class="lead">{lead}</p>}
@@ -20,7 +22,17 @@ const { h1, lead, meta } = Astro.props;
 
 <style>
 	.page-intro {
+		position: relative;
+		overflow: clip;
 		padding-block: clamp(3rem, 2rem + 5vw, 7.5rem) clamp(3.5rem, 2rem + 6vw, 8.5rem);
+	}
+	.page-intro .wrap {
+		position: relative;
+		z-index: 1;
+	}
+	.page-intro :global(.zdev) {
+		height: 100%;
+		opacity: 0.9;
 	}
 	.page-intro h1 {
 		font-size: clamp(2.5rem, 1.8rem + 3.2vw, 5.25rem);

@@ -25,7 +25,3 @@ footer:
 cities:
   madrid: Madrid
   abuDhabi: Abu Dabi
-clock:
-  madridFallback: Madrid (CET/CEST)
-  abuDhabiFallback: Abu Dabi (GST, UTC+4)
-  suffix: hora local

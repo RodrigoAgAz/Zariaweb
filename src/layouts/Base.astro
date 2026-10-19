@@ -15,9 +15,11 @@ interface Props {
 	/** Extra JSON-LD objects for this page. */
 	jsonLd?: Record<string, unknown>[];
 	showHeaderBrand?: boolean;
+	/** Home page: the header sits over the hero photograph. */
+	headerOverlay?: boolean;
 }
 
-const { lang, page, title, description, jsonLd = [], showHeaderBrand = true } = Astro.props;
+const { lang, page, title, description, jsonLd = [], showHeaderBrand = true, headerOverlay = false } = Astro.props;
 const ui = await getUi(lang);
 const site = Astro.site ?? 'https://zariacapital.es';
 const noindex = import.meta.env.ZARIA_BUILD === 'preview';
@@ -69,7 +71,7 @@ const ogImageUrl = absolute('/og-image.png', site);
 	</head>
 	<body>
 		<a class="skip-link" href="#main">{ui.skipLink}</a>
-		<Header lang={lang} page={page} ui={ui} showBrand={showHeaderBrand} />
+		<Header lang={lang} page={page} ui={ui} showBrand={showHeaderBrand} overlay={headerOverlay} />
 		<main id="main">
 			<slot />
 		</main>

@@ -1,4 +1,4 @@
-# The founder, shown on the home page.
+# The founder, shown on the home page. The English bio is the owner's text, verbatim.
 order: 1
 name: Alonso Aznar
 # Headshot in src/assets/people/ (shown in black and white), e.g. ../../assets/people/alonso-aznar.jpg
@@ -8,10 +8,10 @@ title:
   es: Fundador y CEO
 bio:
   en:
-    - Alonso Aznar advises and invests alongside companies, families and investors on cross-border situations.
-    - He was previously a Managing Director at Consello, in the United States and Abu Dhabi, and CEO for Spain and Latin America at Afiniti. He began his career at Citigroup in London and later worked at Rhône Capital in London and New York.
+    - Alonso Aznar is the Founder and CEO of Zaria Capital. He advises and invests alongside companies, families, and institutions on complex cross-border situations across Southern Europe & Latin America, the Middle East, and the United States, much of it originating from relationships built over more than twenty years.
+    - He was previously a Managing Director at Consello, based in the United States and Abu Dhabi, advising CEOs of Fortune 100 companies and institutional leaders, and CEO for Spain and Latin America at Afiniti. He began his career as an investment banker at Citigroup in London, and later as an investment professional at Rhône Capital in London and New York.
     - He serves on the Board of Banco Guayaquil and the Advisory Board of Arsenale Group.
   es:
-    - Alonso Aznar asesora e invierte junto a empresas, familias e inversores en situaciones transfronterizas.
-    - Anteriormente fue Managing Director en Consello, en Estados Unidos y Abu Dabi, y CEO para España y Latinoamérica en Afiniti. Comenzó su carrera en Citigroup en Londres y después trabajó en Rhône Capital en Londres y Nueva York.
+    - Alonso Aznar es el fundador y CEO de Zaria Capital. Asesora e invierte junto a empresas, familias e instituciones en situaciones transfronterizas complejas en el sur de Europa y Latinoamérica, Oriente Medio y Estados Unidos, buena parte de ellas surgidas de relaciones construidas a lo largo de más de veinte años.
+    - Anteriormente fue Managing Director en Consello, con base en Estados Unidos y Abu Dabi, donde asesoraba a consejeros delegados de empresas de la lista Fortune 100 y a líderes institucionales, y CEO para España y Latinoamérica en Afiniti. Comenzó su carrera como banquero de inversión en Citigroup en Londres y después fue profesional de inversión en Rhône Capital en Londres y Nueva York.
     - Es consejero de Banco Guayaquil y miembro del Consejo Asesor de Arsenale Group.

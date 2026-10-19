@@ -10,11 +10,13 @@ interface Props {
 	ui: Record<string, any>;
 	/** The 404 page shows the stacked logo in its body instead. */
 	showBrand?: boolean;
+	/** Home page: the header sits over the hero photograph instead of on its own band. */
+	overlay?: boolean;
 }
-const { lang, page, ui, showBrand = true } = Astro.props;
+const { lang, page, ui, showBrand = true, overlay = false } = Astro.props;
 ---
 
-<header class="site-header on-dark">
+<header class:list={['site-header', 'on-dark', { 'site-header--overlay': overlay }]}>
 	<div class="wrap site-header__inner">
 		{
 			showBrand ? (
@@ -64,6 +66,13 @@ const { lang, page, ui, showBrand = true } = Astro.props;
 </header>
 
 <style>
+	.site-header--overlay {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-start: 0;
+		z-index: 2;
+		background: transparent;
+	}
 	.site-header__inner {
 		display: grid;
 		grid-template-columns: 1fr auto;
