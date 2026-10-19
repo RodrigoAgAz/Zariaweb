@@ -1,0 +1,33 @@
+# Textos de interfaz comunes a todas las páginas en español.
+nav:
+  home: Inicio
+  firm: Firma
+  whatWeDo: Qué hacemos
+  people: Equipo
+  contact: Contacto
+  legalNotice: Aviso legal
+  privacy: Privacidad
+  cookies: Cookies
+  regulatory: Información regulatoria
+skipLink: Saltar al contenido
+homeLabel: Zaria Capital, inicio
+mainNavLabel: Principal
+footerNavLabel: Páginas del sitio
+legalNavLabel: Legal
+languageLabel: Idioma
+switchTo:
+  es: { code: ES, hidden: ", en español" }
+  en: { code: EN, hidden: ", in English" }
+current:
+  en: { code: EN, hidden: ", English, current language" }
+  es: { code: ES, hidden: ", español, idioma actual" }
+footer:
+  offices: Oficinas
+  copyright: "© {year} Zaria Capital"
+cities:
+  madrid: Madrid
+  abuDhabi: Abu Dabi
+clock:
+  madridFallback: Madrid (CET/CEST)
+  abuDhabiFallback: Abu Dabi (GST, UTC+4)
+  suffix: hora local

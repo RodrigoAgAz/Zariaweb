@@ -1,0 +1,26 @@
+---
+// Every page in the route map is generated here, so URLs live in one place (src/lib/routes.ts).
+import type { GetStaticPaths } from 'astro';
+import Base from '../layouts/Base.astro';
+import { pageComponents } from '../components/page-components';
+import { allPages, type Lang, type PageKey } from '../lib/routes';
+import { getPage } from '../lib/content';
+import { organizationJsonLd } from '../lib/structured-data';
+
+export const getStaticPaths = (() =>
+	allPages()
+		.filter(({ key }) => key in pageComponents)
+		.map(({ key, lang, path }) => ({
+			params: { path: path === '/' ? undefined : path.replace(/^\/|\/$/g, '') },
+			props: { key, lang },
+		}))) satisfies GetStaticPaths;
+
+const { key, lang } = Astro.props as { key: PageKey; lang: Lang };
+const copy = await getPage(key, lang);
+const Page = pageComponents[key];
+const jsonLd = key === 'home' || key === 'contact' ? [await organizationJsonLd(Astro.site)] : [];
+---
+
+<Base lang={lang} page={key} title={copy.title} description={copy.description} jsonLd={jsonLd}>
+	<Page lang={lang} />
+</Base>

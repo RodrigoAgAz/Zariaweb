@@ -1,0 +1,238 @@
+/* Brand values come only from the brand kit's tokens file. This file adds the site scale
+   (type, space, layout) and the Z angle, and never introduces a colour of its own. */
+@import '../../brand/tokens.css';
+
+:root {
+	color-scheme: light;
+
+	/* The Z geometry: diagonals at 56 degrees from horizontal. */
+	--zc-angle: 56deg;
+
+	/* Type scale (px values in DESIGN.md). Mobile first; desktop values from 48em. */
+	--fs-small: 1rem; /* 16 */
+	--fs-body: 1.125rem; /* 18 */
+	--fs-lead: 1.25rem; /* 20 */
+	--fs-h3: 1.375rem; /* 22 */
+	--fs-h2: 1.75rem; /* 28 */
+	--fs-corridor: 1.75rem; /* 28 */
+	--fs-h1: clamp(2.25rem, 1.55rem + 3vw, 3.75rem); /* 36 at 320, 60 at 1440 */
+	--lh-body: 1.5;
+	--lh-tight: 1.15;
+	--measure: 34em; /* about 66 characters of body copy */
+
+	/* Space scale */
+	--s-1: 0.25rem;
+	--s-2: 0.5rem;
+	--s-3: 0.75rem;
+	--s-4: 1rem;
+	--s-5: 1.5rem;
+	--s-6: 2rem;
+	--s-7: 3rem;
+	--s-8: 4rem;
+	--s-9: 6rem;
+	--s-10: 8rem;
+
+	/* Layout */
+	--page-max: 77.5rem; /* 1240 */
+	--gutter: clamp(1rem, 5vw, 4rem);
+	--section-space: clamp(4rem, 3rem + 5vw, 8rem);
+	--rule: var(--zc-rule);
+	--rule-faint: 1px solid var(--zc-rule-faint);
+}
+
+@media (min-width: 48em) {
+	:root {
+		--fs-body: 1.1875rem; /* 19 */
+		--fs-lead: 1.4375rem; /* 23 */
+		--fs-h3: 1.5625rem; /* 25 */
+		--fs-h2: 2.125rem; /* 34 */
+		--fs-corridor: 2.625rem; /* 42 */
+	}
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+* {
+	margin: 0;
+}
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+	scroll-padding-block-start: var(--s-6);
+}
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+body {
+	background: var(--zc-white);
+	color: var(--zc-text);
+	font-family: var(--zc-font-face), var(--zc-font-serif);
+	font-size: var(--fs-body);
+	line-height: var(--lh-body);
+	font-variant-numeric: oldstyle-nums proportional-nums;
+	font-kerning: normal;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	overflow-x: clip;
+}
+main {
+	flex: 1;
+}
+img,
+svg,
+picture {
+	display: block;
+	max-width: 100%;
+}
+img {
+	height: auto;
+}
+h1,
+h2,
+h3 {
+	font-weight: 400;
+	color: var(--zc-logo-ink);
+	line-height: var(--lh-tight);
+	text-wrap: balance;
+}
+h1 {
+	font-size: var(--fs-h1);
+	letter-spacing: -0.01em;
+}
+h2 {
+	font-size: var(--fs-h2);
+	line-height: 1.2;
+}
+h3 {
+	font-size: var(--fs-h3);
+	line-height: 1.25;
+}
+p,
+li {
+	text-wrap: pretty;
+	hyphens: manual;
+}
+ul[role='list'],
+ol[role='list'] {
+	list-style: none;
+	padding: 0;
+}
+strong {
+	font-weight: 400;
+	color: var(--zc-logo-ink);
+}
+
+/* Links: dark green and always underlined in prose. */
+a {
+	color: var(--zc-green-dark);
+	text-decoration-line: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.18em;
+}
+a:hover {
+	color: var(--zc-green-deep);
+	text-decoration-thickness: 2px;
+}
+:focus-visible {
+	outline: 2px solid var(--zc-green-dark);
+	outline-offset: 2px;
+}
+
+/* Lining tabular figures where numbers align: clocks and addresses. */
+.figures-tabular,
+address {
+	font-variant-numeric: lining-nums tabular-nums;
+}
+address {
+	font-style: normal;
+}
+
+.visually-hidden {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+.skip-link {
+	position: absolute;
+	inset-inline-start: var(--gutter);
+	inset-block-start: var(--s-2);
+	z-index: 10;
+	padding: var(--s-2) var(--s-4);
+	background: var(--zc-white);
+	color: var(--zc-green-dark);
+	transform: translateY(-200%);
+}
+.skip-link:focus {
+	transform: none;
+}
+
+/* Layout */
+.wrap {
+	width: 100%;
+	max-width: calc(var(--page-max) + 2 * var(--gutter));
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+.prose {
+	max-width: var(--measure);
+}
+.prose > * + * {
+	margin-block-start: 1em;
+}
+.prose h2 {
+	margin-block-start: var(--s-7);
+}
+.prose h3 {
+	margin-block-start: var(--s-6);
+}
+.prose h2 + *,
+.prose h3 + * {
+	margin-block-start: var(--s-4);
+}
+.prose ul {
+	padding-inline-start: 1.1em;
+}
+.prose li + li {
+	margin-block-start: var(--s-2);
+}
+.lead {
+	font-size: var(--fs-lead);
+	line-height: 1.45;
+	color: var(--zc-text);
+	max-width: 30em;
+}
+.small {
+	font-size: var(--fs-small);
+	color: var(--zc-grey-accessible);
+}
+.tbc {
+	/* Missing owner input: deliberately conspicuous so it cannot be overlooked. */
+	background: var(--zc-fill-light);
+	outline: 1px dashed var(--zc-green-dark);
+	outline-offset: 1px;
+	color: var(--zc-green-deep);
+}
+
+/* The 56 degree cut: a band whose inline-start top corner is sliced at the Z angle,
+   like the end of the Z's lower bar. --cut is the height of the slice. */
+.cut-start {
+	--cut: clamp(2.5rem, 2rem + 2vw, 4rem);
+	clip-path: polygon(calc(var(--cut) / tan(var(--zc-angle))) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut));
+}

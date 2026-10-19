@@ -1,0 +1,21 @@
+{
+  "name": "zaria-capital-web",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:preview": "ZARIA_BUILD=preview astro build",
+    "build:production": "ZARIA_BUILD=production astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/eb-garamond": "^5.3.0",
+    "astro": "^7.4.1"
+  },
+  "devDependencies": {
+    "fontaine": "^1.0.1",
+    "playwright": "^1.64.1"
+  }
+}

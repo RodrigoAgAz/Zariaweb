@@ -1,0 +1,88 @@
+---
+// The Z geometry as a decorative device (not the logo): one diagonal at 56 degrees running into
+// the lower horizontal bar, in a single pale tint, cropped by its container. The single gold
+// accent is a short rule lying on the diagonal's edge.
+//
+// Geometry in a 1200 x 1000 box: tan(56°) = 1.482561.
+//   diagonal: top edge x 760 to 1000; edges fall at 56° to the bar.
+//   bar: 140 tall, running from the diagonal off the right edge.
+const T = 1.482561;
+const top = { left: 760, right: 1000 };
+const bar = 140;
+const H = 1000;
+const points = [
+	[top.left, 0],
+	[top.right, 0],
+	[top.right - (H - bar) / T, H - bar],
+	[1200, H - bar],
+	[1200, H],
+	[top.left - H / T, H],
+]
+	.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`)
+	.join(' ');
+const onEdge = (y: number) => [top.left - y / T, y];
+const [gx1, gy1] = onEdge(240);
+const [gx2, gy2] = onEdge(400);
+
+interface Props {
+	class?: string;
+	gold?: boolean;
+}
+const { class: className, gold = true } = Astro.props;
+---
+
+<svg
+	class:list={['zdev', className]}
+	viewBox="0 0 1200 1000"
+	preserveAspectRatio="xMaxYMax meet"
+	aria-hidden="true"
+	focusable="false"
+>
+	<polygon points={points}></polygon>
+	{
+		gold && (
+			<line
+				x1={gx1.toFixed(1)}
+				y1={gy1}
+				x2={gx2.toFixed(1)}
+				y2={gy2}
+				stroke-width="2"
+				vector-effect="non-scaling-stroke"
+			/>
+		)
+	}
+</svg>
+
+<style>
+	.zdev {
+		position: absolute;
+		inset-block-end: 0;
+		inset-inline-end: 0;
+		height: 100%;
+		width: auto;
+		max-width: none;
+		pointer-events: none;
+	}
+	.zdev polygon {
+		fill: var(--zc-fill-light);
+	}
+	.zdev line {
+		stroke: var(--zc-gold);
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.zdev {
+			/* The one motion moment on the site: the diagonal settles into place along its own angle. */
+			animation: zdev-in 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+		}
+	}
+	@keyframes zdev-in {
+		from {
+			opacity: 0;
+			transform: translate(calc(32px / tan(var(--zc-angle))), -32px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+</style>

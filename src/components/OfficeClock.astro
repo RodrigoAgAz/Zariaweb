@@ -1,0 +1,24 @@
+---
+interface Props {
+	/** IANA time zone, e.g. Europe/Madrid or Asia/Dubai (Abu Dhabi shares UTC+4, no daylight saving). */
+	timeZone: string;
+	/** Text shown when JavaScript is off. Never a build-time clock. */
+	fallback: string;
+	suffix: string;
+}
+const { timeZone, fallback, suffix } = Astro.props;
+---
+
+<p class="office-clock figures-tabular" data-clock-tz={timeZone} data-clock-suffix={suffix}>{fallback}</p>
+
+<script>
+	import '../scripts/clocks.ts';
+</script>
+
+<style>
+	.office-clock {
+		color: var(--zc-grey-accessible);
+		font-size: var(--fs-small);
+		min-height: 1.5em;
+	}
+</style>

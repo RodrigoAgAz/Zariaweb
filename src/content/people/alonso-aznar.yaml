@@ -1,0 +1,23 @@
+# Display order on the People page: lower numbers first. The founder is always 1.
+order: 1
+name: Alonso Aznar
+# Black and white headshot in src/assets/people/, e.g. ../../assets/people/alonso-aznar.jpg
+photo: null
+title:
+  en: Founder and CEO
+  es: Fundador y CEO
+office: # e.g. Madrid
+  en: null
+  es: null
+languages: # e.g. English, Spanish
+  en: null
+  es: null
+bio:
+  en:
+    - Alonso Aznar advises and invests alongside companies, families and institutions on cross-border situations.
+    - He was previously a Managing Director at Consello, in the United States and Abu Dhabi, and CEO for Spain and Latin America at Afiniti. He began his career at Citigroup in London and later worked at Rhône Capital in London and New York.
+    - He serves on the Board of Banco Guayaquil and the Advisory Board of Arsenale Group.
+  es:
+    - Alonso Aznar asesora e invierte junto a empresas, familias e instituciones en situaciones transfronterizas.
+    - Anteriormente fue Managing Director en Consello, en Estados Unidos y Abu Dabi, y CEO para España y Latinoamérica en Afiniti. Comenzó su carrera en Citigroup en Londres y después trabajó en Rhône Capital en Londres y Nueva York.
+    - Es consejero de Banco Guayaquil y miembro del Consejo Asesor de Arsenale Group.

@@ -1,0 +1,153 @@
+---
+import mark from '../../brand/logo/svg/zaria-mark.svg?url';
+import horizontal from '../../brand/logo/svg/zaria-logo-horizontal.svg?url';
+import { languages, mainNav, routes, url, type Lang, type PageKey } from '../lib/routes';
+
+interface Props {
+	lang: Lang;
+	page: PageKey | null;
+	ui: Record<string, any>;
+}
+const { lang, page, ui } = Astro.props;
+---
+
+<header class="site-header">
+	<div class="wrap site-header__inner">
+		<a class="site-header__brand" href={url(routes.home[lang])} aria-label={ui.homeLabel}>
+			<picture>
+				<source media="(min-width: 48em)" srcset={horizontal} width="196" height="34" />
+				<img src={mark} alt="" width="36" height="30" />
+			</picture>
+		</a>
+		<nav class="site-nav" aria-label={ui.mainNavLabel}>
+			<ul role="list">
+				{
+					mainNav.map((key) => (
+						<li>
+							<a href={url(routes[key][lang])} aria-current={key === page ? 'page' : undefined}>
+								{ui.nav[key]}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+		<ul class="lang-switch" role="list" aria-label={ui.languageLabel}>
+			{
+				languages.map((l) =>
+					l === lang ? (
+						<li>
+							<span aria-current="true">
+								{ui.current[l].code}
+								<span class="visually-hidden">{ui.current[l].hidden}</span>
+							</span>
+						</li>
+					) : (
+						<li>
+							<a href={url(page ? routes[page][l] : routes.home[l])} lang={l} hreflang={l}>
+								{ui.switchTo[l].code}
+								<span class="visually-hidden">{ui.switchTo[l].hidden}</span>
+							</a>
+						</li>
+					),
+				)
+			}
+		</ul>
+	</div>
+</header>
+
+<style>
+	.site-header__inner {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-template-areas:
+			'brand lang'
+			'nav nav';
+		align-items: center;
+		row-gap: var(--s-4);
+		padding-block: var(--s-5) var(--s-4);
+	}
+	.site-header__brand {
+		grid-area: brand;
+		justify-self: start;
+		/* Clear space: at least the height of the Z's top bar on every side. */
+		padding: 6px;
+		margin: -6px;
+	}
+	.site-header__brand img {
+		width: 36px;
+		height: auto;
+	}
+	.site-nav {
+		grid-area: nav;
+	}
+	.site-nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: var(--s-5);
+		row-gap: var(--s-1);
+	}
+	.site-nav a,
+	.lang-switch a,
+	.lang-switch [aria-current] {
+		display: inline-block;
+		padding-block: var(--s-2);
+		color: var(--zc-logo-ink);
+		text-decoration: none;
+		font-size: var(--fs-body);
+		line-height: 1.2;
+	}
+	.site-nav a:hover,
+	.lang-switch a:hover {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+	}
+	.site-nav a[aria-current='page'] {
+		text-decoration: underline;
+		text-decoration-color: var(--zc-green-dark);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.35em;
+	}
+	.lang-switch {
+		grid-area: lang;
+		display: flex;
+		align-items: center;
+		gap: var(--s-2);
+	}
+	.lang-switch li + li::before {
+		content: '/';
+		color: var(--zc-grey-light);
+		margin-inline-end: var(--s-2);
+	}
+	.lang-switch [aria-current] {
+		color: var(--zc-grey-accessible);
+	}
+
+	@media (max-width: 22.5em) {
+		.site-nav ul {
+			column-gap: var(--s-4);
+		}
+	}
+
+	@media (min-width: 48em) {
+		.site-header__inner {
+			grid-template-columns: auto 1fr auto;
+			grid-template-areas: 'brand nav lang';
+			column-gap: var(--s-6);
+			padding-block: var(--s-6);
+		}
+		.site-header__brand img {
+			width: 196px;
+		}
+		.site-nav {
+			justify-self: end;
+		}
+		.site-nav ul {
+			column-gap: var(--s-6);
+		}
+		.lang-switch {
+			padding-inline-start: var(--s-6);
+			border-inline-start: var(--rule);
+		}
+	}
+</style>

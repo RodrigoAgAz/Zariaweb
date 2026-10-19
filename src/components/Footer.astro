@@ -1,0 +1,150 @@
+---
+import logoWhite from '../../brand/logo/svg/zaria-logo-horizontal-white.svg?url';
+import { legalNav, mainNav, routes, url, type Lang } from '../lib/routes';
+import { getSettings, tbcHtml } from '../lib/content';
+
+interface Props {
+	lang: Lang;
+	ui: Record<string, any>;
+}
+const { lang, ui } = Astro.props;
+const settings = await getSettings();
+const { spain, adgm } = settings.entities;
+const tbcLabel = {
+	en: { spain: 'regulatory sentence for the Spanish entity', adgm: 'regulatory sentence for the ADGM entity' },
+	es: { spain: 'frase regulatoria de la entidad española', adgm: 'frase regulatoria de la entidad de ADGM' },
+}[lang];
+const regulatory = [
+	spain.regulatoryStatement[lang] ?? null,
+	adgm.regulatoryStatement[lang] ?? null,
+];
+// Computed at build time; a scheduled rebuild every 1 January keeps it current (see README).
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer cut-start">
+	<div class="wrap site-footer__inner">
+		<a class="site-footer__brand" href={url(routes.home[lang])} aria-label={ui.homeLabel}>
+			<img src={logoWhite} alt="" width="196" height="34" />
+		</a>
+
+		<nav class="site-footer__nav" aria-label={ui.footerNavLabel}>
+			<ul role="list">
+				{mainNav.map((key) => <li><a href={url(routes[key][lang])}>{ui.nav[key]}</a></li>)}
+			</ul>
+		</nav>
+
+		<div class="site-footer__offices">
+			<h2 class="visually-hidden">{ui.footer.offices}</h2>
+			<ul role="list">
+				<li>{ui.cities.madrid}</li>
+				<li>{ui.cities.abuDhabi}</li>
+			</ul>
+		</div>
+
+		<div class="site-footer__legal">
+			<div class="site-footer__regulatory">
+				{
+					regulatory.map((sentence, i) =>
+						sentence ? <p>{sentence}</p> : <p set:html={tbcHtml(i === 0 ? tbcLabel.spain : tbcLabel.adgm)} />,
+					)
+				}
+			</div>
+			<nav aria-label={ui.legalNavLabel}>
+				<ul role="list" class="site-footer__legal-links">
+					{legalNav.map((key) => <li><a href={url(routes[key][lang])}>{ui.nav[key]}</a></li>)}
+				</ul>
+			</nav>
+			<p class="site-footer__copyright">{ui.footer.copyright.replace('{year}', String(year))}</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		margin-block-start: var(--section-space);
+		background: var(--zc-green-dark);
+		color: var(--zc-white);
+		padding-block: calc(var(--s-8) + var(--s-4)) var(--s-7);
+		font-size: var(--fs-small);
+	}
+	.site-footer a {
+		color: var(--zc-white);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+	}
+	.site-footer a:hover {
+		color: var(--zc-white);
+		text-decoration-thickness: 2px;
+	}
+	.site-footer :focus-visible {
+		outline-color: var(--zc-white);
+	}
+	.site-footer__inner {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--s-6);
+	}
+	.site-footer__brand {
+		justify-self: start;
+		padding: 6px;
+		margin: -6px;
+	}
+	.site-footer__brand img {
+		width: 196px;
+	}
+	.site-footer ul {
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: var(--s-5);
+		row-gap: var(--s-2);
+	}
+	.site-footer__nav,
+	.site-footer__offices {
+		font-size: var(--fs-body);
+	}
+	.site-footer__offices {
+		color: var(--zc-fill-light);
+	}
+	.site-footer__legal {
+		display: grid;
+		gap: var(--s-5);
+		padding-block-start: var(--s-6);
+		border-block-start: 1px solid var(--zc-green-mid);
+		color: var(--zc-fill-light);
+	}
+	.site-footer__regulatory {
+		display: grid;
+		align-content: start;
+		gap: var(--s-2);
+		max-width: 44em;
+	}
+	.site-footer :global(.tbc) {
+		background: transparent;
+		outline-color: var(--zc-white);
+		color: var(--zc-white);
+	}
+
+	@media (min-width: 48em) {
+		.site-footer__inner {
+			grid-template-columns: 1fr auto auto;
+			column-gap: var(--s-8);
+			align-items: start;
+		}
+		.site-footer__nav ul,
+		.site-footer__offices ul {
+			flex-direction: column;
+		}
+		.site-footer__legal {
+			grid-column: 1 / -1;
+			grid-template-columns: 1fr auto;
+			column-gap: var(--s-8);
+		}
+		.site-footer__legal-links {
+			flex-direction: column;
+		}
+		.site-footer__legal nav {
+			grid-row: span 2;
+		}
+	}
+</style>

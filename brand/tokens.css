@@ -1,0 +1,38 @@
+/* Zaria Capital brand tokens for the web.
+   Source of truth: Zaria Capital's house style and logo files.
+   Hex values are exact; usage notes come from the house style. */
+:root {
+  /* Logo inks (sampled from the logo files). Use for the logo and, sparingly, the deepest headings. */
+  --zc-logo-ink: #1B331B;
+  --zc-logo-ink-soft: #495C49;
+
+  /* House palette */
+  --zc-green-deep: #0C3512;   /* strongest emphasis only */
+  --zc-green-dark: #2A4520;   /* primary structure: headers, rules, key fills, links */
+  --zc-green: #3A5C2E;        /* solid emphasis fills */
+  --zc-green-mid: #4E7A3A;    /* section numbers, secondary accents */
+  --zc-green-light: #8DB07A;  /* fills only, never text (2.4:1 on white) */
+  --zc-fill-light: #EEF2EB;   /* card / band backgrounds */
+  --zc-fill-lighter: #F5F8F2; /* alternate band background */
+  --zc-gold: #B28B33;         /* the single accent: one highlight per view, never body text (3.2:1) */
+  --zc-ochre: #C47A2B;        /* second accent; data only */
+  --zc-text: #333333;         /* body copy */
+  --zc-grey: #888888;         /* captions only at large sizes; 3.5:1 fails WCAG AA for small text */
+  --zc-grey-accessible: #6B6B6B; /* use this for small secondary text on the web (5.3:1 on white) */
+  --zc-grey-light: #BFBFBF;   /* hairline rules, borders */
+  --zc-rule-faint: #E8ECF1;   /* faint row rules */
+  --zc-white: #FFFFFF;
+  --zc-black: #000000;
+
+  /* Type: Perpetua is the house face (Monotype; needs a web licence). The site declares ONE
+     self-hosted family, "Zaria Serif", whose @font-face src points at EB Garamond until the
+     Perpetua licence is confirmed; switching is a change of that src only. Regular and italic
+     weights only (Perpetua has no medium). Never list a local "Perpetua" here: visitors with
+     Microsoft Office have it installed and would see a different face from everyone else. */
+  --zc-font-serif: "Zaria Serif", "Zaria Serif Fallback", Georgia, "Times New Roman", serif;
+
+  /* Shape language: square corners, no shadows, no gradients. Separate with hairlines and flat fills. */
+  --zc-radius: 0;
+  --zc-shadow: none;
+  --zc-rule: 1px solid var(--zc-grey-light);
+}

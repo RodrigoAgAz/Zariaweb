@@ -1,0 +1,52 @@
+# Owner inputs. Every `null` is a value Zaria Capital has not supplied yet.
+# While any value is missing, the page shows "[TBC: …]" in its place and the
+# production build (npm run build:production) refuses to finish.
+# Never type "[TBC]" here: leave the value as null.
+
+site:
+  # General contact address, e.g. info@zariacapital.es. Used on Contact, the footer and JSON-LD.
+  email: null
+
+  # The only domains the firm sends email from, for the anti-impersonation note on Contact.
+  # Example: ["zariacapital.es", "zariacapital.com"]
+  officialEmailDomains: []
+
+  # Set to true only once Zaria confirms it holds web rights to the Madrid photograph.
+  madridPhotoWebRights: false
+
+  offices:
+    madrid:
+      phone: null # optional, e.g. "+34 91 000 00 00"; omitted from the page while null
+    abuDhabi:
+      # Full street address inside ADGM (building, floor, island). The page already shows "ADGM, Abu Dhabi".
+      streetAddress: null
+      phone: null # optional
+
+  entities:
+    spain:
+      legalName: null # full registered name, e.g. "Zaria Capital, S.L."
+      taxId: null # NIF/CIF
+      registry: # Registro Mercantil details (tomo, folio, hoja, inscripción), in each language
+        en: null
+        es: null
+      registeredAddress: null
+      # One sentence on its regulatory status in Spain, approved by counsel. If it is not
+      # CNMV-registered, say what it is (e.g. "is not authorised or registered with the CNMV").
+      regulatoryStatement:
+        en: null
+        es: null
+    adgm:
+      legalName: null
+      registrationNumber: null
+      address: null
+      # One sentence: whether it is authorised by the ADGM FSRA and for which activities, or what it is if not.
+      regulatoryStatement:
+        en: null
+        es: null
+
+  # The production host, named in the privacy notice once chosen.
+  hosting:
+    provider: null # e.g. "Cloudflare, Inc." or "GitHub, Inc."
+    logDetails: # retention period, location and transfer safeguard for server logs
+      en: null
+      es: null
