@@ -8,21 +8,21 @@ Targets (mobile): every category 95 or more, LCP under 2.0 s, CLS under 0.05, pa
 
 | Page | Form | Performance | Accessibility | Best practices | SEO | LCP (s) | CLS | Weight (KB) |
 |---|---|---|---|---|---|---|---|---|
-| / | mobile | 100 | 100 | 100 | 100 | 1.58 | 0.000 | 129 |
-| / | desktop | 100 | 100 | 100 | 100 | 0.36 | 0.000 | 154 |
-| /cookies/ | mobile | 100 | 100 | 100 | 100 | 1.35 | 0.000 | 71 |
+| / | mobile | 100 | 100 | 100 | 100 | 1.73 | 0.000 | 112 |
+| / | desktop | 100 | 100 | 100 | 100 | 0.45 | 0.000 | 128 |
+| /cookies/ | mobile | 100 | 100 | 100 | 100 | 1.28 | 0.000 | 72 |
 | /cookies/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 69 |
-| /es/ | mobile | 99 | 100 | 100 | 100 | 1.95 | 0.000 | 129 |
-| /es/ | desktop | 100 | 100 | 100 | 100 | 0.46 | 0.000 | 154 |
-| /es/aviso-legal/ | mobile | 100 | 100 | 100 | 100 | 1.28 | 0.000 | 73 |
-| /es/aviso-legal/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 71 |
-| /es/cookies/ | mobile | 100 | 100 | 100 | 100 | 1.36 | 0.000 | 71 |
-| /es/cookies/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 69 |
-| /es/privacidad/ | mobile | 100 | 100 | 100 | 100 | 1.28 | 0.000 | 74 |
+| /es/ | mobile | 100 | 100 | 100 | 100 | 1.73 | 0.000 | 112 |
+| /es/ | desktop | 100 | 100 | 100 | 100 | 0.44 | 0.000 | 128 |
+| /es/aviso-legal/ | mobile | 100 | 100 | 100 | 100 | 1.37 | 0.000 | 74 |
+| /es/aviso-legal/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 72 |
+| /es/cookies/ | mobile | 100 | 100 | 100 | 100 | 1.36 | 0.000 | 72 |
+| /es/cookies/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 70 |
+| /es/privacidad/ | mobile | 100 | 100 | 100 | 100 | 1.36 | 0.000 | 75 |
 | /es/privacidad/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 72 |
-| /legal-notice/ | mobile | 100 | 100 | 100 | 100 | 1.35 | 0.000 | 73 |
+| /legal-notice/ | mobile | 100 | 100 | 100 | 100 | 1.35 | 0.000 | 74 |
 | /legal-notice/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 71 |
-| /privacy/ | mobile | 100 | 100 | 100 | 100 | 1.35 | 0.000 | 74 |
-| /privacy/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 71 |
+| /privacy/ | mobile | 100 | 100 | 100 | 100 | 1.36 | 0.000 | 75 |
+| /privacy/ | desktop | 100 | 100 | 100 | 100 | 0.32 | 0.000 | 72 |
 
 **Every page meets every target on mobile.**
