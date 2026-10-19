@@ -1,8 +1,8 @@
 ---
 import PageIntro from '../PageIntro.astro';
 import Section from '../Section.astro';
-import { getPage, getSettings, inline, valueHtml } from '../../lib/content';
-import { missingLabels, pageTokens } from '../../lib/tokens';
+import { getPage, getSettings, inline } from '../../lib/content';
+import { pageTokens } from '../../lib/tokens';
 import type { Lang } from '../../lib/routes';
 
 interface Props {
@@ -13,8 +13,6 @@ const copy = await getPage<any>('contact', lang);
 const settings = await getSettings();
 const tokens = await pageTokens(lang);
 const cities = { en: { madrid: 'Madrid', abuDhabi: 'Abu Dhabi' }, es: { madrid: 'Madrid', abuDhabi: 'Abu Dabi' } }[lang];
-const abuStreet = settings.offices.abuDhabi.streetAddress;
-const osm = (q: string) => `https://www.openstreetmap.org/search?query=${encodeURIComponent(q)}`;
 const offices = [
 	{
 		city: cities.madrid,
@@ -24,9 +22,8 @@ const offices = [
 	},
 	{
 		city: cities.abuDhabi,
-		lines: [valueHtml(abuStreet, missingLabels[lang].abuDhabiStreet), ...copy.offices.abuDhabi.lines.map((l: string) => inline(l))],
-		// No map link until the full address is supplied: never point a map at a placeholder.
-		map: abuStreet ? osm(`${abuStreet}, Abu Dhabi, United Arab Emirates`) : null,
+		lines: copy.offices.abuDhabi.lines.map((l: string) => inline(l)),
+		map: copy.offices.abuDhabi.map as string,
 		phone: settings.offices.abuDhabi.phone,
 	},
 ];
@@ -64,12 +61,6 @@ const offices = [
 	<div class="prose">
 		<p set:html={inline(copy.email.general, tokens)} />
 		<p>{copy.email.careers}</p>
-	</div>
-</Section>
-
-<Section heading={copy.security.heading} id="official-email">
-	<div class="prose">
-		<p set:html={inline(copy.security.note, tokens)} />
 	</div>
 </Section>
 

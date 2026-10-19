@@ -2,7 +2,7 @@
 
 The public website of Zaria Capital: a static, bilingual (English and Spanish) site built with [Astro](https://astro.build) 7. No CMS, no forms, no cookies, no database, no third-party requests.
 
-- **Preview:** `https://rodrigoagaz.github.io/Zariaweb/` (GitHub Pages, every page `noindex`). See [Deploy](#deploy).
+- **Preview:** `https://rodrigoagaz.github.io/Zariaweb/` (GitHub Pages, every page `noindex`), live once Pages is switched on (see [Deploy](#deploy)). The production host will be chosen later.
 - **Design:** [`DESIGN.md`](DESIGN.md). **Decisions:** [`DECISIONS.md`](DECISIONS.md).
 - **Screenshots:** [`screenshots/`](screenshots/) (every page at 375, 768 and 1440 px). **Audits:** [`reports/`](reports/).
 
@@ -19,14 +19,10 @@ The site shows `[TBC: …]` wherever Zaria Capital has not yet supplied informat
 | Registered address | same three pages | `entities.spain.registeredAddress` |
 | Registro Mercantil details | Legal notice, Regulatory | `entities.spain.registry` (en and es) |
 | ADGM entity legal name, registration number, address | Regulatory / Información regulatoria | `entities.adgm.*` |
-| General contact email | Contact, Legal notice, Privacy (and JSON-LD once supplied) | `email` |
-| Official email domains (anti-impersonation note) | Contact / Contacto | `officialEmailDomains` |
-| Abu Dhabi street address (also enables its "View on map" link) | Contact / Contacto | `offices.abuDhabi.streetAddress` |
-| Hosting provider, and its log retention, location and transfer safeguard | Privacy / Privacidad | `hosting.provider`, `hosting.logDetails` |
+| Hosting provider for launch, and its log retention, location and transfer safeguard | Privacy / Privacidad | `hosting.provider`, `hosting.logDetails` (the owner will choose the host later) |
 | Founder's headshot, office, languages | People / Equipo | `alonso-aznar.yaml`: `photo`, `office`, `languages` |
 | Telephone per office (optional: omitted, not shown as TBC) | Contact | `offices.*.phone` |
-| Confirmation of web rights to the Madrid photograph (optional: the site works without it) | Firm / Firma, once enabled | `madridPhotoWebRights: true` |
-| Perpetua web-font licence, or decision to stay on EB Garamond | Every page | See [Switching to Perpetua](#switching-eb-garamond-to-perpetua) |
+| Perpetua WOFF2 files (the licence is held; the files are needed) | Every page | See [Switching to Perpetua](#switching-eb-garamond-to-perpetua) |
 | Production domain (zariacapital.es and/or .com) | Canonicals, hreflang, sitemap, OG tags | `site` in `astro.config.mjs` (currently `https://zariacapital.es`) |
 | Team beyond the founder | People / Equipo | [Adding a person](#adding-a-person) |
 | Designer's master logo file (AI, EPS, PDF or SVG) | Header, footer, 404, OG image | Replace the files in `brand/logo/` (the current wordmark is traced from the deck artwork) |
@@ -102,7 +98,7 @@ Every URL in both languages is defined once in `src/lib/routes.ts`. That map gen
 
 ## Switching EB Garamond to Perpetua
 
-The site declares one family, "Zaria Serif". Until the Perpetua web licence (Monotype) is confirmed, its files are EB Garamond (SIL Open Font License, `src/assets/fonts/OFL-EB-Garamond.txt`), self-hosted, regular and italic, Latin and Latin Extended subsets.
+The site declares one family, "Zaria Serif". Zaria holds a Perpetua licence (Monotype); until the web font files are added, its files are EB Garamond (SIL Open Font License, `src/assets/fonts/OFL-EB-Garamond.txt`), self-hosted, regular and italic, Latin and Latin Extended subsets.
 
 To switch: put the licensed Perpetua WOFF2 files (regular and italic, Latin and Latin Extended subsets) in `src/assets/fonts/` and change the four `src` paths in the `fonts` block of `astro.config.mjs`. Nothing else changes: the metric-matched fallback is regenerated from the new files, and only the regular Latin file is preloaded. Never add a `local("Perpetua")` source: visitors with Microsoft Office have Perpetua installed and would see a different version from everyone else.
 
@@ -123,7 +119,7 @@ The current zariacapital.es runs on WordPress. This build does not touch its DNS
 |---|---|---|
 | Logos (`brand/logo/`) | Zaria Capital deck template; mark rebuilt geometrically, wordmark traced from the deck artwork | Zaria Capital. Replace with the designer's master file when available. |
 | Favicons (`brand/favicon/`, copied to `public/`) | Zaria brand kit | Zaria Capital. The manifest's icon paths are made relative in `public/` so they work on the preview subpath. |
-| Madrid aerial (`brand/imagery/`, `src/assets/images/`) | Zaria Capital deck covers | **Web rights unconfirmed.** Not published: the Firm page shows it only when `madridPhotoWebRights: true`. Narrow screens get a square crop centred on the Metrópolis dome and Gran Vía. |
+| Madrid aerial (`brand/imagery/`, `src/assets/images/`) | Zaria Capital deck covers | Zaria holds web rights (confirmed by the owner, 19 October 2026). Shown once, on the Firm page. Narrow screens get a square crop centred on the Metrópolis dome and Gran Vía. Setting `madridPhotoWebRights: false` removes it. |
 | OG image (`public/og-image.png`) | Generated by `scripts/og-image.mjs` from the stacked logo | Zaria Capital |
 | EB Garamond | Google Fonts via `@fontsource/eb-garamond` | SIL Open Font License 1.1 |
 

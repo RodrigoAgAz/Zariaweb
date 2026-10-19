@@ -22,6 +22,8 @@ export default defineConfig({
 	base,
 	trailingSlash: 'always',
 	output: 'static',
+	// No code blocks on the site; Shiki's inline styles would conflict with the CSP.
+	markdown: { syntaxHighlight: false },
 	build: {
 		format: 'directory',
 		inlineStylesheets: 'never',

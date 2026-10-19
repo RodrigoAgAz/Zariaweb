@@ -4,22 +4,16 @@
 # Never type "[TBC]" here: leave the value as null.
 
 site:
-  # General contact address, e.g. info@zariacapital.es. Used on Contact, the footer and JSON-LD.
-  email: null
+  # General contact address. Used on Contact, the legal pages and JSON-LD.
+  email: info@zariacapital.es
 
-  # The only domains the firm sends email from, for the anti-impersonation note on Contact.
-  # Example: ["zariacapital.es", "zariacapital.com"]
-  officialEmailDomains: []
-
-  # Set to true only once Zaria confirms it holds web rights to the Madrid photograph.
-  madridPhotoWebRights: false
+  # Zaria holds web rights to the Madrid photograph (confirmed by the owner, 2026-10-19).
+  madridPhotoWebRights: true
 
   offices:
     madrid:
       phone: null # optional, e.g. "+34 91 000 00 00"; omitted from the page while null
     abuDhabi:
-      # Full street address inside ADGM (building, floor, island). The page already shows "ADGM, Abu Dhabi".
-      streetAddress: null
       phone: null # optional
 
   entities:

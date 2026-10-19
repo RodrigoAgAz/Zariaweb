@@ -2,6 +2,15 @@
 
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
+## 2026-10-19 (after Checkpoint 2)
+
+- **General email: info@zariacapital.es (owner).** Shown on Contact and the legal pages, and included in the JSON-LD.
+- **No anti-impersonation note (owner).** The official-email-domains warning required by the brief is removed from Contact.
+- **No Abu Dhabi street address (owner).** Contact shows "ADGM, Abu Dhabi, United Arab Emirates"; its map link searches for Abu Dhabi Global Market.
+- **Madrid photograph: web rights held (owner).** Now published once, on the Firm page, with an art-directed square crop on narrow screens. The homepage stays typographic (Direction A).
+- **Perpetua licence held (owner).** The switch needs the licensed WOFF2 files (regular and italic); until they are supplied the site stays on EB Garamond.
+- **Hosting: GitHub Pages for now; production host to be decided (owner).** The privacy notice keeps a `[TBC]` for the host and its log details until then.
+
 ## 2026-10-19
 
 - **Homepage direction: A, typographic (owner, Checkpoint 1).** White ground, one-sentence H1, the Z diagonal as the only graphic element. Direction B (Madrid and Abu Dhabi photographs meeting along a 56 degree seam) was built, screenshotted (`screenshots/checkpoint-1/`) and set aside: it depended on two images that cannot yet be published (Madrid web rights unconfirmed, no Abu Dhabi image), it made the largest paint a photograph, and a generic Gulf skyline would undercut the positioning. The Madrid photograph can still appear once on the Firm page when rights are confirmed (`madridPhotoWebRights` in `src/content/settings.yaml`).

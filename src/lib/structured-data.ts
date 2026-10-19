@@ -8,7 +8,6 @@ export async function organizationJsonLd(site: URL | undefined) {
 	const s = await getSettings();
 	const origin = site ?? 'https://zariacapital.es';
 	const spain = s.entities.spain;
-	const abuDhabi = s.offices.abuDhabi;
 	const data: Record<string, unknown> = {
 		'@context': 'https://schema.org',
 		'@type': 'Organization',
@@ -25,7 +24,6 @@ export async function organizationJsonLd(site: URL | undefined) {
 			},
 			{
 				'@type': 'PostalAddress',
-				...(abuDhabi.streetAddress ? { streetAddress: abuDhabi.streetAddress } : {}),
 				addressLocality: 'Abu Dhabi',
 				addressCountry: 'AE',
 			},

@@ -15,10 +15,8 @@ const missing = {
 		adgmAddress: 'ADGM entity address',
 		adgmRegulatory: 'whether the ADGM entity is authorised by the FSRA, and for which activities',
 		email: 'general contact email',
-		domains: 'official email domains',
 		hostingProvider: 'hosting provider',
 		hostingLogs: 'log retention period, location and transfer safeguard',
-		abuDhabiStreet: 'Abu Dhabi street address',
 	},
 	es: {
 		spainName: 'denominación social de la entidad española',
@@ -31,10 +29,8 @@ const missing = {
 		adgmAddress: 'dirección de la entidad de ADGM',
 		adgmRegulatory: 'si la entidad de ADGM está autorizada por la FSRA, y para qué actividades',
 		email: 'email general de contacto',
-		domains: 'dominios de email oficiales',
 		hostingProvider: 'proveedor de alojamiento',
 		hostingLogs: 'plazo de conservación, ubicación y garantía de transferencia de los registros',
-		abuDhabiStreet: 'dirección completa en Abu Dabi',
 	},
 } as const;
 
@@ -42,9 +38,6 @@ export async function pageTokens(lang: Lang): Promise<Record<string, string>> {
 	const s = await getSettings();
 	const m = missing[lang];
 	const { spain, adgm } = s.entities;
-	const domains = s.officialEmailDomains.length
-		? listHtml(s.officialEmailDomains.map((d) => `@${esc(d)}`), lang)
-		: valueHtml(null, m.domains);
 	const link = (key: keyof typeof routes, label: string) => `<a href="${url(routes[key][lang])}">${esc(label)}</a>`;
 	const labels = {
 		en: { privacy: 'privacy notice', cookies: 'cookies page', regulatory: 'regulatory information', legal: 'legal notice', contact: 'contact page' },
@@ -61,7 +54,6 @@ export async function pageTokens(lang: Lang): Promise<Record<string, string>> {
 		adgmAddress: valueHtml(adgm.address, m.adgmAddress),
 		adgmRegulatory: valueHtml(adgm.regulatoryStatement[lang], m.adgmRegulatory),
 		email: emailHtml(s.email, m.email),
-		domains,
 		hostingProvider: valueHtml(s.hosting.provider, m.hostingProvider),
 		hostingLogs: valueHtml(s.hosting.logDetails[lang], m.hostingLogs),
 		privacyLink: link('privacy', labels.privacy),
@@ -70,12 +62,6 @@ export async function pageTokens(lang: Lang): Promise<Record<string, string>> {
 		legalLink: link('legalNotice', labels.legal),
 		contactLink: link('contact', labels.contact),
 	};
-}
-
-function listHtml(items: string[], lang: Lang): string {
-	const and = lang === 'en' ? ' or ' : ' o ';
-	if (items.length === 1) return items[0];
-	return `${items.slice(0, -1).join(', ')}${and}${items.at(-1)}`;
 }
 
 export { missing as missingLabels };

@@ -11,14 +11,10 @@ const settings = defineCollection({
 	loader: file('src/content/settings.yaml'),
 	schema: z.object({
 		email: z.string().email().nullable(),
-		officialEmailDomains: z.array(z.string()),
 		madridPhotoWebRights: z.boolean(),
 		offices: z.object({
 			madrid: z.object({ phone: z.string().nullable() }),
-			abuDhabi: z.object({
-				streetAddress: z.string().nullable(),
-				phone: z.string().nullable(),
-			}),
+			abuDhabi: z.object({ phone: z.string().nullable() }),
 		}),
 		entities: z.object({
 			spain: z.object({

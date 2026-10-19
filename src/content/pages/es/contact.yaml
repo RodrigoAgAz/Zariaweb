@@ -1,5 +1,5 @@
 title: Contacto | Zaria Capital
-description: Contacte con Zaria Capital en Madrid, en la calle Ayala 3, o en Abu Dabi, en ADGM. Direcciones de las oficinas, email general y dominios de email oficiales.
+description: Contacte con Zaria Capital en sus oficinas de Madrid, en la calle Ayala 3, y de Abu Dabi, en ADGM. Direcciones de las oficinas y email general de contacto.
 h1: Contacto
 offices:
   heading: Oficinas
@@ -8,6 +8,7 @@ offices:
     map: https://www.openstreetmap.org/search?query=Calle%20Ayala%203%2C%2028001%20Madrid
   abuDhabi:
     lines: [ADGM, Abu Dabi, Emiratos Árabes Unidos]
+    map: https://www.openstreetmap.org/search?query=Abu%20Dhabi%20Global%20Market%2C%20Abu%20Dhabi
   mapLink: Ver en el mapa
   mapContext: "oficina de {city}, abre un servicio de mapas externo"
   phone: Teléfono
@@ -15,6 +16,3 @@ email:
   heading: Email
   general: "Consultas generales: {email}"
   careers: Las consultas sobre empleo pueden dirigirse a la misma dirección.
-security:
-  heading: Direcciones de email oficiales
-  note: Zaria Capital solo se comunica desde direcciones de email que terminan en {domains}. Si recibe un mensaje que dice proceder de nosotros desde cualquier otra dirección, póngase en contacto con nosotros directamente.
