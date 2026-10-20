@@ -1,0 +1,198 @@
+---
+// 02 What we do (HANDOFF.md "02 What we do"). A display-size statement, then three identical
+// full-bleed rows: numeral, title, description and capabilities. The hover is decorative only.
+import { inline } from '../../lib/content';
+
+interface Props {
+	copy: any;
+}
+const { copy } = Astro.props;
+---
+
+<section id="services" class="services morph mo-services" aria-labelledby="services-h">
+	<div class="home-wrap">
+		<h2 class="label-row">
+			<span class="label-row__num caps lining">02</span>
+			<span id="services-h" class="label-row__text caps">{copy.label}</span>
+		</h2>
+		<p class="statement" set:html={inline(copy.statement)} />
+	</div>
+
+	<div class="svc-list">
+		{
+			copy.items.map((item: any, i: number) => (
+				<article class="svc">
+					<div class="svc-row">
+						<span class="svc-num lining" aria-hidden="true">
+							{String(i + 1).padStart(2, '0')}
+						</span>
+						<h3 class="svc-title">{item.title}</h3>
+						<div class="svc-body">
+							<p class="svc-text" set:html={inline(item.text)} />
+							<ul class="svc-caps" role="list">
+								{item.caps.map((c: string) => (
+									<li class="caps">{c}</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				</article>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.services {
+		background: var(--zc-ivory);
+		color: var(--zc-text);
+		padding-block: var(--home-pad-top) var(--home-pad-bottom);
+	}
+	.statement {
+		margin-block-start: 72px;
+		max-width: 21em;
+		font-size: clamp(30px, 3.4vw, 50px);
+		line-height: 1.16;
+		letter-spacing: -0.008em;
+		color: var(--zc-logo-ink);
+		text-wrap: balance;
+	}
+	.statement :global(em) {
+		font-style: italic;
+		color: var(--zc-green-dark);
+	}
+	.svc-list {
+		margin-block-start: clamp(72px, 8vw, 112px);
+		border-block-end: 1px solid var(--zc-hair-light);
+	}
+	.svc {
+		border-block-start: 1px solid var(--zc-hair-light);
+		transition:
+			background-color 0.8s cubic-bezier(0.6, 0, 0.2, 1),
+			border-color 0.8s;
+	}
+	.svc-row {
+		display: grid;
+		grid-template-columns: 136px minmax(0, 5fr) minmax(0, 6fr);
+		column-gap: 32px;
+		row-gap: 16px;
+		align-items: baseline;
+		max-width: calc(var(--page-max) + 2 * var(--gutter));
+		margin-inline: auto;
+		padding: 52px var(--gutter) 56px;
+	}
+	.svc-num {
+		font-style: italic;
+		font-size: 76px;
+		line-height: 0.9;
+		color: var(--zc-gold-numeral);
+		transition: color 0.6s;
+	}
+	.svc-title {
+		font-size: clamp(36px, 4vw, 60px);
+		line-height: 1;
+		letter-spacing: -0.01em;
+		color: var(--zc-logo-ink);
+		transition:
+			color 0.6s,
+			transform 0.6s var(--ease-hover);
+	}
+	.svc-text {
+		font-size: 21px;
+		line-height: 1.5;
+		color: var(--zc-body-on-light);
+		max-width: 32em;
+		transition: color 0.6s;
+	}
+	.svc-caps {
+		margin-block-start: 24px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px 32px;
+	}
+	.svc-caps li {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		color: var(--zc-logo-ink-soft);
+		transition: color 0.6s;
+	}
+	.svc-caps li::before {
+		content: '';
+		width: 18px;
+		height: 1px;
+		background: var(--zc-gold);
+	}
+	/* Hover, pointer devices only: the row turns green. */
+	@media (hover: hover) and (pointer: fine) {
+		.svc:hover {
+			background: var(--zc-logo-ink);
+			border-block-start-color: var(--zc-logo-ink);
+		}
+		.svc:hover .svc-num {
+			color: var(--zc-gold-light);
+		}
+		.svc:hover .svc-title {
+			color: var(--zc-on-dark-head);
+			transform: translateX(10px);
+		}
+		.svc:hover .svc-text {
+			color: rgb(243 240 232 / 0.8);
+		}
+		.svc:hover .svc-caps li {
+			color: rgb(243 240 232 / 0.78);
+		}
+	}
+
+	@media (max-width: 53.75em) {
+		.services {
+			padding-block: 88px 96px;
+		}
+		.statement {
+			margin-block-start: 48px;
+			font-size: 30px;
+			line-height: 1.18;
+			letter-spacing: -0.006em;
+		}
+		.svc-list {
+			margin-block-start: 64px;
+		}
+		.svc-row {
+			grid-template-columns: 52px minmax(0, 1fr);
+			padding-block: 36px 40px;
+		}
+		.svc-num {
+			font-size: 40px;
+		}
+		.svc-body {
+			grid-column: 2 / 3;
+		}
+	}
+	@media (max-width: 30em) {
+		.svc-row {
+			grid-template-columns: 48px minmax(0, 1fr);
+			column-gap: 8px;
+			row-gap: 18px;
+		}
+		.svc-num {
+			font-size: 36px;
+		}
+		.svc-title {
+			font-size: 34px;
+		}
+		.svc-text {
+			font-size: 18px;
+		}
+		.svc-caps {
+			margin-block-start: 20px;
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.svc,
+		.svc * {
+			transition: none !important;
+		}
+	}
+</style>

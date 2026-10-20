@@ -1,7 +1,7 @@
 ---
 // One bilingual page for any missing URL: English first, then Spanish, each marked with its language.
 import Base from '../layouts/Base.astro';
-import stacked from '../../brand/logo/svg/zaria-logo-stacked.svg?url';
+import stacked from '../../brand/logo/svg/zaria-logo-stacked-white.svg?url';
 import { routes, url } from '../lib/routes';
 ---
 
@@ -12,7 +12,7 @@ import { routes, url } from '../lib/routes';
 	title="Page not found | Página no encontrada | Zaria Capital"
 	description="The page you were looking for does not exist or has moved. La página que busca no existe o ha cambiado de dirección. Zaria Capital, Madrid and Abu Dhabi."
 >
-	<div class="wrap not-found">
+	<div class="not-found"><div class="wrap">
 		<a class="not-found__logo" href={url(routes.home.en)} aria-label="Zaria Capital, home">
 			<img src={stacked} alt="" width="220" height="107" />
 		</a>
@@ -28,12 +28,27 @@ import { routes, url } from '../lib/routes';
 				<p><a href={url(routes.home.es)}>Ir a la página de inicio de Zaria Capital</a></p>
 			</section>
 		</div>
-	</div>
+	</div></div>
 </Base>
 
 <style>
+	/* Dark ground, so the header (white logo and links) reads over it. */
 	.not-found {
-		padding-block: clamp(3rem, 2rem + 5vw, 7rem) 0;
+		background: var(--zc-ink-deep);
+		color: var(--zc-on-dark);
+		padding-block: calc(5.5rem + clamp(3rem, 2rem + 5vw, 7rem)) clamp(4rem, 3rem + 5vw, 8rem);
+	}
+	.not-found h1,
+	.not-found h2 {
+		color: var(--zc-on-dark-head);
+		font-size: var(--fs-h2);
+		margin-block-end: var(--s-4);
+	}
+	.not-found a {
+		color: var(--zc-champagne);
+	}
+	.not-found :focus-visible {
+		outline-color: var(--zc-on-dark);
 	}
 	.not-found__logo {
 		display: inline-block;
@@ -46,11 +61,6 @@ import { routes, url } from '../lib/routes';
 		display: grid;
 		gap: var(--s-7);
 	}
-	.not-found h1,
-	.not-found h2 {
-		font-size: var(--fs-h2);
-		margin-block-end: var(--s-4);
-	}
 	.not-found p + p {
 		margin-block-start: var(--s-3);
 	}
@@ -58,7 +68,7 @@ import { routes, url } from '../lib/routes';
 		.not-found__langs {
 			grid-template-columns: 1fr 1fr;
 			gap: var(--s-8);
-			border-block-start: var(--rule);
+			border-block-start: 1px solid var(--zc-hair-dark);
 			padding-block-start: var(--s-6);
 		}
 	}

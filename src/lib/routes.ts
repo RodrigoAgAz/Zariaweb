@@ -16,8 +16,9 @@ export const routes = {
 export type PageKey = keyof typeof routes;
 export const pageKeys = Object.keys(routes) as PageKey[];
 
-// The site is one page plus its legal pages; the header links to sections of the home page.
-export const homeSections = ['firm', 'founder', 'contact'] as const;
+// The site is one page plus its legal pages; the header links to sections of the home page
+// (Contact lands on the footer, which carries the email).
+export const homeSections = ['reach', 'services', 'founder', 'contact'] as const;
 export type HomeSection = (typeof homeSections)[number];
 export const legalNav: PageKey[] = ['legalNotice', 'privacy', 'cookies', 'regulatory'];
 

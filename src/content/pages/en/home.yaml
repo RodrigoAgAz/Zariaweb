@@ -1,35 +1,62 @@
+# Homepage copy (English). Wording from the approved redesign (HANDOFF.md and Main.dc.html).
+# *Asterisks* mark the italic accent word in a heading.
 title: Zaria Capital | Independent advice and investment
 description: Zaria Capital is an independent advisory and investment firm working across Southern Europe and Latin America, the Middle East and the United States.
 h1: Independent advice and investment.
+ogImageAlt: "Zaria Capital: independent advice and investment"
 
-corridors:
-  label: Where we work
-  items:
+hero:
+  eyebrow: Advisory · Financing · Investing
+  # The headline is split differently on desktop and on phones.
+  lines:
+    desktop: [Independent advice, "and *investment.*"]
+    mobile: [Independent, advice and, "*investment.*"]
+  caption: Gran Vía, Madrid
+  corridors:
     - Southern Europe and Latin America
     - The Middle East
     - The United States
 
-photoAlt: Aerial view of central Madrid in black and white, looking along Gran Vía past the domed Metrópolis building.
+reach:
+  label: Where we work
+  heading: [Three corridors., "*One network.*"]
+  toggleLabel: Highlight a corridor on the map
+  mapLabel: Route map from Abu Dhabi to Madrid, New York, San Francisco, Mexico City, Guayaquil and Buenos Aires
+  cities:
+    abudhabi: Abu Dhabi
+    madrid: Madrid
+    newyork: New York
+    sanfrancisco: San Francisco
+    mexico: Mexico City
+    guayaquil: Guayaquil
+    buenosaires: Buenos Aires
 
-firm:
-  heading: The firm
-  paragraphs:
-    - Zaria Capital is an independent advisory and investment firm with offices in Madrid and Abu Dhabi.
-    - It advises on cross-border M&A, strategic partnerships and market entry, and on capital formation and structured financing.
-    - It also invests as principal, through joint ventures and co-investments in Spain and Abu Dhabi, with operational involvement from day one.
+services:
+  label: What we do
+  statement: Zaria Capital is an independent advisory and investment firm, working alongside companies, families and institutions on *complex cross-border situations.*
+  items:
+    - title: Strategic Advisory
+      text: Advice on complex cross-border situations for companies, families and institutions, much of it originating from relationships built over decades.
+      caps: [Cross-border M&A, Strategic partnerships, Market entry]
+    - title: Financing
+      text: Raising and structuring capital for cross-border transactions, drawing on relationships across the firm's three corridors.
+      caps: [Capital formation, Structured financing]
+    - title: Principal Investing
+      text: Zaria Capital invests as principal through joint ventures and co-investments in Spain and Abu Dhabi, with operational involvement from day one.
+      caps: [Joint ventures, Co-investments, Operational involvement]
 
 founder:
-  heading: Founder
-
-contact:
-  heading: Contact
-  offices:
-    - city: Madrid
-      lines: [Calle Ayala 3, 28001 Madrid, Spain]
-      map: https://www.openstreetmap.org/search?query=Calle%20Ayala%203%2C%2028001%20Madrid
-    - city: Abu Dhabi
-      lines: [ADGM, Abu Dhabi, United Arab Emirates]
-      map: https://www.openstreetmap.org/search?query=Abu%20Dhabi%20Global%20Market%2C%20Abu%20Dhabi
-  mapLink: View on map
-  mapContext: "{city} office, opens an external map service"
-  email: Email
+  label: Founder
+  role: Founder and Chief Executive
+  name: [Alonso, "*Aznar*"]
+  lead: He advises and invests alongside companies, families and institutions on complex cross-border situations across Southern Europe and Latin America, the Middle East and the United States, much of it originating from relationships built over more than twenty years.
+  careerLabel: Career
+  career:
+    - { firm: Consello, role: "Managing Director, advising CEOs of Fortune 100 companies and institutional leaders", places: [United States, Abu Dhabi] }
+    - { firm: Afiniti, role: "Chief Executive, Spain and Latin America", places: [Spain, Latin America] }
+    - { firm: Rhône Capital, role: Investment professional, places: [London, New York] }
+    - { firm: Citigroup, role: Investment banker, places: [London] }
+  boardsLabel: Boards
+  boards:
+    - { firm: Banco Guayaquil, role: Board of Directors, places: [Ecuador] }
+    - { firm: Arsenale Group, role: Advisory Board, places: [] }

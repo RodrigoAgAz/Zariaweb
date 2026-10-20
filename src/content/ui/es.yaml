@@ -1,18 +1,20 @@
 # Textos de interfaz comunes a todas las páginas en español.
 nav:
-  home: Inicio
-  firm: La firma
+  reach: Dónde trabajamos
+  services: Qué hacemos
   founder: Fundador
   contact: Contacto
   legalNotice: Aviso legal
   privacy: Privacidad
   cookies: Cookies
   regulatory: Información regulatoria
+menu:
+  open: Abrir menú
+  close: Cerrar menú
 skipLink: Saltar al contenido
 homeLabel: Zaria Capital, inicio
 mainNavLabel: Principal
 legalNavLabel: Legal
-languageLabel: Idioma
 switchTo:
   es: { code: ES, hidden: ", en español" }
   en: { code: EN, hidden: ", in English" }
@@ -22,6 +24,3 @@ current:
 footer:
   notice: Nada de lo contenido en este sitio web constituye una oferta o solicitud de compra o venta de valores o productos financieros.
   copyright: "© {year} Zaria Capital"
-cities:
-  madrid: Madrid
-  abuDhabi: Abu Dabi

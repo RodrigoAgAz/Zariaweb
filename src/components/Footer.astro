@@ -1,85 +1,188 @@
 ---
+// Footer (redesign, HANDOFF.md "Footer"). There is no separate contact section: the footer carries
+// id="contact" so the Contact link lands here. Top row: logo, the email, legal links and EN / ES;
+// second row: regulatory sentences once supplied, the disclaimer and the copyright.
 import logoWhite from '../../brand/logo/svg/zaria-logo-horizontal-white.svg?url';
-import { legalNav, routes, url, type Lang } from '../lib/routes';
+import { languages, legalNav, routes, url, type Lang, type PageKey } from '../lib/routes';
 import { getSettings } from '../lib/content';
 import { isPublished } from '../lib/published';
 
 interface Props {
 	lang: Lang;
+	page: PageKey | null;
 	ui: Record<string, any>;
+	home?: boolean;
 }
-const { lang, ui } = Astro.props;
+const { lang, page, ui, home = false } = Astro.props;
 const settings = await getSettings();
 const { spain, adgm } = settings.entities;
 // Regulatory sentences appear once the owner supplies them; nothing is shown until then.
 const regulatory = [spain.regulatoryStatement[lang], adgm.regulatoryStatement[lang]].filter(Boolean) as string[];
 const legalLinks = [];
 for (const key of legalNav) if (await isPublished(key)) legalLinks.push(key);
+const other = languages.find((l) => l !== lang)!;
+const otherHref = url(page ? routes[page][other] : routes.home[other]);
 // Computed at build time; a scheduled rebuild every 1 January keeps it current (see README).
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer on-dark">
-	<div class="wrap">
-		<div class="site-footer__top">
-			<a class="site-footer__brand" href={url(routes.home[lang])} aria-label={ui.homeLabel}>
-				<img src={logoWhite} alt="" width="230" height="40" />
+<footer class:list={['foot', { 'morph mo-foot': home }]} id="contact">
+	<div class="foot-in">
+		<div class="foot-top">
+			<a class="foot-brand" href={home ? '#top' : url(routes.home[lang])} aria-label={ui.homeLabel}>
+				<img src={logoWhite} alt="" width="172" height="30" />
 			</a>
-			<nav aria-label={ui.legalNavLabel}>
-				<ul role="list" class="site-footer__links">
-					{legalLinks.map((key) => <li><a href={url(routes[key][lang])}>{ui.nav[key]}</a></li>)}
-				</ul>
+			{settings.email && <a class="flink foot-mail" href={`mailto:${settings.email}`}>{settings.email}</a>}
+			<nav class="foot-nav" aria-label={ui.legalNavLabel}>
+				{legalLinks.map((key) => <a class="flink caps" href={url(routes[key][lang])}>{ui.nav[key]}</a>)}
+				<span class="foot-lang caps">
+					<span aria-current="true">
+						{ui.current[lang].code}<span class="visually-hidden">{ui.current[lang].hidden}</span>
+					</span>
+					<span class="foot-lang__sep" aria-hidden="true">/</span>
+					<a class="flink" href={otherHref} lang={other} hreflang={other}>
+						{ui.switchTo[other].code}<span class="visually-hidden">{ui.switchTo[other].hidden}</span>
+					</a>
+				</span>
 			</nav>
 		</div>
-		<div class="site-footer__small">
-			{regulatory.map((sentence) => <p>{sentence}</p>)}
-			<p>{ui.footer.notice}</p>
-			<p>{ui.footer.copyright.replace('{year}', String(year))}</p>
+		<div class="foot-bottom">
+			<div class="foot-notes">
+				{regulatory.map((sentence) => <p>{sentence}</p>)}
+				<p>{ui.footer.notice}</p>
+			</div>
+			<span class="foot-copy caps lining">{ui.footer.copyright.replace('{year}', String(year))}</span>
 		</div>
 	</div>
 </footer>
 
 <style>
-	.site-footer {
+	.foot:not(.morph) {
 		margin-block-start: var(--section-space);
-		padding-block: var(--s-8) var(--s-7);
 	}
-	.site-footer a {
-		text-decoration: none;
+	.foot {
+		background: var(--zc-ink-deep);
+		color: rgb(243 240 232 / 0.7);
+		padding-block: 64px 48px;
 	}
-	.site-footer a:hover {
-		text-decoration: underline;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 0.3em;
+	.foot-in {
+		max-width: calc(var(--page-max) + 2 * var(--gutter));
+		margin-inline: auto;
+		padding-inline: var(--gutter);
 	}
-	.site-footer__top {
+	.foot-top {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: var(--s-6);
-		padding-block-end: var(--s-6);
-		border-block-end: 1px solid var(--zc-logo-ink-soft);
+		gap: 32px;
+		padding-block-end: 40px;
+		border-block-end: 1px solid rgb(243 240 232 / 0.14);
 	}
-	.site-footer__brand {
-		padding: 6px;
-		margin: -6px;
+	.foot-brand {
+		display: block;
+		line-height: 0;
 	}
-	.site-footer__brand img {
-		width: 200px;
+	.foot-brand img {
+		height: 30px;
+		width: auto;
 	}
-	.site-footer__links {
+	.flink {
+		text-decoration: none;
+		color: rgb(243 240 232 / 0.78);
+		transition: color 0.3s;
+	}
+	.flink:hover {
+		color: var(--zc-white);
+	}
+	.foot-mail {
+		font-size: 1.1875rem;
+		color: var(--zc-champagne);
+	}
+	.foot-nav {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--s-2) var(--s-6);
-		font-size: var(--fs-small);
+		align-items: center;
+		gap: 12px 36px;
 	}
-	.site-footer__small {
+	.foot-nav > a {
+		padding-block: 12px;
+	}
+	.foot-lang {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding-inline-start: 32px;
+		border-inline-start: 1px solid rgb(243 240 232 / 0.22);
+	}
+	.foot-lang [aria-current] {
+		color: var(--zc-on-dark);
+	}
+	.foot-lang__sep {
+		color: rgb(243 240 232 / 0.35);
+	}
+	.foot-lang > * {
+		padding-block: 12px;
+	}
+	.foot :focus-visible {
+		outline: 2px solid var(--zc-on-dark);
+		outline-offset: 4px;
+	}
+	.foot-bottom {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 16px 48px;
+		margin-block-start: 28px;
+	}
+	.foot-notes {
 		display: grid;
-		gap: var(--s-2);
-		margin-block-start: var(--s-6);
+		gap: 6px;
+		max-width: 40em;
 		font-size: 0.9375rem;
-		color: var(--zc-grey-light);
-		max-width: 52em;
+		line-height: 1.5;
+		color: rgb(243 240 232 / 0.62);
+	}
+	.foot-copy {
+		font-size: 0.6875rem;
+		color: rgb(243 240 232 / 0.62);
+	}
+
+	@media (max-width: 53.75em) {
+		.foot {
+			padding: 56px 0 44px;
+		}
+		.foot-top {
+			display: block;
+			padding-block-end: 32px;
+		}
+		.foot-brand {
+			display: inline-block;
+		}
+		.foot-brand img {
+			height: 26px;
+		}
+		.foot-mail {
+			display: block;
+			margin-block-start: 28px;
+			padding-block: 10px;
+		}
+		.foot-nav {
+			gap: 4px 28px;
+			margin-block-start: 28px;
+		}
+		.foot-lang {
+			padding-inline-start: 0;
+			border-inline-start: 0;
+		}
+		.foot-bottom {
+			display: block;
+			margin-block-start: 24px;
+		}
+		.foot-copy {
+			display: block;
+			margin-block-start: 16px;
+		}
 	}
 </style>

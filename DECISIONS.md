@@ -2,6 +2,15 @@
 
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
+## 2026-10-20 (homepage redesign, branch `redesign-homepage`)
+
+- **Approved redesign implemented (owner).** The homepage follows the handoff pack (`PROMPT.md`, `HANDOFF.md`, mockups). It supersedes several earlier rules: letter-spaced caps are now used for navigation, labels and lists; ivory replaces white for the light sections; gold returns (route, rules, numerals); the header is fixed and condenses on scroll.
+- **CSP unchanged in strictness (build).** The mockups' inline styles became classes and their scripts became bundled modules. The one inline script (the boot script that sets the `js` class and remembers the opening animation for the session) is hashed in `astro.config.mjs` from the same source string, because Astro does not hash `is:inline` scripts itself.
+- **Map drawn as two SVG variants (build).** The desktop and phone mockups place labels, dot sizes and glow differently, so the map ships a desktop and a phone SVG over one dot-map image rather than rescaling one drawing.
+- **No-JavaScript map (build).** The scroll-linked draw is applied only when JavaScript runs, so a page without it always shows the full route (acceptance checklist).
+- **Grounds blend kept as specified; Lighthouse accessibility 96 (build, open for the owner).** The blend starts What we do and the footer on the previous section's colour, so a load-time audit sees dark text on dark green, and readers see reduced contrast while they scroll through each blend. The settled state passes everywhere. Lighthouse reaches 100 only if the blend is removed, or moved to an overlay the checker cannot read. The overlay would score 100 without changing what readers see, so it was not done.
+- **Removed with the old homepage (build):** the separate founder file (`src/content/people/`), the Madrid photo band component, the `madridPhotoWebRights` setting (rights are confirmed and the photograph is now the hero) and the OG image generator (the share images come from the pack, one per language).
+
 ## 2026-10-19 (second owner review)
 
 - **Hero rethought (owner).** A tall dark hero above a separate photo band looked odd. The Madrid photograph is now the hero itself, tinted with the house green, with the headline and corridors over it and the header on top.

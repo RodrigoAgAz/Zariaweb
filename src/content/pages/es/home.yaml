@@ -1,35 +1,61 @@
+# Copy de la página de inicio (español). Textos de la tabla de traducción de HANDOFF.md
+# (borrador pendiente de aprobación del cliente). *Asteriscos*: palabra en cursiva.
 title: Zaria Capital | Asesoramiento e inversión independientes
 description: Zaria Capital es una firma independiente de asesoramiento e inversión que trabaja en el sur de Europa y Latinoamérica, Oriente Medio y Estados Unidos.
 h1: Asesoramiento e inversión independientes.
+ogImageAlt: "Zaria Capital: asesoramiento e inversión independientes"
 
-corridors:
-  label: Dónde trabajamos
-  items:
+hero:
+  eyebrow: Asesoramiento · Financiación · Inversión
+  lines:
+    desktop: [Asesoramiento e, "inversión *independientes.*"]
+    mobile: [Asesoramiento, e inversión, "*independientes.*"]
+  caption: Gran Vía, Madrid
+  corridors:
     - El sur de Europa y Latinoamérica
     - Oriente Medio
     - Estados Unidos
 
-photoAlt: Vista aérea del centro de Madrid en blanco y negro, a lo largo de la Gran Vía y el edificio Metrópolis con su cúpula.
+reach:
+  label: Dónde trabajamos
+  heading: [Tres corredores., "*Una red.*"]
+  toggleLabel: Resaltar un corredor en el mapa
+  mapLabel: Mapa de la ruta de Abu Dabi a Madrid, Nueva York, San Francisco, Ciudad de México, Guayaquil y Buenos Aires
+  cities:
+    abudhabi: Abu Dabi
+    madrid: Madrid
+    newyork: Nueva York
+    sanfrancisco: San Francisco
+    mexico: Ciudad de México
+    guayaquil: Guayaquil
+    buenosaires: Buenos Aires
 
-firm:
-  heading: La firma
-  paragraphs:
-    - Zaria Capital es una firma independiente de asesoramiento e inversión con oficinas en Madrid y Abu Dabi.
-    - Asesora en fusiones y adquisiciones transfronterizas, alianzas estratégicas y entrada en nuevos mercados, así como en captación de capital y financiación estructurada.
-    - También invierte como principal, mediante joint ventures y coinversiones en España y Abu Dabi, con implicación operativa desde el primer día.
+services:
+  label: Qué hacemos
+  statement: Zaria Capital es una firma independiente de asesoramiento e inversión que trabaja junto a empresas, familias e instituciones en *situaciones transfronterizas complejas.*
+  items:
+    - title: Asesoramiento estratégico
+      text: Asesoramiento en situaciones transfronterizas complejas para empresas, familias e instituciones, buena parte de él surgido de relaciones construidas durante décadas.
+      caps: [Fusiones y adquisiciones transfronterizas, Alianzas estratégicas, Entrada en nuevos mercados]
+    - title: Financiación
+      text: Captación y estructuración de capital para operaciones transfronterizas, apoyada en relaciones en los tres corredores de la firma.
+      caps: [Captación de capital, Financiación estructurada]
+    - title: Inversión como principal
+      text: Zaria Capital invierte como principal mediante joint ventures y coinversiones en España y Abu Dabi, con implicación operativa desde el primer día.
+      caps: [Joint ventures, Coinversiones, Implicación operativa]
 
 founder:
-  heading: Fundador
-
-contact:
-  heading: Contacto
-  offices:
-    - city: Madrid
-      lines: [Calle Ayala 3, 28001 Madrid, España]
-      map: https://www.openstreetmap.org/search?query=Calle%20Ayala%203%2C%2028001%20Madrid
-    - city: Abu Dabi
-      lines: [ADGM, Abu Dabi, Emiratos Árabes Unidos]
-      map: https://www.openstreetmap.org/search?query=Abu%20Dhabi%20Global%20Market%2C%20Abu%20Dhabi
-  mapLink: Ver en el mapa
-  mapContext: "oficina de {city}, abre un servicio de mapas externo"
-  email: Email
+  label: Fundador
+  role: Fundador y CEO
+  name: [Alonso, "*Aznar*"]
+  lead: Asesora e invierte junto a empresas, familias e instituciones en situaciones transfronterizas complejas en el sur de Europa y Latinoamérica, Oriente Medio y Estados Unidos, buena parte de ellas surgidas de relaciones construidas a lo largo de más de veinte años.
+  careerLabel: Trayectoria
+  career:
+    - { firm: Consello, role: "Managing Director; asesoraba a consejeros delegados de empresas de la lista Fortune 100 y a líderes institucionales", places: [Estados Unidos, Abu Dabi] }
+    - { firm: Afiniti, role: CEO para España y Latinoamérica, places: [España, Latinoamérica] }
+    - { firm: Rhône Capital, role: Profesional de inversión, places: [Londres, Nueva York] }
+    - { firm: Citigroup, role: Banquero de inversión, places: [Londres] }
+  boardsLabel: Consejos
+  boards:
+    - { firm: Banco Guayaquil, role: Consejo de Administración, places: [Ecuador] }
+    - { firm: Arsenale Group, role: Consejo Asesor, places: [] }

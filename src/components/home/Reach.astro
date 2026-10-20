@@ -1,0 +1,695 @@
+---
+// 01 Where we work (HANDOFF.md "01 Where we work"). Heading, the corridor toggle, and the route map:
+// a dotted world map with one chain of six legs from Abu Dhabi to Buenos Aires, office rings, city
+// labels and a travelling light. Geometry from scripts/map/map-geometry.json (1200 x 680 space).
+// The map is drawn twice, for desktop and for phones, because labels, stroke widths and dot sizes
+// differ between the two mockups; only one is displayed at a time.
+import dotmap from '../../assets/home/zaria-dotmap.svg?url';
+import markWhite from '../../../brand/logo/svg/zaria-mark-white.svg?url';
+
+interface Props {
+	copy: any;
+}
+const { copy } = Astro.props;
+
+type City = 'abudhabi' | 'madrid' | 'newyork' | 'sanfrancisco' | 'mexico' | 'guayaquil' | 'buenosaires';
+const pts: Record<City, [number, number]> = {
+	abudhabi: [1051.4, 235.8],
+	madrid: [743.4, 137.1],
+	newyork: [399.6, 135.3],
+	sanfrancisco: [157.4, 153.4],
+	mexico: [254.7, 266.9],
+	guayaquil: [350.7, 400],
+	buenosaires: [472.8, 600.1],
+};
+// Corridor grouping for the toggle: Middle East = leg 1; United States = legs 2 and 3;
+// Southern Europe and Latin America = legs 4 to 6.
+const legs = [
+	{ group: 'me', d: 'M1051.4 235.8Q919.1 118.7 743.4 137.1' },
+	{ group: 'us', d: 'M743.4 137.1Q571.9 67.4 399.6 135.3' },
+	{ group: 'us', d: 'M399.6 135.3Q275.2 100.8 157.4 153.4' },
+	{ group: 'eu', d: 'M157.4 153.4Q231.0 188.7 254.7 266.9' },
+	{ group: 'eu', d: 'M254.7 266.9Q336.0 309.4 350.7 400' },
+	{ group: 'eu', d: 'M350.7 400Q461.8 469.5 472.8 600.1' },
+];
+// City dots appear as each leg arrives (in route order).
+const stops: { city: City; group: string }[] = [
+	{ city: 'newyork', group: 'us' },
+	{ city: 'sanfrancisco', group: 'us' },
+	{ city: 'mexico', group: 'eu' },
+	{ city: 'guayaquil', group: 'eu' },
+	{ city: 'buenosaires', group: 'eu' },
+];
+// Label positions per mockup; chosen to clear the lines.
+const labels = {
+	desktop: [
+		{ city: 'abudhabi', x: 1064, y: 268, size: 26, office: true },
+		{ city: 'madrid', x: 752, y: 170, size: 26, office: true },
+		{ city: 'newyork', x: 399.6, y: 114, size: 18, anchor: 'middle' },
+		{ city: 'sanfrancisco', x: 146, y: 150, size: 18, anchor: 'end' },
+		{ city: 'mexico', x: 266, y: 262, size: 18 },
+		{ city: 'guayaquil', x: 336, y: 410, size: 18, anchor: 'end' },
+		{ city: 'buenosaires', x: 488, y: 612, size: 18 },
+	],
+	mobile: [
+		{ city: 'abudhabi', x: 1040, y: 296, size: 44, office: true, anchor: 'end' },
+		{ city: 'madrid', x: 752, y: 190, size: 44, office: true },
+		{ city: 'newyork', x: 400, y: 178, size: 32, anchor: 'middle' },
+		{ city: 'sanfrancisco', x: 62, y: 116, size: 32 },
+		{ city: 'mexico', x: 268, y: 258, size: 32 },
+		{ city: 'guayaquil', x: 336, y: 416, size: 32, anchor: 'end' },
+		{ city: 'buenosaires', x: 488, y: 616, size: 32 },
+	],
+} as const;
+const variants = [
+	{ key: 'desktop', glow: 3, dot: 3.5, office: 5.5, ring: 7, ringStroke: 1.2 },
+	{ key: 'mobile', glow: 5.5, dot: 8, office: 11, ring: 12, ringStroke: 2.4 },
+] as const;
+const corridorGroups = ['eu', 'me', 'us'];
+---
+
+<section id="reach" class="reach morph mo-reach" aria-labelledby="reach-h">
+	<img class="reach-mark" src={markWhite} alt="" aria-hidden="true" width="842" height="696" loading="lazy" />
+	<div class="home-wrap">
+		<p class="label-row label-row--dark">
+			<span class="label-row__num caps lining">01</span>
+			<span class="label-row__text caps">{copy.label}</span>
+		</p>
+
+		<div class="reach-body">
+			<h2 id="reach-h" class="reach-h">
+				{copy.heading[0]}<br /><em>{copy.heading[1].replace(/\*/g, '')}</em>
+			</h2>
+
+			<figure class="map" data-map data-sel="all">
+				<div class="map-frame">
+					<img class="map-dots" src={dotmap} alt="" width="1200" height="680" loading="lazy" />
+					{
+						variants.map((v) => (
+							<svg
+								class={`map-svg map-svg--${v.key}`}
+								viewBox="0 0 1200 680"
+								role="img"
+								aria-label={copy.mapLabel}
+							>
+								<defs>
+									<filter id={`zglow-${v.key}`} x="-20%" y="-20%" width="140%" height="140%">
+										<feGaussianBlur stdDeviation={v.glow} />
+									</filter>
+								</defs>
+								<g>
+									{legs.map((leg, i) => (
+										<path class={`arc l${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+									))}
+								</g>
+								<g class="pulses">
+									<g filter={`url(#zglow-${v.key})`}>
+										{legs.map((leg, i) => (
+											<path class={`tail c${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+										))}
+										{legs.map((leg, i) => (
+											<path class={`mid c${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+										))}
+									</g>
+									{legs.map((leg, i) => (
+										<path class={`head c${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+									))}
+								</g>
+								<g class="eps">
+									{stops.map((s, i) => (
+										<circle class={`ep e${i} g-${s.group}`} cx={pts[s.city][0]} cy={pts[s.city][1]} r={v.dot} />
+									))}
+								</g>
+								<g>
+									<circle class="ring" cx={pts.abudhabi[0]} cy={pts.abudhabi[1]} r={v.ring} stroke-width={v.ringStroke} />
+									<circle class="ring ring--late" cx={pts.madrid[0]} cy={pts.madrid[1]} r={v.ring} stroke-width={v.ringStroke} />
+									<circle class="office" cx={pts.abudhabi[0]} cy={pts.abudhabi[1]} r={v.office} />
+									<circle class="office" cx={pts.madrid[0]} cy={pts.madrid[1]} r={v.office} />
+								</g>
+								<g class="lbls">
+									{labels[v.key].map((l, i) => (
+										<text
+											class:list={['lbl', `t${i}`, { 'lbl--office': 'office' in l && l.office }]}
+											x={l.x}
+											y={l.y}
+											font-size={l.size}
+											text-anchor={'anchor' in l ? l.anchor : undefined}
+										>
+											{copy.cities[l.city]}
+										</text>
+									))}
+								</g>
+							</svg>
+						))
+					}
+				</div>
+			</figure>
+
+			<div class="corr-group" role="group" aria-label={copy.toggleLabel} data-corridor-toggle>
+				{
+					corridorGroups.map((g, i) => (
+						<button type="button" class="corr" aria-pressed="false" data-group={g}>
+							<span class="c-num caps lining">{String(i + 1).padStart(2, '0')}</span>
+							<span class="c-name">{copy.corridors[i]}</span>
+							<span class="c-mark" aria-hidden="true">+</span>
+						</button>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	import '../../scripts/reach.ts';
+</script>
+
+<style>
+	.reach {
+		position: relative;
+		overflow: hidden;
+		background: var(--zc-logo-ink);
+		color: var(--zc-on-dark);
+		padding-block: var(--home-pad-top) var(--home-pad-bottom);
+	}
+	.reach-mark {
+		position: absolute;
+		inset-inline-end: -14%;
+		inset-block-end: -26%;
+		height: 1080px;
+		width: auto;
+		opacity: 0.035;
+		pointer-events: none;
+		max-width: none;
+	}
+
+	/* Desktop: heading and toggles left, map right; stacked under 960px (map between). */
+	.reach-body {
+		display: grid;
+		grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+		grid-template-areas:
+			'head map'
+			'toggles map';
+		grid-template-rows: auto 1fr;
+		column-gap: 72px;
+		margin-block-start: 72px;
+		align-items: start;
+	}
+	.reach-h {
+		grid-area: head;
+		font-size: clamp(42px, 4.8vw, 72px);
+		line-height: 0.98;
+		letter-spacing: -0.012em;
+		color: var(--zc-on-dark-head);
+	}
+	.reach-h em {
+		font-style: italic;
+		color: var(--zc-champagne);
+	}
+	.corr-group {
+		grid-area: toggles;
+		margin-block-start: 56px;
+		display: flex;
+		flex-direction: column;
+	}
+	.map {
+		grid-area: map;
+		margin: 0;
+		min-width: 0;
+		view-timeline-name: --map;
+	}
+	.map-frame {
+		position: relative;
+		aspect-ratio: 1200 / 680;
+	}
+	.map-dots {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0.2;
+		-webkit-mask-image: radial-gradient(ellipse 74% 72% at 50% 46%, #000 58%, transparent 100%);
+		mask-image: radial-gradient(ellipse 74% 72% at 50% 46%, #000 58%, transparent 100%);
+	}
+	.map-svg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+	}
+	.map-svg--mobile {
+		display: none;
+	}
+
+	/* Corridor toggle */
+	.corr {
+		position: relative;
+		display: grid;
+		grid-template-columns: 56px minmax(0, 1fr) 24px;
+		align-items: baseline;
+		width: 100%;
+		min-height: 44px;
+		margin: 0;
+		padding: 22px 0 24px;
+		border: 0;
+		border-block-start: 1px solid var(--zc-hair-dark);
+		background: none;
+		font: inherit;
+		color: inherit;
+		text-align: start;
+		cursor: pointer;
+		transition: color 0.4s;
+	}
+	.corr:last-child {
+		border-block-end: 1px solid var(--zc-hair-dark);
+	}
+	.corr::before {
+		content: '';
+		position: absolute;
+		inset-inline-start: 0;
+		inset-block-start: -1px;
+		height: 1px;
+		width: 100%;
+		background: var(--zc-gold-light);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.7s var(--ease-wipe);
+	}
+	.corr[aria-pressed='true']::before {
+		transform: scaleX(1);
+	}
+	.c-num {
+		color: rgb(243 240 232 / 0.5);
+		transition: color 0.4s;
+	}
+	.c-name {
+		font-size: 26px;
+		line-height: 1.15;
+		color: rgb(243 240 232 / 0.7);
+		transition: color 0.4s;
+	}
+	.c-mark {
+		font-size: 20px;
+		color: rgb(243 240 232 / 0.35);
+		transition:
+			transform 0.5s,
+			color 0.4s;
+	}
+	.corr:hover .c-name,
+	.corr[aria-pressed='true'] .c-name {
+		color: var(--zc-on-dark);
+	}
+	.corr[aria-pressed='true'] .c-num,
+	.corr[aria-pressed='true'] .c-mark {
+		color: var(--zc-gold-light);
+	}
+	.corr[aria-pressed='true'] .c-mark {
+		transform: rotate(45deg);
+	}
+	.corr:focus-visible {
+		outline: 2px solid var(--zc-on-dark);
+		outline-offset: 4px;
+	}
+
+	/* Route: legs, travelling light, dots, rings and labels */
+	.arc {
+		fill: none;
+		stroke: var(--zc-gold);
+		stroke-width: 1.6;
+		stroke-linecap: round;
+		stroke-dasharray: 1;
+		stroke-dashoffset: 0;
+		transition: opacity 0.7s ease;
+	}
+	.arc.l0 {
+		stroke-width: 2.2;
+		stroke: var(--zc-gold-light);
+	}
+	.head,
+	.mid,
+	.tail {
+		fill: none;
+		stroke-linecap: round;
+		animation-duration: 8.4s;
+		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+		animation-iteration-count: infinite;
+		animation-fill-mode: both;
+		transition: opacity 0.7s;
+	}
+	.head {
+		stroke: #fff6dc;
+		stroke-width: 2.4;
+		stroke-dasharray: 0.02 2;
+		stroke-dashoffset: 0.02;
+		animation-name: reach-hop-head;
+	}
+	.mid {
+		stroke: #f3dc9c;
+		stroke-width: 4;
+		stroke-opacity: 0.7;
+		stroke-dasharray: 0.08 2;
+		stroke-dashoffset: 0.08;
+		animation-name: reach-hop-mid;
+	}
+	.tail {
+		stroke: #e0bd6a;
+		stroke-width: 7;
+		stroke-opacity: 0.35;
+		stroke-dasharray: 0.18 2;
+		stroke-dashoffset: 0.18;
+		animation-name: reach-hop-tail;
+	}
+	@keyframes reach-hop-head {
+		0% {
+			stroke-dashoffset: 0.02;
+		}
+		14.2857%,
+		100% {
+			stroke-dashoffset: -1;
+		}
+	}
+	@keyframes reach-hop-mid {
+		0% {
+			stroke-dashoffset: 0.08;
+		}
+		14.2857%,
+		100% {
+			stroke-dashoffset: -0.94;
+		}
+	}
+	@keyframes reach-hop-tail {
+		0% {
+			stroke-dashoffset: 0.18;
+		}
+		14.2857%,
+		100% {
+			stroke-dashoffset: -0.84;
+		}
+	}
+	/* Leg n of the light starts 1.2s after leg n minus 1, once the route has been drawn. */
+	.c0 {
+		animation-delay: 4s;
+	}
+	.c1 {
+		animation-delay: 5.2s;
+	}
+	.c2 {
+		animation-delay: 6.4s;
+	}
+	.c3 {
+		animation-delay: 7.6s;
+	}
+	.c4 {
+		animation-delay: 8.8s;
+	}
+	.c5 {
+		animation-delay: 10s;
+	}
+	.ep {
+		fill: var(--zc-on-dark);
+		transition: fill-opacity 0.7s;
+	}
+	.ring {
+		fill: none;
+		stroke: var(--zc-gold-light);
+		transform-box: fill-box;
+		transform-origin: center;
+		animation: reach-ring 3s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+	}
+	.ring--late {
+		animation-delay: 1.5s;
+	}
+	@keyframes reach-ring {
+		0% {
+			transform: scale(0.5);
+			opacity: 0.9;
+		}
+		100% {
+			transform: scale(3.6);
+			opacity: 0;
+		}
+	}
+	.office {
+		fill: var(--zc-gold-light);
+	}
+	.lbl {
+		font-family: inherit;
+		font-style: italic;
+		fill: var(--zc-map-label);
+	}
+	.lbl--office {
+		fill: var(--zc-on-dark-head);
+	}
+
+	/* Corridor selection dims every other corridor. */
+	.map[data-sel='eu'] .arc:not(.g-eu),
+	.map[data-sel='me'] .arc:not(.g-me),
+	.map[data-sel='us'] .arc:not(.g-us) {
+		opacity: 0.12;
+	}
+	.map[data-sel='eu'] .pulses path:not(.g-eu),
+	.map[data-sel='me'] .pulses path:not(.g-me),
+	.map[data-sel='us'] .pulses path:not(.g-us) {
+		opacity: 0;
+	}
+	.map[data-sel='eu'] .ep:not(.g-eu),
+	.map[data-sel='me'] .ep:not(.g-me),
+	.map[data-sel='us'] .ep:not(.g-us) {
+		fill-opacity: 0.25;
+	}
+
+	/* Time-based draw (browsers without scroll timelines): with JavaScript, the route waits for the
+	   section to enter the viewport, then draws leg by leg; without it, it is simply drawn. */
+	:global(.js) .map:not(.is-in) .arc {
+		stroke-dashoffset: 1;
+	}
+	:global(.js) .map:not(.is-in) .ep,
+	:global(.js) .map:not(.is-in) .lbl,
+	:global(.js) .map:not(.is-in) .pulses {
+		opacity: 0;
+	}
+	:global(.js) .map:not(.is-in) .pulses path {
+		animation-play-state: paused;
+	}
+	:global(.js) .map.is-in .arc {
+		stroke-dashoffset: 1;
+		animation: zc-draw 1.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+	}
+	:global(.js) .map.is-in .ep,
+	:global(.js) .map.is-in .lbl {
+		opacity: 0;
+		animation: zc-appear 0.9s ease forwards;
+	}
+	:global(.js) .map.is-in .lbl {
+		animation-duration: 1.2s;
+	}
+	.map.is-in .l0 {
+		animation-delay: 0.3s;
+	}
+	.map.is-in .l1 {
+		animation-delay: 0.75s;
+	}
+	.map.is-in .l2 {
+		animation-delay: 1.2s;
+	}
+	.map.is-in .l3 {
+		animation-delay: 1.65s;
+	}
+	.map.is-in .l4 {
+		animation-delay: 2.1s;
+	}
+	.map.is-in .l5 {
+		animation-delay: 2.55s;
+	}
+	.map.is-in .e0 {
+		animation-delay: 1.95s;
+	}
+	.map.is-in .e1 {
+		animation-delay: 2.4s;
+	}
+	.map.is-in .e2 {
+		animation-delay: 2.85s;
+	}
+	.map.is-in .e3 {
+		animation-delay: 3.3s;
+	}
+	.map.is-in .e4 {
+		animation-delay: 3.75s;
+	}
+	.map.is-in .t0 {
+		animation-delay: 0.4s;
+	}
+	.map.is-in .t1 {
+		animation-delay: 1s;
+	}
+	.map.is-in .t2 {
+		animation-delay: 2s;
+	}
+	.map.is-in .t3 {
+		animation-delay: 2.45s;
+	}
+	.map.is-in .t4 {
+		animation-delay: 2.9s;
+	}
+	.map.is-in .t5 {
+		animation-delay: 3.35s;
+	}
+	.map.is-in .t6 {
+		animation-delay: 3.8s;
+	}
+
+	/* Scroll-linked draw where supported: the legs draw with the scroll, in route order. Scoped to
+	   JavaScript so that a page without it always shows the route drawn. */
+	@supports (animation-timeline: view()) {
+		:global(.js) .map .arc,
+		:global(.js) .map.is-in .arc {
+			stroke-dashoffset: 1;
+			animation: zc-draw auto linear both;
+			animation-timeline: --map;
+			animation-delay: 0s !important;
+		}
+		.map .arc.l0 {
+			animation-range: entry 10% cover 34%;
+		}
+		.map .arc.l1 {
+			animation-range: entry 30% cover 38%;
+		}
+		.map .arc.l2 {
+			animation-range: entry 50% cover 42%;
+		}
+		.map .arc.l3 {
+			animation-range: entry 70% cover 46%;
+		}
+		.map .arc.l4 {
+			animation-range: entry 90% cover 50%;
+		}
+		.map .arc.l5 {
+			animation-range: cover 40% cover 54%;
+		}
+		:global(.js) .map .ep,
+		:global(.js) .map .lbl,
+		:global(.js) .map.is-in .ep,
+		:global(.js) .map.is-in .lbl {
+			opacity: 0;
+			animation: zc-appear auto linear both;
+			animation-timeline: --map;
+			animation-range: cover 40% cover 55%;
+			animation-delay: 0s !important;
+		}
+		:global(.js) .map .pulses,
+		:global(.js) .map:not(.is-in) .pulses {
+			opacity: 0;
+			animation: zc-appear auto linear both;
+			animation-timeline: --map;
+			animation-range: cover 50% cover 58%;
+		}
+		:global(.js) .map:not(.is-in) .pulses path {
+			animation-play-state: running;
+		}
+	}
+
+	/* Stacked under 960px */
+	@media (max-width: 60em) {
+		.reach-body {
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-areas:
+				'head'
+				'map'
+				'toggles';
+			grid-template-rows: auto;
+		}
+		.map {
+			margin-block-start: 44px;
+		}
+		.corr-group {
+			margin-block-start: 40px;
+		}
+	}
+
+	/* Phones (Mobile.dc.html) */
+	@media (max-width: 53.75em) {
+		.reach {
+			padding-block: 88px 96px;
+		}
+		.reach-mark {
+			inset-inline-end: -50%;
+			inset-block-end: -8%;
+			height: 620px;
+		}
+		.reach-body {
+			margin-block-start: 48px;
+		}
+		.reach-h {
+			font-size: 46px;
+		}
+		/* The map runs edge to edge: the 1200 x 680 frame is 40px wider than the screen and shifted
+		   20px left, cropped by the figure. */
+		.map {
+			margin-inline: calc(-1 * var(--gutter));
+			overflow: hidden;
+		}
+		.map-frame {
+			width: calc(100% + 40px);
+			margin-inline-start: -20px;
+		}
+		.map-dots {
+			opacity: 0.22;
+			-webkit-mask-image: radial-gradient(ellipse 72% 74% at 50% 46%, #000 58%, transparent 100%);
+			mask-image: radial-gradient(ellipse 72% 74% at 50% 46%, #000 58%, transparent 100%);
+		}
+		.map-svg--desktop {
+			display: none;
+		}
+		.map-svg--mobile {
+			display: block;
+		}
+		.map-svg--mobile .arc,
+		.map-svg--mobile .head,
+		.map-svg--mobile .mid,
+		.map-svg--mobile .tail {
+			vector-effect: non-scaling-stroke;
+		}
+		.map-svg--mobile .arc {
+			stroke-width: 1.2;
+		}
+		.map-svg--mobile .arc.l0 {
+			stroke-width: 1.7;
+		}
+		.map-svg--mobile .head {
+			stroke-width: 2;
+		}
+		.map-svg--mobile .mid {
+			stroke-width: 3.4;
+		}
+		.map-svg--mobile .tail {
+			stroke-width: 5.5;
+		}
+		.corr {
+			grid-template-columns: 44px minmax(0, 1fr) 24px;
+			padding: 20px 0 22px;
+		}
+		.c-name {
+			font-size: 22px;
+		}
+	}
+
+	/* Reduced motion: route drawn, labels shown, no light, no rings. */
+	@media (prefers-reduced-motion: reduce) {
+		.reach *,
+		.reach *::before {
+			animation: none !important;
+			transition: none !important;
+		}
+		.reach .arc {
+			stroke-dashoffset: 0 !important;
+		}
+		.reach .ep,
+		.reach .lbl {
+			opacity: 1 !important;
+		}
+		.reach .pulses {
+			opacity: 0 !important;
+		}
+	}
+</style>

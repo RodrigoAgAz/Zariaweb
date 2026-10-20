@@ -7,9 +7,6 @@ site:
   # General contact address. Used on Contact, the legal pages and JSON-LD.
   email: info@zariacapital.es
 
-  # Zaria holds web rights to the Madrid photograph (confirmed by the owner, 2026-10-19).
-  madridPhotoWebRights: true
-
   offices:
     madrid:
       phone: null # optional, e.g. "+34 91 000 00 00"; omitted from the page while null

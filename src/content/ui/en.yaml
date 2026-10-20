@@ -1,18 +1,20 @@
 # Interface strings shared by every English page.
 nav:
-  home: Home
-  firm: The firm
+  reach: Where we work
+  services: What we do
   founder: Founder
   contact: Contact
   legalNotice: Legal notice
   privacy: Privacy
   cookies: Cookies
   regulatory: Regulatory information
+menu:
+  open: Open menu
+  close: Close menu
 skipLink: Skip to content
 homeLabel: Zaria Capital, home
 mainNavLabel: Main
 legalNavLabel: Legal
-languageLabel: Language
 # Visible code, then the hidden part that completes the accessible name.
 switchTo:
   es: { code: ES, hidden: ", en español" }
@@ -23,6 +25,3 @@ current:
 footer:
   notice: Nothing on this website is an offer or solicitation to buy or sell any security or financial product.
   copyright: "© {year} Zaria Capital"
-cities:
-  madrid: Madrid
-  abuDhabi: Abu Dhabi

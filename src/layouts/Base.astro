@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { absolute, languages, routes, url, type Lang, type PageKey } from '../lib/routes';
 import { getUi } from '../lib/content';
+import { bootScript } from '../lib/boot-script.mjs';
 
 interface Props {
 	lang: Lang;
@@ -15,29 +16,42 @@ interface Props {
 	/** Extra JSON-LD objects for this page. */
 	jsonLd?: Record<string, unknown>[];
 	showHeaderBrand?: boolean;
-	/** Home page: the header sits over the hero photograph. */
-	headerOverlay?: boolean;
+	/** Home page: fixed header over the hero, and the once-per-session opening animation. */
+	home?: boolean;
+	/** Alt text for the share image. */
+	ogImageAlt?: string;
 }
 
-const { lang, page, title, description, jsonLd = [], showHeaderBrand = true, headerOverlay = false } = Astro.props;
+const {
+	lang,
+	page,
+	title,
+	description,
+	jsonLd = [],
+	showHeaderBrand = true,
+	home = false,
+	ogImageAlt = 'Zaria Capital',
+} = Astro.props;
 const ui = await getUi(lang);
 const site = Astro.site ?? 'https://zariacapital.es';
 const noindex = import.meta.env.ZARIA_BUILD === 'preview';
 const canonical = page ? absolute(routes[page][lang], site) : null;
 const ogLocale = { en: 'en_GB', es: 'es_ES' } as const;
-const ogImageUrl = absolute('/og-image.png', site);
+// One share image per language (1200 x 630), from the redesign pack.
+const ogImageUrl = absolute(lang === 'es' ? '/og-image-es.png' : '/og-image.png', site);
 ---
 
 <!doctype html>
-<html lang={lang} dir="ltr">
+<html lang={lang} dir="ltr" data-intro={home ? '' : undefined}>
 	<head>
 		<meta charset="utf-8" />
+		<script is:inline set:html={bootScript} />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		{noindex && <meta name="robots" content="noindex" />}
 		<meta name="referrer" content="strict-origin-when-cross-origin" />
-		<meta name="theme-color" content="#1B331B" />
+		<meta name="theme-color" content="#0F1F10" />
 		{canonical && <link rel="canonical" href={canonical} />}
 		{
 			page &&
@@ -60,21 +74,22 @@ const ogImageUrl = absolute('/og-image.png', site);
 		<meta property="og:image" content={ogImageUrl} />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content="Zaria Capital" />
+		<meta property="og:image:alt" content={ogImageAlt} />
 		<meta property="og:locale" content={ogLocale[lang]} />
 		<meta property="og:locale:alternate" content={ogLocale[lang === 'en' ? 'es' : 'en']} />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
+		<meta name="twitter:image:alt" content={ogImageAlt} />
 		{jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
 	</head>
 	<body>
 		<a class="skip-link" href="#main">{ui.skipLink}</a>
-		<Header lang={lang} page={page} ui={ui} showBrand={showHeaderBrand} overlay={headerOverlay} />
+		<Header lang={lang} page={page} ui={ui} showBrand={showHeaderBrand} home={home} />
 		<main id="main">
 			<slot />
 		</main>
-		<Footer lang={lang} ui={ui} />
+		<Footer lang={lang} page={page} ui={ui} home={home} />
 	</body>
 </html>

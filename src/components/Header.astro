@@ -1,7 +1,11 @@
 ---
-// The header sits on the dark green ground, so it uses the kit's white logo files.
-import mark from '../../brand/logo/svg/zaria-mark-white.svg?url';
-import horizontal from '../../brand/logo/svg/zaria-logo-horizontal-white.svg?url';
+// Site header (redesign, HANDOFF.md "Header"). Fixed for the whole page, transparent over the
+// opening band, condensing to a blurred green bar with the Z mark and a gold reading-progress line
+// after 120px of scroll. Under 860px the nav moves into a full-screen menu.
+// Without JavaScript the header is not fixed (so it never sits over unreadable content) and the
+// menu opens through its #site-menu anchor.
+import logoFull from '../../brand/logo/svg/zaria-logo-horizontal-white.svg?url';
+import logoMark from '../../brand/logo/svg/zaria-mark-white.svg?url';
 import { homeSections, languages, routes, url, type Lang, type PageKey } from '../lib/routes';
 
 interface Props {
@@ -10,169 +14,344 @@ interface Props {
 	ui: Record<string, any>;
 	/** The 404 page shows the stacked logo in its body instead. */
 	showBrand?: boolean;
-	/** Home page: the header sits over the hero photograph instead of on its own band. */
-	overlay?: boolean;
+	/** Homepage: section links are same-page anchors and the header joins the opening animation. */
+	home?: boolean;
 }
-const { lang, page, ui, showBrand = true, overlay = false } = Astro.props;
+const { lang, page, ui, showBrand = true, home = false } = Astro.props;
+const homeUrl = url(routes.home[lang]);
+const sectionHref = (id: string) => (home ? `#${id}` : `${homeUrl}#${id}`);
+const other = languages.find((l) => l !== lang)!;
+const otherHref = url(page ? routes[page][other] : routes.home[other]);
 ---
 
-<header class:list={['site-header', 'on-dark', { 'site-header--overlay': overlay }]}>
-	<div class="wrap site-header__inner">
+<div class="hdr-sentinel" aria-hidden="true"></div>
+<header class:list={['hdr', { 'hdr--home': home }]} data-header>
+	<div class="hdr-in">
 		{
 			showBrand ? (
-				<a class="site-header__brand" href={url(routes.home[lang])} aria-label={ui.homeLabel}>
-					<picture>
-						<source media="(min-width: 48em)" srcset={horizontal} width="230" height="40" />
-						<img src={mark} alt="" width="36" height="30" />
-					</picture>
+				<a class="brand" href={home ? '#top' : homeUrl} aria-label={ui.homeLabel}>
+					<img class="logo-full" src={logoFull} alt="" width="195" height="34" />
+					<img class="logo-mark" src={logoMark} alt="" width="36" height="30" />
 				</a>
 			) : (
-				<span class="site-header__brand" />
+				<span class="brand" />
 			)
 		}
-		<nav class="site-nav" aria-label={ui.mainNavLabel}>
-			<ul role="list">
-				{
-					homeSections.map((id) => (
-						<li>
-							<a href={`${url(routes.home[lang])}#${id}`}>{ui.nav[id]}</a>
-						</li>
-					))
-				}
-			</ul>
+		<nav class="nav" aria-label={ui.mainNavLabel}>
+			{homeSections.map((id) => <a class="navlink caps" href={sectionHref(id)}>{ui.nav[id]}</a>)}
 		</nav>
-		<ul class="lang-switch" role="list" aria-label={ui.languageLabel}>
-			{
-				languages.map((l) =>
-					l === lang ? (
-						<li>
-							<span aria-current="true">
-								{ui.current[l].code}
-								<span class="visually-hidden">{ui.current[l].hidden}</span>
-							</span>
-						</li>
-					) : (
-						<li>
-							<a href={url(page ? routes[page][l] : routes.home[l])} lang={l} hreflang={l}>
-								{ui.switchTo[l].code}
-								<span class="visually-hidden">{ui.switchTo[l].hidden}</span>
-							</a>
-						</li>
-					),
-				)
-			}
-		</ul>
+		<div class="lang caps">
+			<span aria-current="true">
+				{ui.current[lang].code}<span class="visually-hidden">{ui.current[lang].hidden}</span>
+			</span>
+			<span class="lang__sep" aria-hidden="true">/</span>
+			<a class="navlink" href={otherHref} lang={other} hreflang={other}>
+				{ui.switchTo[other].code}<span class="visually-hidden">{ui.switchTo[other].hidden}</span>
+			</a>
+		</div>
+		<a class="lang-mobile caps" href={otherHref} lang={other} hreflang={other}>
+			{ui.switchTo[other].code}<span class="visually-hidden">{ui.switchTo[other].hidden}</span>
+		</a>
+		<a
+			class="menu-btn"
+			href="#site-menu"
+			aria-controls="site-menu"
+			aria-expanded="false"
+			aria-label={ui.menu.open}
+			data-menu-open
+		>
+			<svg width="20" height="10" viewBox="0 0 20 10" aria-hidden="true"><path d="M0 1h20M0 9h20"></path></svg>
+		</a>
 	</div>
+	<span class="hdr-progress" aria-hidden="true"></span>
 </header>
 
+<div class="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-label={ui.mainNavLabel} data-menu>
+	<div class="site-menu__top">
+		<a class="site-menu__close" href="#" aria-label={ui.menu.close} data-menu-close>
+			<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 1l16 16M17 1L1 17"></path></svg>
+		</a>
+	</div>
+	<nav class="site-menu__nav" aria-label={ui.mainNavLabel}>
+		{homeSections.map((id) => <a class="caps" href={sectionHref(id)} data-menu-link>{ui.nav[id]}</a>)}
+	</nav>
+	<div class="site-menu__lang caps">
+		<span aria-current="true">
+			{ui.current[lang].code}<span class="visually-hidden">{ui.current[lang].hidden}</span>
+		</span>
+		<span aria-hidden="true">/</span>
+		<a href={otherHref} lang={other} hreflang={other}>
+			{ui.switchTo[other].code}<span class="visually-hidden">{ui.switchTo[other].hidden}</span>
+		</a>
+	</div>
+</div>
+
+<script>
+	import '../scripts/header.ts';
+</script>
+
 <style>
-	.site-header--overlay {
+	.hdr-sentinel {
+		position: absolute;
+		inset-block-start: 120px;
+		inline-size: 1px;
+		block-size: 1px;
+		pointer-events: none;
+	}
+	.hdr {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline: 0;
+		z-index: 20;
+		color: var(--zc-on-dark);
+		border-block-end: 1px solid rgb(243 240 232 / 0.14);
+		transition:
+			background-color 0.6s,
+			border-color 0.6s;
+	}
+	:global(.js) .hdr {
+		position: fixed;
+	}
+	.hdr-in {
+		position: relative;
+		max-width: calc(var(--page-max) + 2 * var(--gutter));
+		margin-inline: auto;
+		padding: 26px var(--gutter);
+		display: flex;
+		align-items: center;
+		gap: 40px;
+		transition: padding 0.6s var(--ease-hover);
+	}
+	.hdr.is-condensed {
+		background: rgb(15 31 16 / 0.86);
+		-webkit-backdrop-filter: blur(14px) saturate(1.2);
+		backdrop-filter: blur(14px) saturate(1.2);
+		border-block-end-color: rgb(243 240 232 / 0.08);
+	}
+	.hdr.is-condensed .hdr-in {
+		padding-block: 12px;
+	}
+
+	.brand {
+		position: relative;
+		display: block;
+		line-height: 0;
+	}
+	.logo-full {
+		height: 34px;
+		width: auto;
+		transition:
+			opacity 0.45s,
+			transform 0.6s var(--ease-hover);
+	}
+	.logo-mark {
+		position: absolute;
+		inset-inline-start: 0;
+		inset-block-start: 50%;
+		height: 30px;
+		width: auto;
+		opacity: 0;
+		transform: translateY(-50%) scale(0.85);
+		transform-origin: left center;
+		transition:
+			opacity 0.45s 0.1s,
+			transform 0.6s var(--ease-hover);
+	}
+	.is-condensed .logo-full {
+		opacity: 0;
+		transform: translateY(-6px);
+	}
+	.is-condensed .logo-mark {
+		opacity: 1;
+		transform: translateY(-50%) scale(1);
+	}
+
+	.nav {
+		margin-inline-start: auto;
+		display: flex;
+		align-items: center;
+		gap: 40px;
+	}
+	.navlink {
+		text-decoration: none;
+		color: rgb(243 240 232 / 0.82);
+		transition: color 0.3s;
+		padding-block: 14px;
+	}
+	.navlink:hover {
+		color: var(--zc-white);
+	}
+	.lang {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding-inline-start: 32px;
+		border-inline-start: 1px solid rgb(243 240 232 / 0.22);
+	}
+	.lang [aria-current] {
+		color: var(--zc-on-dark);
+	}
+	.lang__sep {
+		color: rgb(243 240 232 / 0.35);
+	}
+	.hdr :focus-visible {
+		outline: 2px solid var(--zc-on-dark);
+		outline-offset: 4px;
+	}
+
+	.hdr-progress {
 		position: absolute;
 		inset-inline: 0;
-		inset-block-start: 0;
-		z-index: 2;
-		background: transparent;
+		inset-block-end: -1px;
+		height: 1px;
+		background: var(--zc-gold-light);
+		transform-origin: left;
+		transform: scaleX(0);
+		opacity: 0;
+		transition: opacity 0.4s;
 	}
-	.site-header__inner {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		grid-template-areas:
-			'brand lang'
-			'nav nav';
+	@supports (animation-timeline: scroll()) {
+		.is-condensed .hdr-progress {
+			opacity: 1;
+		}
+		.hdr-progress {
+			animation: hdr-grow auto linear both;
+			animation-timeline: scroll(root);
+		}
+	}
+	@keyframes hdr-grow {
+		from {
+			transform: scaleX(0);
+		}
+		to {
+			transform: scaleX(1);
+		}
+	}
+
+	.lang-mobile,
+	.menu-btn {
+		display: none;
+	}
+	.menu-btn {
+		inline-size: 44px;
+		block-size: 44px;
 		align-items: center;
-		row-gap: var(--s-4);
-		padding-block: var(--s-5) var(--s-4);
+		justify-content: center;
+		border: 1px solid rgb(243 240 232 / 0.3);
+		color: var(--zc-on-dark);
 	}
-	.site-header__brand {
-		grid-area: brand;
-		justify-self: start;
-		/* Clear space: at least the height of the Z's top bar on every side. */
-		padding: 6px;
-		margin: -6px;
+	.menu-btn path,
+	.site-menu__close path {
+		stroke: currentColor;
+		stroke-width: 1.2;
+		fill: none;
 	}
-	.site-header__brand img {
-		width: 38px;
-		height: auto;
+
+	@media (max-width: 53.75em) {
+		.hdr-in {
+			padding: 18px 20px;
+			gap: 16px;
+		}
+		.hdr.is-condensed {
+			background: rgb(15 31 16 / 0.88);
+		}
+		.hdr.is-condensed .hdr-in {
+			padding-block: 6px;
+		}
+		.logo-full {
+			height: 26px;
+		}
+		.logo-mark {
+			height: 24px;
+		}
+		.nav,
+		.lang {
+			display: none;
+		}
+		.lang-mobile {
+			display: block;
+			margin-inline-start: auto;
+			padding: 14px 6px;
+			text-decoration: none;
+			color: rgb(243 240 232 / 0.82);
+		}
+		.menu-btn {
+			display: inline-flex;
+		}
 	}
-	.site-nav {
-		grid-area: nav;
+
+	/* Full-screen menu (phones). Opens via :target without JavaScript, via .is-open with it. */
+	.site-menu {
+		display: none;
+		position: fixed;
+		inset: 0;
+		z-index: 30;
+		flex-direction: column;
+		padding: 18px 20px 40px;
+		background: var(--zc-logo-ink);
+		color: var(--zc-on-dark);
+		overflow-y: auto;
 	}
-	.site-nav ul {
+	.site-menu:target,
+	.site-menu.is-open {
 		display: flex;
-		flex-wrap: wrap;
-		column-gap: var(--s-5);
-		row-gap: var(--s-1);
 	}
-	.site-nav a,
-	.lang-switch a,
-	.lang-switch [aria-current] {
-		display: inline-block;
-		padding-block: var(--s-2);
-		color: var(--zc-white);
+	.site-menu__top {
+		display: flex;
+		justify-content: flex-end;
+	}
+	.site-menu__close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		inline-size: 44px;
+		block-size: 44px;
+		border: 1px solid rgb(243 240 232 / 0.3);
+		color: var(--zc-on-dark);
+	}
+	.site-menu__nav {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-block-start: 48px;
+	}
+	.site-menu__nav a {
+		display: block;
+		padding-block: 18px;
+		border-block-start: 1px solid var(--zc-hair-dark);
+		font-size: 0.9375rem;
+		color: var(--zc-on-dark);
 		text-decoration: none;
-		font-size: 1.125rem;
-		line-height: 1.2;
 	}
-	.site-nav a:hover,
-	.lang-switch a:hover {
-		text-decoration: underline;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 0.35em;
-	}
-	.site-nav a[aria-current='page'] {
-		text-decoration: underline;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 0.35em;
-	}
-	.lang-switch {
-		grid-area: lang;
+	.site-menu__lang {
 		display: flex;
 		align-items: center;
-		gap: var(--s-2);
+		gap: 10px;
+		margin-block-start: auto;
+		padding-block-start: 40px;
+		color: rgb(243 240 232 / 0.72);
 	}
-	.lang-switch li + li::before {
-		content: '/';
-		color: var(--zc-logo-ink-soft);
-		margin-inline-end: var(--s-2);
+	.site-menu__lang a {
+		color: var(--zc-on-dark);
+		text-decoration: none;
+		padding-block: 12px;
 	}
-	.lang-switch [aria-current] {
-		color: var(--zc-grey-light);
+	.site-menu :focus-visible {
+		outline: 2px solid var(--zc-on-dark);
+		outline-offset: 4px;
+	}
+	@media (min-width: 53.8125em) {
+		.site-menu {
+			display: none !important;
+		}
 	}
 
-	/* Narrowest phones: keep the four items on one row. */
-	@media (max-width: 22.5em) {
-		.site-nav ul {
-			column-gap: var(--s-3);
-		}
-		.site-nav a {
-			font-size: 1.0625rem;
-		}
-	}
-
-	@media (min-width: 48em) {
-		.site-header__inner {
-			grid-template-columns: auto 1fr auto;
-			grid-template-areas: 'brand nav lang';
-			column-gap: var(--s-7);
-			padding-block: var(--s-6);
-		}
-		.site-header__brand img {
-			width: 230px;
-		}
-		.site-nav {
-			justify-self: end;
-		}
-		.site-nav ul {
-			column-gap: var(--s-7);
-		}
-		.site-nav a,
-		.lang-switch a,
-		.lang-switch [aria-current] {
-			font-size: 1.1875rem;
-		}
-		.lang-switch {
-			padding-inline-start: var(--s-6);
-			border-inline-start: 1px solid var(--zc-logo-ink-soft);
+	@media (prefers-reduced-motion: reduce) {
+		.hdr,
+		.hdr *,
+		.hdr-progress {
+			transition: none !important;
+			animation: none !important;
 		}
 	}
 </style>

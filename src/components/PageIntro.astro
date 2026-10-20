@@ -24,7 +24,8 @@ const { h1, lead, meta } = Astro.props;
 	.page-intro {
 		position: relative;
 		overflow: clip;
-		padding-block: clamp(3rem, 2rem + 5vw, 7.5rem) clamp(3.5rem, 2rem + 6vw, 8.5rem);
+		/* Clears the header, which sits over this band. */
+		padding-block: calc(5.5rem + clamp(3rem, 2rem + 5vw, 7.5rem)) clamp(3.5rem, 2rem + 6vw, 8.5rem);
 	}
 	.page-intro .wrap {
 		position: relative;

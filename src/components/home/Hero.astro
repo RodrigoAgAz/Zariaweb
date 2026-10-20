@@ -1,0 +1,573 @@
+---
+// Hero (HANDOFF.md "Hero" and "Opening animation"). Black and white Gran Vía photograph with two
+// scrims, film grain, faint vertical grid lines and a slow zoom; the opening Z animation (once per
+// session, see src/lib/boot-script.mjs); eyebrow, headline and the corridor strip.
+import { getImage } from 'astro:assets';
+import wideSrc from '../../assets/images/madrid-gran-via-bw.jpg';
+import squareSrc from '../../assets/images/madrid-gran-via-bw-square.jpg';
+import { inline } from '../../lib/content';
+
+interface Props {
+	copy: any;
+	h1: string;
+}
+const { copy, h1 } = Astro.props;
+
+// Art direction: the panorama from 48em; below that the square crop on the Metrópolis dome and
+// Gran Vía, positioned to match the phone mockup's framing.
+const quality = 60;
+const set = async (src: typeof wideSrc, widths: number[], format: 'avif' | 'webp') =>
+	(await Promise.all(widths.map((w) => getImage({ src, width: Math.min(w, src.width), format, quality }))))
+		.map((img, i) => `${img.src} ${Math.min(widths[i], src.width)}w`)
+		.join(', ');
+const wide = [960, 1440, 1920, 2560];
+const square = [480, 640, 800, 1200];
+const photo = {
+	wideAvif: await set(wideSrc, wide, 'avif'),
+	wideWebp: await set(wideSrc, wide, 'webp'),
+	squareAvif: await set(squareSrc, square, 'avif'),
+	squareWebp: await set(squareSrc, square, 'webp'),
+	fallback: await getImage({ src: wideSrc, width: 1600, format: 'jpg', quality }),
+};
+// The two paths of the logo's Z (viewBox 675 486 807 660).
+const zPaths = [
+	'M721.8 486H1482l-325.1 483.5h-106l254-377.5H771.3l-47.5 70.5h-2Z',
+	'M999.7 663.2h105.5l-253.8 377.4h532.3l48.7-72.3h1.4V1146H675Z',
+];
+---
+
+<section id="top" class="hero" aria-labelledby="hero-h">
+	<div class="hero-photo" aria-hidden="true">
+		<picture>
+			<source media="(min-width: 48em)" type="image/avif" srcset={photo.wideAvif} sizes="100vw" />
+			<source media="(min-width: 48em)" type="image/webp" srcset={photo.wideWebp} sizes="100vw" />
+			<source type="image/avif" srcset={photo.squareAvif} sizes="100vw" />
+			<source type="image/webp" srcset={photo.squareWebp} sizes="100vw" />
+			<img class="kb" src={photo.fallback.src} width="1600" height="790" alt="" loading="eager" fetchpriority="high" />
+		</picture>
+	</div>
+	<div class="hero-scrim" aria-hidden="true"></div>
+	<div class="hero-grain" aria-hidden="true"></div>
+	<div class="hero-vgrid" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+
+	<div class="intro" aria-hidden="true">
+		<div class="intro-veil"></div>
+		<svg class="intro-z" viewBox="675 486 807 660">
+			<g class="intro-zfill">{zPaths.map((d) => <path d={d} />)}</g>
+			<g class="intro-zline">{zPaths.map((d) => <path pathLength="1" d={d} />)}</g>
+		</svg>
+	</div>
+
+	<div class="hero-in">
+		<div class="hero-eye fade d-eye">
+			<span class="hero-rule rule-in d-rule"></span>
+			<span class="caps hero-eye__text">{copy.eyebrow}</span>
+		</div>
+		<h1 id="hero-h">
+			<span class="visually-hidden">{h1}</span>
+			<span class="hl hl--desktop" aria-hidden="true">
+				{
+					copy.lines.desktop.map((l: string, i: number) => (
+						<span class="line">
+							<span class={`d-l${i + 1}`} set:html={inline(l)} />
+						</span>
+					))
+				}
+			</span>
+			<span class="hl hl--mobile" aria-hidden="true">
+				{
+					copy.lines.mobile.map((l: string, i: number) => (
+						<span class="line">
+							<span class={`d-l${i + 1}`} set:html={inline(l)} />
+						</span>
+					))
+				}
+			</span>
+		</h1>
+
+		<div class="hero-strip fade d-strip">
+			<div class="hero-corridors" data-hero-corridors>
+				{
+					copy.corridors.map((name: string, i: number) => (
+						<button type="button" class:list={['hc', { 'is-active': i === 0 }]} aria-pressed={i === 0 ? 'true' : 'false'}>
+							<span class="hc-track">
+								<span class="bar-fill" />
+							</span>
+							<span class="hc-label">
+								<span class="hc-num caps lining">{String(i + 1).padStart(2, '0')}</span>
+								<span class="hc-name">{name}</span>
+							</span>
+						</button>
+					))
+				}
+			</div>
+			<div class="hero-caption">
+				<span class="caps lining">{copy.caption}</span>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	import '../../scripts/hero.ts';
+</script>
+
+<style>
+	.hero {
+		position: relative;
+		min-height: 940px;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		isolation: isolate;
+		background: var(--zc-ink-deep);
+		color: var(--zc-on-dark);
+	}
+
+	/* Photograph, scrims, grain and grid */
+	.hero-photo {
+		position: absolute;
+		inset: 0;
+		z-index: -3;
+		overflow: hidden;
+	}
+	.hero-photo picture {
+		display: block;
+		height: 100%;
+	}
+	.hero-photo img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 50% 40%;
+		filter: grayscale(1) contrast(1.12) brightness(0.86);
+	}
+	.kb {
+		transform-origin: 62% 42%;
+		animation: hero-kb 30s cubic-bezier(0.3, 0, 0.3, 1) infinite alternate;
+	}
+	@keyframes hero-kb {
+		from {
+			transform: scale(1.04);
+		}
+		to {
+			transform: scale(1.15) translate3d(-1.2%, -1%, 0);
+		}
+	}
+	.hero-scrim {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+		background:
+			linear-gradient(
+				180deg,
+				rgb(10 20 11 / 0.72) 0%,
+				rgb(10 20 11 / 0.18) 26%,
+				rgb(10 20 11 / 0.3) 52%,
+				rgb(10 20 11 / 0.94) 100%
+			),
+			linear-gradient(90deg, rgb(10 20 11 / 0.55) 0%, rgb(10 20 11 / 0) 62%);
+	}
+	.hero-grain {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		opacity: 0.16;
+		mix-blend-mode: overlay;
+		pointer-events: none;
+		background-image: url('../../assets/home/grain.svg');
+		background-size: 240px 240px;
+	}
+	.hero-vgrid {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		max-width: calc(var(--page-max) + 2 * var(--gutter));
+		margin-inline: auto;
+		padding-inline: var(--gutter);
+	}
+	.hero-vgrid > div {
+		border-inline-start: 1px solid rgb(243 240 232 / 0.07);
+	}
+	.hero-vgrid > div:nth-child(4) {
+		border-inline-end: 1px solid rgb(243 240 232 / 0.07);
+	}
+
+	/* Content */
+	.hero-in {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		width: 100%;
+		max-width: calc(var(--page-max) + 2 * var(--gutter));
+		margin-inline: auto;
+		padding: 120px var(--gutter) 0;
+	}
+	.hero-eye {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+	}
+	.hero-rule {
+		display: block;
+		width: 56px;
+		height: 1px;
+		background: var(--zc-gold-light);
+	}
+	.hero-eye__text {
+		color: var(--zc-eyebrow);
+	}
+	.hero h1 {
+		margin-block-start: 30px;
+		font-size: clamp(54px, 8.7vw, 138px);
+		line-height: 0.95;
+		letter-spacing: -0.018em;
+		color: var(--zc-on-dark-head);
+		max-width: 12em;
+		text-wrap: initial;
+	}
+	.hero h1 :global(em) {
+		font-style: italic;
+		color: var(--zc-champagne);
+	}
+	.hl--mobile {
+		display: none;
+	}
+	.line {
+		display: block;
+		overflow: hidden;
+		padding-block-end: 0.1em;
+		margin-block-end: -0.1em;
+	}
+	.line > span {
+		display: block;
+		animation: zc-rise 1.4s var(--ease-reveal) both;
+	}
+	.fade {
+		animation: zc-fadeup 1.3s var(--ease-hover) both;
+	}
+	.rule-in {
+		transform-origin: left;
+		animation: zc-grow 1.4s var(--ease-wipe) both;
+	}
+
+	/* Corridor strip */
+	.hero-strip {
+		margin-block-start: clamp(64px, 9vw, 120px);
+		padding-block-end: 40px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		gap: 32px 48px;
+	}
+	.hero-corridors {
+		flex: 999 1 640px;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+		gap: 28px 40px;
+	}
+	.hc {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		min-height: 44px;
+		padding: 0;
+		margin: 0;
+		border: 0;
+		background: none;
+		font: inherit;
+		color: inherit;
+		text-align: start;
+		cursor: pointer;
+	}
+	.hc-track {
+		position: relative;
+		display: block;
+		height: 1px;
+		background: rgb(243 240 232 / 0.22);
+		overflow: hidden;
+	}
+	.bar-fill {
+		position: absolute;
+		inset: 0;
+		background: var(--zc-gold-light);
+		transform-origin: left;
+		transform: scaleX(0);
+	}
+	.hc.is-active .bar-fill {
+		animation: zc-grow 6.5s linear both;
+	}
+	.hc-label {
+		display: flex;
+		gap: 16px;
+		align-items: baseline;
+	}
+	.hc-num {
+		color: rgb(243 240 232 / 0.45);
+		transition: color 0.5s;
+	}
+	.hc-name {
+		font-size: 21px;
+		line-height: 1.2;
+		color: rgb(243 240 232 / 0.56);
+		transition: color 0.5s;
+	}
+	.hc:hover .hc-name,
+	.hc.is-active .hc-name {
+		color: var(--zc-on-dark);
+	}
+	.hc.is-active .hc-num {
+		color: var(--zc-gold-light);
+	}
+	.hc:focus-visible {
+		outline: 2px solid var(--zc-on-dark);
+		outline-offset: 4px;
+	}
+	.hero-caption {
+		flex: 1 1 220px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		text-align: end;
+	}
+	.hero-caption .caps {
+		font-size: 11px;
+		color: rgb(243 240 232 / 0.55);
+	}
+
+	/* Timings: original delays when the opening animation does not play... */
+	.d-l1 {
+		animation-delay: 0.15s !important;
+	}
+	.d-l2 {
+		animation-delay: 0.32s !important;
+	}
+	.d-rule {
+		animation-delay: 0.7s !important;
+	}
+	.d-eye {
+		animation-delay: 0.9s !important;
+	}
+	.d-strip {
+		animation-delay: 1.3s !important;
+	}
+	/* ...and after it when it does. */
+	:global(html[data-intro]:not(.no-intro)) .d-l1 {
+		animation-delay: 2.4s !important;
+	}
+	:global(html[data-intro]:not(.no-intro)) .d-l2 {
+		animation-delay: 2.57s !important;
+	}
+	:global(html[data-intro]:not(.no-intro)) .d-rule {
+		animation-delay: 2.95s !important;
+	}
+	:global(html[data-intro]:not(.no-intro)) .d-eye {
+		animation-delay: 3.15s !important;
+	}
+	:global(html[data-intro]:not(.no-intro)) .d-strip {
+		animation-delay: 3.5s !important;
+	}
+
+	/* Opening animation: the Z draws, becomes a window onto the photograph, and the window opens. */
+	.intro {
+		display: none;
+		position: absolute;
+		inset: 0;
+		z-index: 10;
+		overflow: hidden;
+		pointer-events: none;
+		animation: hero-intro-end 0.35s linear 2.5s both;
+	}
+	:global(html[data-intro]:not(.no-intro)) .intro {
+		display: block;
+	}
+	@keyframes hero-intro-end {
+		to {
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
+	.intro-veil {
+		position: absolute;
+		inset: -2px;
+		background: var(--zc-logo-ink);
+		-webkit-mask-image: url('../../assets/home/zaria-z.svg'), linear-gradient(#000, #000);
+		-webkit-mask-size:
+			240px auto,
+			100% 100%;
+		-webkit-mask-position: center, center;
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-composite: xor;
+		mask-image: url('../../assets/home/zaria-z.svg'), linear-gradient(#000, #000);
+		mask-size:
+			240px auto,
+			100% 100%;
+		mask-position: center, center;
+		mask-repeat: no-repeat;
+		mask-composite: exclude;
+		transform-origin: calc(50% + 38px) 50%;
+		animation: hero-veil 1.15s cubic-bezier(0.75, 0, 0.15, 1) 1.45s both;
+	}
+	@keyframes hero-veil {
+		from {
+			transform: scale(1);
+		}
+		to {
+			transform: scale(64);
+		}
+	}
+	.intro-z {
+		position: absolute;
+		inset-inline-start: 50%;
+		inset-block-start: 50%;
+		width: 240px;
+		height: auto;
+		transform: translate(-50%, -50%);
+		overflow: visible;
+		animation: hero-zout 0.45s ease 1.5s both;
+	}
+	@keyframes hero-zout {
+		to {
+			opacity: 0;
+		}
+	}
+	.intro-zfill {
+		fill: var(--zc-logo-ink);
+		animation: hero-zout 0.45s cubic-bezier(0.4, 0, 0.2, 1) 1s both;
+	}
+	.intro-zline path {
+		fill: none;
+		stroke: var(--zc-gold-light);
+		stroke-width: 1.4;
+		vector-effect: non-scaling-stroke;
+		stroke-dasharray: 1;
+		stroke-dashoffset: 1;
+		animation: zc-draw 1s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
+	}
+	.intro-zline path + path {
+		animation-delay: 0.35s;
+	}
+
+	/* Phones (Mobile.dc.html, 390px) */
+	@media (max-width: 53.75em) {
+		.hero {
+			min-height: 844px;
+		}
+		.hero-photo img {
+			object-position: 100% 40%;
+		}
+		.kb {
+			transform-origin: 50% 42%;
+		}
+		.hero-scrim {
+			background: linear-gradient(
+				180deg,
+				rgb(10 20 11 / 0.78) 0%,
+				rgb(10 20 11 / 0.2) 24%,
+				rgb(10 20 11 / 0.4) 48%,
+				rgb(10 20 11 / 0.96) 100%
+			);
+		}
+		.hero-vgrid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			padding-inline: 20px;
+		}
+		.hero-vgrid > div:nth-child(n + 3) {
+			display: none;
+		}
+		.hero-vgrid > div:nth-child(2) {
+			border-inline-end: 1px solid rgb(243 240 232 / 0.07);
+		}
+		.hero-in {
+			padding: 0 20px 36px;
+		}
+		.hero-eye {
+			gap: 14px;
+		}
+		.hero-rule {
+			width: 40px;
+		}
+		.hero h1 {
+			margin-block-start: 22px;
+			font-size: 58px;
+			line-height: 0.96;
+			letter-spacing: -0.016em;
+		}
+		.hl--desktop {
+			display: none;
+		}
+		.hl--mobile {
+			display: block;
+		}
+		.hl--mobile .d-l2 {
+			animation-delay: 0.27s !important;
+		}
+		.hl--mobile .d-l3 {
+			animation-delay: 0.39s !important;
+		}
+		:global(html[data-intro]:not(.no-intro)) .hl--mobile .d-l2 {
+			animation-delay: 2.52s !important;
+		}
+		:global(html[data-intro]:not(.no-intro)) .hl--mobile .d-l3 {
+			animation-delay: 2.64s !important;
+		}
+		.hero-strip {
+			margin-block-start: 52px;
+			padding-block-end: 0;
+			display: block;
+		}
+		.hero-corridors {
+			display: flex;
+			flex-direction: column;
+			gap: 22px;
+		}
+		.hc {
+			gap: 14px;
+		}
+		.hc-label {
+			gap: 14px;
+		}
+		.hc-name {
+			font-size: 19px;
+		}
+		.hero-caption {
+			display: none;
+		}
+		.intro-veil {
+			-webkit-mask-size:
+				170px auto,
+				100% 100%;
+			mask-size:
+				170px auto,
+				100% 100%;
+			transform-origin: calc(50% + 27px) 50%;
+		}
+		.intro-z {
+			width: 170px;
+		}
+		.intro-zline path {
+			stroke-width: 1.3;
+		}
+	}
+
+	/* Reduced motion: final states, no zoom, no reveals, no opening animation. */
+	@media (prefers-reduced-motion: reduce) {
+		.hero *,
+		.hero *::before,
+		.hero *::after {
+			animation: none !important;
+			transition: none !important;
+		}
+		.intro {
+			display: none !important;
+		}
+		.hc.is-active .bar-fill {
+			transform: none;
+		}
+	}
+</style>

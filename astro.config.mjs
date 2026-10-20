@@ -3,12 +3,16 @@ import { defineConfig } from 'astro/config';
 import { localWithSubsets } from './src/lib/font-provider.mjs';
 import { launchGate } from './src/lib/launch-gate.mjs';
 import { securityHeaders } from './src/lib/security-headers.mjs';
+import { createHash } from 'node:crypto';
+import { bootScript } from './src/lib/boot-script.mjs';
 
 // ZARIA_BUILD: "preview" (default, every page noindex), "production" (fails if any [TBC] remains),
 // or "audit" (local Lighthouse runs only: like preview but without noindex; never deploy it).
 // ZARIA_BASE: path the site is served from. "/" in production; "/Zariaweb/" on the GitHub Pages preview.
 const build = ['production', 'audit'].includes(process.env.ZARIA_BUILD ?? '') ? process.env.ZARIA_BUILD : 'preview';
 const base = process.env.ZARIA_BASE ?? '/';
+// The inline boot script is allowed by its hash, never by 'unsafe-inline'.
+const bootHash = `sha256-${createHash('sha256').update(bootScript).digest('base64')}`;
 
 // Unicode ranges match the Latin and Latin Extended subsets of the font files.
 const LATIN =
@@ -48,6 +52,7 @@ export default defineConfig({
 				"form-action 'none'",
 				'upgrade-insecure-requests',
 			],
+			scriptDirective: { hashes: [bootHash] },
 		},
 	},
 	// "Zaria Serif" is the one house family. Its files are EB Garamond (OFL) until the Perpetua

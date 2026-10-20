@@ -1,4 +1,4 @@
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
 import type { Lang, PageKey } from './routes';
 
 export async function getSettings() {
@@ -30,9 +30,6 @@ export async function getUi(lang: Lang) {
 	return entry.data as Record<string, any> & { nav: Record<PageKey, string> };
 }
 
-export async function getPeople() {
-	return (await getCollection('people')).map((p) => p.data).sort((a, b) => a.order - b.order);
-}
 
 const escape = (s: string) =>
 	s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

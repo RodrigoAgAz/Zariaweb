@@ -2,16 +2,13 @@ import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const bilingual = z.object({ en: z.string(), es: z.string() });
 const optionalBilingual = z.object({ en: z.string().nullable(), es: z.string().nullable() });
 
-// Owner inputs (section 0 of the brief). `null` means "not supplied yet": visible text shows
-// [TBC: …], and structured data, meta tags, links and the sitemap omit the field.
+// Owner inputs. `null` means "not supplied": the site leaves out whatever needs the value.
 const settings = defineCollection({
 	loader: file('src/content/settings.yaml'),
 	schema: z.object({
 		email: z.string().email().nullable(),
-		madridPhotoWebRights: z.boolean(),
 		offices: z.object({
 			madrid: z.object({ phone: z.string().nullable() }),
 			abuDhabi: z.object({ phone: z.string().nullable() }),
@@ -54,22 +51,10 @@ const pages = defineCollection({
 		.passthrough(),
 });
 
-// The founder (one file per person, both languages in the same file), shown on the home page.
-const people = defineCollection({
-	loader: glob({ pattern: '*.yaml', base: './src/content/people' }),
-	schema: () =>
-		z.object({
-			order: z.number(),
-			name: z.string(),
-			title: bilingual,
-			bio: z.object({ en: z.array(z.string()).min(1), es: z.array(z.string()).min(1) }),
-		}),
-});
-
 // Interface strings shared by every page (navigation, footer, labels): src/content/ui/<lang>.yaml.
 const ui = defineCollection({
 	loader: glob({ pattern: '*.yaml', base: './src/content/ui' }),
 	schema: z.object({ nav: z.record(z.string(), z.string()) }).passthrough(),
 });
 
-export const collections = { settings, pages, people, ui };
+export const collections = { settings, pages, ui };

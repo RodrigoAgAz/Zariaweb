@@ -1,169 +1,21 @@
 ---
-// The site's one page: the statement over the Madrid photograph, the firm, the founder and
-// contact. Legal pages are linked from the footer.
-import MadridPhoto from '../MadridPhoto.astro';
-import Paragraphs from '../Paragraphs.astro';
-import { type Lang } from '../../lib/routes';
-import { emailHtml, getPage, getPeople, getSettings } from '../../lib/content';
+// The homepage (redesign, HANDOFF.md "Page structure"): hero, 01 Where we work, 02 What we do,
+// 03 Founder. The footer (Base layout) is the Contact anchor.
+import Hero from './Hero.astro';
+import Reach from './Reach.astro';
+import Services from './Services.astro';
+import Founder from './Founder.astro';
+import { getPage } from '../../lib/content';
+import type { Lang } from '../../lib/routes';
 
 interface Props {
 	lang: Lang;
 }
 const { lang } = Astro.props;
 const copy = await getPage<any>('home', lang);
-const settings = await getSettings();
-const [founder] = await getPeople();
 ---
 
-<section class="hero on-dark" aria-labelledby="hero-heading">
-	<MadridPhoto alt={copy.photoAlt} mode="hero" />
-	<div class="wrap hero__inner">
-		<h1 id="hero-heading">{copy.h1}</h1>
-		<div class="hero__corridors">
-			<h2 class="visually-hidden">{copy.corridors.label}</h2>
-			<ul role="list" class="corridors">
-				{copy.corridors.items.map((item: string) => <li>{item}</li>)}
-			</ul>
-		</div>
-	</div>
-</section>
-
-<section class="section" id="firm" aria-labelledby="firm-heading">
-	<div class="wrap">
-		<div class="grid">
-			<h2 id="firm-heading" class="grid__label">{copy.firm.heading}</h2>
-			<div class="grid__body text-large">
-				<Paragraphs items={copy.firm.paragraphs} />
-			</div>
-		</div>
-	</div>
-</section>
-
-{
-	founder && (
-		<section class="section section--ruled" id="founder" aria-labelledby="founder-heading">
-			<div class="wrap">
-				<div class="grid">
-					<h2 id="founder-heading" class="grid__label">{copy.founder.heading}</h2>
-					<div class="grid__body">
-						<h3 class="founder__name">{founder.name}</h3>
-						<div class="text-large founder__bio">
-							<Paragraphs items={founder.bio[lang]} />
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	)
-}
-
-<section class="section section--ruled" id="contact" aria-labelledby="contact-heading">
-	<div class="wrap">
-		<div class="grid">
-			<h2 id="contact-heading" class="grid__label">{copy.contact.heading}</h2>
-			<div class="grid__body contact">
-				{
-					copy.contact.offices.map((o: any) => (
-						<div class="contact__office">
-							<h3>{o.city}</h3>
-							<address set:html={o.lines.join('<br />')} />
-							<p>
-								<a href={o.map} rel="noopener">
-									{copy.contact.mapLink}
-									<span class="visually-hidden">, {copy.contact.mapContext.replace('{city}', o.city)}</span>
-								</a>
-							</p>
-						</div>
-					))
-				}
-				{
-					settings.email && (
-						<div class="contact__email">
-							<h3>{copy.contact.email}</h3>
-							<p set:html={emailHtml(settings.email)} />
-						</div>
-					)
-				}
-			</div>
-		</div>
-	</div>
-</section>
-
-<style>
-	/* Hero: the statement and the three corridors over the Madrid photograph, darkened with the
-	   house green so the white type reads. The header sits on top of it. */
-	.hero {
-		position: relative;
-		overflow: clip;
-		isolation: isolate;
-	}
-	.hero::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-		background: color-mix(in srgb, var(--zc-logo-ink) 74%, transparent);
-	}
-	.hero__inner {
-		position: relative;
-		z-index: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-		min-height: clamp(34rem, 78svh, 52rem);
-		padding-block: 9rem clamp(3rem, 2rem + 4vw, 6rem);
-	}
-	.hero h1 {
-		max-width: 11em;
-	}
-	.hero__corridors {
-		margin-block-start: clamp(2rem, 1rem + 3vw, 3.5rem);
-		max-width: 36rem;
-	}
-	.corridors {
-		font-size: clamp(1.25rem, 1rem + 0.8vw, 1.875rem);
-		line-height: 1.2;
-		color: var(--zc-fill-light);
-	}
-	.corridors li {
-		padding-block: var(--s-3);
-		border-block-start: 1px solid color-mix(in srgb, var(--zc-white) 30%, transparent);
-	}
-
-	.text-large {
-		font-size: var(--fs-lead);
-		line-height: 1.45;
-		color: var(--zc-text);
-		max-width: 32em;
-	}
-	.text-large :global(p + p) {
-		margin-block-start: 0.9em;
-	}
-
-	.founder__name {
-		font-size: var(--fs-h2);
-	}
-	.founder__bio {
-		margin-block-start: var(--s-6);
-	}
-
-	.contact {
-		display: grid;
-		gap: var(--s-7) var(--s-6);
-	}
-	@media (min-width: 40em) {
-		.contact {
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-	.contact h3 {
-		font-size: var(--fs-h3);
-		margin-block-end: var(--s-3);
-	}
-	.contact address + p {
-		margin-block-start: var(--s-3);
-	}
-	.contact__email {
-		grid-column: 1 / -1;
-	}
-</style>
+<Hero copy={copy.hero} h1={copy.h1} />
+<Reach copy={{ ...copy.reach, corridors: copy.hero.corridors }} />
+<Services copy={copy.services} />
+<Founder copy={copy.founder} />

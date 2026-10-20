@@ -1,39 +1,35 @@
 # Zaria Capital website: design
 
+The homepage follows the approved redesign handoff (`HANDOFF.md` and the `Main`, `Mobile` and `Share` mockups in the handoff pack). Where this file and the handoff differ, the handoff wins.
+
 ## Positioning
-A discreet presence, not a services brochure. The model is the small elite boutique: Robey Warshaw's one page (what the firm does, an address, an email), Zaoui & Co's single paragraph and founders' background. The site therefore has **one page** (statement, the firm, the founder, contact) plus the legal pages the law requires, linked from the footer. No team page, no service catalogue, no client types beyond one sentence, no numbers.
+A discreet presence, not a services brochure. One page plus the legal pages the law requires, linked from the footer. No team page, no addresses, no office times, no portrait, no contact form or call to action, no client names, no statistics.
 
-## Structure
-1. **Header**: white horizontal logo (white mark below 768 px), links to the three sections of the home page (The firm, Founder, Contact), EN / ES. On the home page it sits over the hero; elsewhere on the dark green ground.
-2. **Hero**: the Madrid photograph, tinted with the house green (#1B331B at 74%), with the H1 "Independent advice and investment." and the three corridors beneath it, separated by hairlines. Square crop on the Metrópolis dome and Gran Vía below 768 px.
-3. **The firm**: three short paragraphs, third person.
-4. **Founder**: name and the founder's own three-paragraph background. No photograph.
-5. **Contact**: both offices with a map link each, and the general email.
-6. **Footer**, dark green: white logo, legal links, the no-offer line, regulatory sentences once supplied, copyright.
+## Structure (homepage)
+1. **Header**, fixed: white horizontal logo, caps links (Where we work, What we do, Founder, Contact), EN / ES. Transparent over the hero; after 120 px of scroll it condenses to a blurred deep-green bar with the Z mark and a gold reading-progress line. Below 860 px the links move into a full-screen menu. Without JavaScript the header is not fixed and the menu opens through its `#site-menu` anchor.
+2. **Hero**: the Madrid photograph (slow 30 s zoom), tinted, with grain and a faint vertical grid; eyebrow "Advisory · Financing · Investing"; the H1 "Independent advice and *investment.*" rising line by line; the three corridors as a strip that advances every 6.5 s with a gold progress bar, plus the photo caption. On the first visit of a session a Z-shaped window opens onto the photograph (the opening animation); later visits skip it.
+3. **01 Where we work** (dark green): "Three corridors. *One network.*", the dot map with the route Abu Dhabi, Madrid, New York, San Francisco, Mexico City, Guayaquil, Buenos Aires, and three corridor toggles that dim the other corridors.
+4. **02 What we do** (ivory): one statement and three numbered rows (Advisory, Financing, Investing) with italic gold numerals and a caps list each.
+5. **03 Founder** (ivory): role, name, lead, Career and Boards lists.
+6. **Footer** (deep green, also the Contact anchor): logo, email, legal links, EN / ES, regulatory sentences once supplied, the disclaimer, copyright.
 
-Inner (legal) pages open with a dark green band carrying their H1 and the Z diagonal, tone on tone, at the right.
+Inner (legal) pages open with a dark green band carrying their H1 and the Z diagonal.
 
 ## Type
-One family, **Zaria Serif** (EB Garamond files until the Perpetua WOFF2 files are supplied), regular and italic only, no bold, no sans-serif, no uppercase.
+One family, **Zaria Serif** (EB Garamond files until the Perpetua WOFF2 files are supplied), regular and italic, no bold, no sans-serif. The redesign introduces letter-spaced caps (12.5 px, 12 px on phones, 0.2 em tracking) for navigation, labels and lists, and italic gold numerals.
 
-| Role | Mobile | From 768 px | From 1440 px |
-|---|---|---|---|
-| H1 (home) | 40 px | fluid | 104 px at 1920 |
-| H1 (legal pages) | 40 px | fluid | 84 px |
-| H2 | 32 px | 44 px | 52 px |
-| H3 | 24 px | 30 px | 30 px |
-| Corridors, lead, section text | 21 to 22 px | 26 px | 28 to 36 px |
-| Body | 18 px | 20 px | 21 px |
-| Small (footer) | 15 to 16 px | | |
-
-## Layout and colour
-Content up to 1440 px wide with a 20 to 96 px gutter; sections use a 12-column grid from 1024 px (heading in columns 1 to 4, text in 5 to 12). Square corners, no shadows, no gradients, 1 px hairlines.
-- Dark ground #1B331B (header, page openings, hero, footer); white headings and links; #EEF2EB text; #BFBFBF secondary.
-- Light ground #FFFFFF; headings #1B331B; body #333333; links #2A4520 underlined.
-- Gold: not used. The single gold rule lived on the old hero diagonal and went with it.
+## Colour
+- Deep green #0F1F10 (condensed header, footer), logo ink #1B331B (Where we work, menu), ivory #F4F1EA (What we do, Founder).
+- Text on dark #F3F0E8, headings #F6F3EC, champagne #E9DCB8 for italic accents and the email.
+- Gold: #C9A55A on dark (route, rules, progress), #9A7629 numerals and #7D6224 text on ivory (both pass contrast at their sizes).
+- Square corners, no shadows, 1 px hairlines.
 
 ## Motion
-One moment: the Z diagonal on the legal page openings settles into place along its own angle on load (CSS only). Nothing moves under `prefers-reduced-motion`.
+CSS plus three small vanilla modules (`src/scripts/`); no libraries.
+- Opening Z reveal (first visit per session), hero line rise, corridor strip.
+- Map: where the browser supports scroll timelines, the legs draw with the scroll in route order and the labels follow; elsewhere the route draws in sequence when the map enters the viewport. Without JavaScript it is simply drawn.
+- Sections morph in on scroll where scroll timelines are supported.
+- `prefers-reduced-motion`: no intro, no zoom, no pulses, no auto-advance; everything is shown in its final state.
 
 ## Pages
 
