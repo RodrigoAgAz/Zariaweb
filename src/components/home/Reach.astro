@@ -1,9 +1,13 @@
 ---
-// 01 Where we work (HANDOFF.md "01 Where we work"). Heading, the corridor toggle, and the route map:
-// a dotted world map with six routes radiating from Abu Dhabi to each city, office rings, city
-// labels and a light travelling along every route. Geometry from scripts/map/map-geometry.json (1200 x 680 space).
+// 01 Where we work (HANDOFF.md "01 Where we work"). Heading, the three corridors, and the map: a
+// dotted world map with the firm's network, routes linking the eleven cities to one another, with
+// lights running along them in both directions, office rings and city labels. The routes come from
+// scripts/map/gen-routes.mjs (map-routes.json and map-routes.css); city points are in the map's
+// 1200 x 680 space (scripts/map/map-geometry.json).
 // The map is drawn twice, for desktop and for phones, because labels, stroke widths and dot sizes
 // differ between the two mockups; only one is displayed at a time.
+import routes from './map-routes.json';
+import './map-routes.css';
 import dotmap from '../../assets/home/zaria-dotmap.svg?url';
 import markWhite from '../../../brand/logo/svg/zaria-mark-white.svg?url';
 
@@ -37,71 +41,45 @@ const pts: Record<City, [number, number]> = {
 	santiago: [410.5, 593],
 	washington: [383, 146.4],
 };
-// Every route starts in Abu Dhabi. Corridor grouping for the toggle: Southern Europe and Latin
-// America = Madrid, Mexico City, Guayaquil, Buenos Aires, Bogotá, Lima, Santiago; United States = New York,
-// San Francisco, Washington;
-// the Middle East is the hub, so it keeps every route lit.
-const legs = [
-	{ group: 'eu', d: 'M1051.4 235.8Q919.1 118.7 743.4 137.1' },
-	{ group: 'us', d: 'M1051.4 235.8Q751.6 16.1 399.6 135.3' },
-	{ group: 'us', d: 'M1051.4 235.8Q629.1 -73.6 157.4 153.4' },
-	{ group: 'eu', d: 'M1051.4 235.8Q645.6 60.1 254.7 266.9' },
-	{ group: 'eu', d: 'M1051.4 235.8Q668.2 177.8 350.7 400' },
-	{ group: 'eu', d: 'M1051.4 235.8Q725.7 360.1 472.8 600.1' },
-	{ group: 'eu', d: 'M1051.4 235.8Q688.6 142.7 381.9 357.6' },
-	{ group: 'eu', d: 'M1051.4 235.8Q671.2 232.0 367.5 460.7' },
-	{ group: 'eu', d: 'M1051.4 235.8Q677.4 318.3 410.5 593' },
-	{ group: 'us', d: 'M1051.4 235.8Q736.0 50.7 383 146.4' },
-];
-// City dots appear as each route arrives.
-const stops: { city: City; group: string }[] = [
-	{ city: 'newyork', group: 'us' },
-	{ city: 'sanfrancisco', group: 'us' },
-	{ city: 'mexico', group: 'eu' },
-	{ city: 'guayaquil', group: 'eu' },
-	{ city: 'buenosaires', group: 'eu' },
-	{ city: 'bogota', group: 'eu' },
-	{ city: 'lima', group: 'eu' },
-	{ city: 'santiago', group: 'eu' },
-	{ city: 'washington', group: 'us' },
-];
-// Label positions: searched for the nearest spot that clears every route, dot and other label
+// Every city except the two offices gets a dot; the offices get a ring.
+const stops: City[] = ['newyork', 'sanfrancisco', 'mexico', 'guayaquil', 'buenosaires', 'bogota', 'lima', 'santiago', 'washington'];
+// Label positions: the nearest spot that clears every route, dot and other label (searched with a
+// script against the built page; rerun after changing routes).
 // (about 10 map units of space on desktop and on phones). Phone office labels are 36 units, the
 // largest that fits beside Madrid between the New York, Mexico City and Bogotá routes.
 const labels = {
 	desktop: [
-		{ city: 'abudhabi', x: 1069, y: 267, size: 26, office: true },
-		{ city: 'madrid', x: 659, y: 186, size: 26, office: true },
-		{ city: 'newyork', x: 360, y: 117, size: 18, anchor: 'middle' },
-		{ city: 'sanfrancisco', x: 221, y: 174, size: 18, anchor: 'middle' },
-		{ city: 'mexico', x: 247, y: 261, size: 18, anchor: 'end' },
-		{ city: 'guayaquil', x: 338, y: 406, size: 18, anchor: 'end' },
-		{ city: 'buenosaires', x: 423, y: 633, size: 18 },
-		{ city: 'bogota', x: 370, y: 364, size: 18, anchor: 'end' },
-		{ city: 'lima', x: 355, y: 467, size: 18, anchor: 'end' },
-		{ city: 'santiago', x: 401, y: 623, size: 18, anchor: 'end' },
-		{ city: 'washington', x: 365, y: 146, size: 18, anchor: 'end' },
+		{ city: 'abudhabi', x: 1115, y: 264, size: 26, office: true, anchor: 'middle' },
+		{ city: 'madrid', x: 751, y: 168, size: 26, office: true },
+		{ city: 'newyork', x: 356, y: 115, size: 18 },
+		{ city: 'sanfrancisco', x: 101, y: 154, size: 18, anchor: 'middle' },
+		{ city: 'mexico', x: 167, y: 289, size: 18 },
+		{ city: 'guayaquil', x: 267, y: 398, size: 18 },
+		{ city: 'buenosaires', x: 565, y: 622, size: 18, anchor: 'end' },
+		{ city: 'bogota', x: 434, y: 380, size: 18, anchor: 'end' },
+		{ city: 'lima', x: 320, y: 477, size: 18 },
+		{ city: 'santiago', x: 374, y: 615, size: 18, anchor: 'middle' },
+		{ city: 'washington', x: 291, y: 153, size: 18 },
 	],
 	// New York and Washington are about 7px apart on a phone, too close for a label each, so they
 	// share one ("New York · Washington") below and left of the pair.
 	mobile: [
-		{ city: 'abudhabi', x: 1134, y: 306, size: 36, office: true, anchor: 'end' },
-		{ city: 'madrid', x: 627, y: 197, size: 36, office: true },
-		{ city: 'newyork', join: ['newyork', 'washington'], x: 380, y: 195, size: 32, anchor: 'end' },
-		{ city: 'sanfrancisco', x: 145, y: 108, size: 32, anchor: 'middle' },
-		{ city: 'mexico', x: 110, y: 309, size: 32 },
-		{ city: 'guayaquil', x: 334, y: 412, size: 32, anchor: 'end' },
-		{ city: 'buenosaires', x: 495, y: 649, size: 32 },
-		{ city: 'bogota', x: 366, y: 364, size: 32, anchor: 'end' },
-		{ city: 'lima', x: 350, y: 476, size: 32, anchor: 'end' },
-		{ city: 'santiago', x: 351, y: 648, size: 32, anchor: 'middle' },
+		{ city: 'abudhabi', x: 979, y: 165, size: 36, office: true },
+		{ city: 'madrid', x: 867, y: 183, size: 36, office: true, anchor: 'end' },
+		{ city: 'newyork', join: ['newyork', 'washington'], x: 395, y: 103, size: 32, anchor: 'end' },
+		{ city: 'sanfrancisco', x: 65, y: 70, size: 32 },
+		{ city: 'mexico', x: 99, y: 304, size: 32 },
+		{ city: 'guayaquil', x: 335, y: 419, size: 32, anchor: 'end' },
+		{ city: 'buenosaires', x: 473, y: 640, size: 32 },
+		{ city: 'bogota', x: 258, y: 383, size: 32 },
+		{ city: 'lima', x: 356, y: 495, size: 32, anchor: 'end' },
+		{ city: 'santiago', x: 342, y: 624, size: 32, anchor: 'middle' },
 	],
 } as const;
 const variants = [
 	{ key: 'desktop', glow: 3, dot: 3.5, office: 5.5, ring: 7, ringStroke: 1.2 },
 	{ key: 'mobile', glow: 5.5, dot: 8, office: 11, ring: 12, ringStroke: 2.4 },
 ] as const;
-const corridorGroups = ['eu', 'me', 'us'];
 ---
 
 <section id="reach" class="reach morph mo-reach" aria-labelledby="reach-h">
@@ -117,7 +95,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 				{copy.heading[0]}<br /><em>{copy.heading[1].replace(/\*/g, '')}</em>
 			</h2>
 
-			<figure class="map" data-map data-sel="all">
+			<figure class="map" data-map>
 				<div class="map-frame">
 					<img class="map-dots" src={dotmap} alt="" width="1200" height="680" loading="lazy" />
 					{
@@ -134,26 +112,26 @@ const corridorGroups = ['eu', 'me', 'us'];
 									</filter>
 								</defs>
 								<g>
-									{legs.map((leg, i) => (
-										<path class={`arc l${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
+									{routes.map((r) => (
+										<path class:list={['arc', `zr${r.i}`, { 'arc--office': r.office }]} pathLength="1" d={r.d} />
 									))}
 								</g>
 								<g class="pulses">
 									<g filter={`url(#zglow-${v.key})`}>
-										{legs.map((leg, i) => (
-											<path class={`tail c${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
+										{routes.map((r) => (
+											<path class={`tail zr${r.i}`} pathLength="1" d={r.d} />
 										))}
-										{legs.map((leg, i) => (
-											<path class={`mid c${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
+										{routes.map((r) => (
+											<path class={`mid zr${r.i}`} pathLength="1" d={r.d} />
 										))}
 									</g>
-									{legs.map((leg, i) => (
-										<path class={`head c${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
+									{routes.map((r) => (
+										<path class={`head zr${r.i}`} pathLength="1" d={r.d} />
 									))}
 								</g>
 								<g class="eps">
-									{stops.map((s, i) => (
-										<circle class={`ep e${i} g-${s.group} g-me`} cx={pts[s.city][0]} cy={pts[s.city][1]} r={v.dot} />
+									{stops.map((city, i) => (
+										<circle class={`ep e${i}`} cx={pts[city][0]} cy={pts[city][1]} r={v.dot} />
 									))}
 								</g>
 								<g>
@@ -181,17 +159,16 @@ const corridorGroups = ['eu', 'me', 'us'];
 				</div>
 			</figure>
 
-			<div class="corr-group" role="group" aria-label={copy.toggleLabel} data-corridor-toggle>
+			<ul class="corr-group">
 				{
-					corridorGroups.map((g, i) => (
-						<button type="button" class="corr" aria-pressed="false" data-group={g}>
+					copy.corridors.map((name: string, i: number) => (
+						<li class="corr">
 							<span class="c-num caps lining">{String(i + 1).padStart(2, '0')}</span>
-							<span class="c-name">{copy.corridors[i]}</span>
-							<span class="c-mark" aria-hidden="true">+</span>
-						</button>
+							<span class="c-name">{name}</span>
+						</li>
 					))
 				}
-			</div>
+			</ul>
 		</div>
 	</div>
 </section>
@@ -222,13 +199,13 @@ const corridorGroups = ['eu', 'me', 'us'];
 		max-width: none;
 	}
 
-	/* Desktop: heading and toggles left, map right; stacked under 960px (map between). */
+	/* Desktop: heading and corridors left, map right; stacked under 960px (map between). */
 	.reach-body {
 		display: grid;
 		grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
 		grid-template-areas:
 			'head map'
-			'toggles map';
+			'corridors map';
 		grid-template-rows: auto 1fr;
 		column-gap: 72px;
 		margin-block-start: 72px;
@@ -246,7 +223,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 		color: var(--zc-champagne);
 	}
 	.corr-group {
-		grid-area: toggles;
+		grid-area: corridors;
 		margin-block-start: 56px;
 		display: flex;
 		flex-direction: column;
@@ -281,77 +258,32 @@ const corridorGroups = ['eu', 'me', 'us'];
 		display: none;
 	}
 
-	/* Corridor toggle */
+	/* Corridors: a plain list; the map always shows the whole network. */
+	.corr-group {
+		list-style: none;
+		padding: 0;
+	}
 	.corr {
-		position: relative;
 		display: grid;
-		grid-template-columns: 56px minmax(0, 1fr) 24px;
+		grid-template-columns: 56px minmax(0, 1fr);
 		align-items: baseline;
-		width: 100%;
-		min-height: 44px;
 		margin: 0;
 		padding: 22px 0 24px;
-		border: 0;
 		border-block-start: 1px solid var(--zc-hair-dark);
-		background: none;
-		font: inherit;
-		color: inherit;
-		text-align: start;
-		cursor: pointer;
-		transition: color 0.4s;
 	}
 	.corr:last-child {
 		border-block-end: 1px solid var(--zc-hair-dark);
 	}
-	.corr::before {
-		content: '';
-		position: absolute;
-		inset-inline-start: 0;
-		inset-block-start: -1px;
-		height: 1px;
-		width: 100%;
-		background: var(--zc-gold-light);
-		transform: scaleX(0);
-		transform-origin: left;
-		transition: transform 0.7s var(--ease-wipe);
-	}
-	.corr[aria-pressed='true']::before {
-		transform: scaleX(1);
-	}
 	.c-num {
-		color: rgb(243 240 232 / 0.5);
-		transition: color 0.4s;
+		color: var(--zc-gold-light);
 	}
 	.c-name {
 		font-size: 26px;
 		line-height: 1.15;
-		color: rgb(243 240 232 / 0.7);
-		transition: color 0.4s;
-	}
-	.c-mark {
-		font-size: 20px;
-		color: rgb(243 240 232 / 0.35);
-		transition:
-			transform 0.5s,
-			color 0.4s;
-	}
-	.corr:hover .c-name,
-	.corr[aria-pressed='true'] .c-name {
 		color: var(--zc-on-dark);
 	}
-	.corr[aria-pressed='true'] .c-num,
-	.corr[aria-pressed='true'] .c-mark {
-		color: var(--zc-gold-light);
-	}
-	.corr[aria-pressed='true'] .c-mark {
-		transform: rotate(45deg);
-	}
-	.corr:focus-visible {
-		outline: 2px solid var(--zc-on-dark);
-		outline-offset: 4px;
-	}
 
-	/* Route: legs, travelling light, dots, rings and labels */
+	/* Network: routes, travelling lights, dots, rings and labels */
 	.arc {
 		fill: none;
 		stroke: var(--zc-gold);
@@ -361,7 +293,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 		stroke-dashoffset: 0;
 		transition: opacity 0.7s ease;
 	}
-	.arc.l0 {
+	.arc--office {
 		stroke-width: 2.2;
 		stroke: var(--zc-gold-light);
 	}
@@ -375,7 +307,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 		animation-fill-mode: both;
 		transition: opacity 0.7s;
 	}
-	/* Each route has its own light, running from Abu Dhabi to the city, resting, and repeating.
+	/* Each route has its own light, running from one city to the other, resting, and repeating.
 	   Paths use pathLength 1, so --k (1 / the route's length in map units) keeps the light the same
 	   size on every route, and each route's cycle is timed to its length (about 220 units a second).
 	   The keyframes use plain numbers: Chrome will not interpolate an offset written with var(). */
@@ -429,58 +361,6 @@ const corridorGroups = ['eu', 'me', 'us'];
 			stroke-dashoffset: -1;
 		}
 	}
-	/* Lengths: Madrid 334, New York 688, San Francisco 949, Mexico City 827, Guayaquil 738,
-	   Buenos Aires 688, Bogotá 704, Lima 734, Santiago 745, Washington 694. The lights start once the routes are drawn, a little apart. */
-	.c0 {
-		--k: 0.002998;
-		animation-duration: 2.2s;
-		animation-delay: 3.4s;
-	}
-	.c1 {
-		--k: 0.001453;
-		animation-duration: 4.5s;
-		animation-delay: 3.9s;
-	}
-	.c2 {
-		--k: 0.001054;
-		animation-duration: 6.2s;
-		animation-delay: 4.4s;
-	}
-	.c3 {
-		--k: 0.001209;
-		animation-duration: 5.4s;
-		animation-delay: 4.9s;
-	}
-	.c4 {
-		--k: 0.001354;
-		animation-duration: 4.8s;
-		animation-delay: 5.4s;
-	}
-	.c5 {
-		--k: 0.001453;
-		animation-duration: 4.5s;
-		animation-delay: 5.9s;
-	}
-	.c6 {
-		--k: 0.001421;
-		animation-duration: 4.6s;
-		animation-delay: 6.4s;
-	}
-	.c7 {
-		--k: 0.001363;
-		animation-duration: 4.8s;
-		animation-delay: 6.9s;
-	}
-	.c8 {
-		--k: 0.001343;
-		animation-duration: 4.8s;
-		animation-delay: 7.4s;
-	}
-	.c9 {
-		--k: 0.001442;
-		animation-duration: 4.5s;
-		animation-delay: 7.9s;
-	}
 	.ep {
 		fill: var(--zc-on-dark);
 		transition: fill-opacity 0.7s;
@@ -517,25 +397,9 @@ const corridorGroups = ['eu', 'me', 'us'];
 		fill: var(--zc-on-dark-head);
 	}
 
-	/* Corridor selection dims every other corridor. */
-	.map[data-sel='eu'] .arc:not(.g-eu),
-	.map[data-sel='me'] .arc:not(.g-me),
-	.map[data-sel='us'] .arc:not(.g-us) {
-		opacity: 0.12;
-	}
-	.map[data-sel='eu'] .pulses path:not(.g-eu),
-	.map[data-sel='me'] .pulses path:not(.g-me),
-	.map[data-sel='us'] .pulses path:not(.g-us) {
-		opacity: 0;
-	}
-	.map[data-sel='eu'] .ep:not(.g-eu),
-	.map[data-sel='me'] .ep:not(.g-me),
-	.map[data-sel='us'] .ep:not(.g-us) {
-		fill-opacity: 0.25;
-	}
-
-	/* Time-based draw (browsers without scroll timelines): with JavaScript, the route waits for the
-	   section to enter the viewport, then draws leg by leg; without it, it is simply drawn. */
+	/* Time-based draw (browsers without scroll timelines): with JavaScript, the routes wait for the
+	   section to enter the viewport, then draw one after another; without it, they are simply drawn.
+	   Per-route delays and scroll ranges are in map-routes.css. */
 	:global(.js) .map:not(.is-in) .arc {
 		stroke-dashoffset: 1;
 	}
@@ -558,36 +422,6 @@ const corridorGroups = ['eu', 'me', 'us'];
 	}
 	:global(.js) .map.is-in .lbl {
 		animation-duration: 1.2s;
-	}
-	.map.is-in .l0 {
-		animation-delay: 0.3s;
-	}
-	.map.is-in .l1 {
-		animation-delay: 0.75s;
-	}
-	.map.is-in .l2 {
-		animation-delay: 1.2s;
-	}
-	.map.is-in .l3 {
-		animation-delay: 1.65s;
-	}
-	.map.is-in .l4 {
-		animation-delay: 2.1s;
-	}
-	.map.is-in .l5 {
-		animation-delay: 2.55s;
-	}
-	.map.is-in .l6 {
-		animation-delay: 3s;
-	}
-	.map.is-in .l7 {
-		animation-delay: 3.45s;
-	}
-	.map.is-in .l8 {
-		animation-delay: 3.9s;
-	}
-	.map.is-in .l9 {
-		animation-delay: 4.35s;
 	}
 	.map.is-in .e0 {
 		animation-delay: 1.95s;
@@ -650,7 +484,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 		animation-delay: 5.6s;
 	}
 
-	/* Scroll-linked draw where supported: the legs draw with the scroll, in route order. Scoped to
+	/* Scroll-linked draw where supported: the routes draw with the scroll, one after another. Scoped to
 	   JavaScript so that a page without it always shows the route drawn. */
 	@supports (animation-timeline: view()) {
 		:global(.js) .map .arc,
@@ -663,48 +497,6 @@ const corridorGroups = ['eu', 'me', 'us'];
 			animation-fill-mode: both;
 			animation-timeline: --map;
 			animation-delay: 0s !important;
-		}
-		/* All routes leave Abu Dhabi together, a little apart, and are drawn before the map reaches
-		   the middle of the screen; the lights follow. */
-		:global(.js) .map .arc.l0,
-		:global(.js) .map.is-in .arc.l0 {
-			animation-range: entry 10% cover 28%;
-		}
-		:global(.js) .map .arc.l1,
-		:global(.js) .map.is-in .arc.l1 {
-			animation-range: entry 20% cover 31%;
-		}
-		:global(.js) .map .arc.l2,
-		:global(.js) .map.is-in .arc.l2 {
-			animation-range: entry 30% cover 34%;
-		}
-		:global(.js) .map .arc.l3,
-		:global(.js) .map.is-in .arc.l3 {
-			animation-range: entry 40% cover 37%;
-		}
-		:global(.js) .map .arc.l4,
-		:global(.js) .map.is-in .arc.l4 {
-			animation-range: entry 50% cover 40%;
-		}
-		:global(.js) .map .arc.l5,
-		:global(.js) .map.is-in .arc.l5 {
-			animation-range: entry 60% cover 42%;
-		}
-		:global(.js) .map .arc.l6,
-		:global(.js) .map.is-in .arc.l6 {
-			animation-range: entry 70% cover 43%;
-		}
-		:global(.js) .map .arc.l7,
-		:global(.js) .map.is-in .arc.l7 {
-			animation-range: entry 80% cover 44%;
-		}
-		:global(.js) .map .arc.l8,
-		:global(.js) .map.is-in .arc.l8 {
-			animation-range: entry 90% cover 45%;
-		}
-		:global(.js) .map .arc.l9,
-		:global(.js) .map.is-in .arc.l9 {
-			animation-range: entry 95% cover 46%;
 		}
 		:global(.js) .map .ep,
 		:global(.js) .map .lbl,
@@ -743,7 +535,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 			grid-template-areas:
 				'head'
 				'map'
-				'toggles';
+				'corridors';
 			grid-template-rows: auto;
 		}
 		.map {
@@ -800,7 +592,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 		.map-svg--mobile .arc {
 			stroke-width: 1.2;
 		}
-		.map-svg--mobile .arc.l0 {
+		.map-svg--mobile .arc--office {
 			stroke-width: 1.7;
 		}
 		.map-svg--mobile .head {
@@ -813,7 +605,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 			stroke-width: 5.5;
 		}
 		.corr {
-			grid-template-columns: 44px minmax(0, 1fr) 24px;
+			grid-template-columns: 44px minmax(0, 1fr);
 			padding: 20px 0 22px;
 		}
 		.c-name {

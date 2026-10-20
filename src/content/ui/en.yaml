@@ -12,13 +12,6 @@ skipLink: Skip to content
 homeLabel: Zaria Capital, home
 mainNavLabel: Main
 legalNavLabel: Legal
-# Visible code, then the hidden part that completes the accessible name.
-switchTo:
-  es: { code: ES, hidden: ", en español" }
-  en: { code: EN, hidden: ", in English" }
-current:
-  en: { code: EN, hidden: ", English, current language" }
-  es: { code: ES, hidden: ", español, idioma actual" }
 footer:
   notice: Nothing on this website is an offer or solicitation to buy or sell any security or financial product.
   copyright: "© {year} Zaria Capital"

@@ -2,6 +2,15 @@
 
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
+
+## 2026-10-20 (evening)
+
+- **English only (owner).** The Spanish site is removed: no `/es/` pages, no language switch, no hreflang, one share image. Old `/es/` links should redirect to the homepage (`public/_redirects`; on the live Apache host this needs the same rule in `.htaccess`).
+- **The network replaces the spokes (owner).** Routes no longer all start in Abu Dhabi: 21 routes link the eleven cities to one another and may cross; each has its own light, and directions are mixed so lights cross the map both ways. Routes are listed in `scripts/map/gen-routes.mjs`, which writes the paths and their timing.
+- **Corridors no longer change the map (owner).** The three corridors are a plain list; the map always shows the whole network. The toggle, its script and the dimming rules were removed.
+- **Repetition removed from What we do and Founder (owner request).** "Companies, families and institutions" and "complex cross-border situations" now appear once (the opening statement); "cross-border" no longer recurs in the service texts; the relationships line stays only in the founder's lead; Principal Investing no longer repeats its own list ("joint ventures, co-investments, operational involvement") or its title. New wording for the client to approve: Advisory "Advice from the first approach to completion, on transactions that often span more than one region"; Financing "Capital for transactions, from investors and lenders across the firm's three corridors"; Principal Investing "The firm commits its own capital in Spain and Abu Dhabi and works alongside management from day one"; founder lead "Advises and invests across Southern Europe and Latin America, the Middle East and the United States, much of it originating from relationships built over more than twenty years."
+- **Arsenale Group: Italy (owner).**
+
 ## 2026-10-20 (later)
 
 - **Final city list (owner):** Abu Dhabi, Madrid, Washington, New York, San Francisco, Mexico City, Bogotá, Guayaquil, Santiago, Lima, Buenos Aires. Washington added (United States corridor); nothing removed. On phones New York and Washington are about 7 px apart, too close for a label each, so they share one label, "New York · Washington". Labels were re-placed for both languages: on the Spanish map "Ciudad de México" had run off the phone's left edge and crossed its route on desktop.

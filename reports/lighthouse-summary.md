@@ -8,11 +8,9 @@ Targets (mobile): every category 95 or more, LCP under 2.0 s, CLS under 0.05, pa
 
 | Page | Form | Performance | Accessibility | Best practices | SEO | LCP (s) | CLS | Weight (KB) |
 |---|---|---|---|---|---|---|---|---|
-| / | mobile | 96 | 96 | 100 | 100 | 2.48 | 0.000 | 386 |
-| / | desktop | 99 | 96 | 100 | 100 | 0.62 | 0.000 | 425 |
-| /es/ | mobile | 96 | 96 | 100 | 100 | 2.55 | 0.000 | 387 |
-| /es/ | desktop | 99 | 96 | 100 | 100 | 0.61 | 0.000 | 425 |
+| / | mobile | 95 | 96 | 100 | 100 | 2.63 | 0.000 | 397 |
+| / | desktop | 99 | 96 | 100 | 100 | 0.64 | 0.000 | 435 |
 
-**2 mobile run(s) below target.**
+**1 mobile run(s) below target.**
 
-**Why the homepage scores 96 for accessibility.** Every failing node is a colour-contrast check in What we do or the footer, caused by the handoff's scroll-linked "grounds blend": each section starts on the previous section's colour and blends to its own as it scrolls in, and Lighthouse checks at load, before that happens. In their settled state all of them pass. The owner chose to keep the blend (see DECISIONS.md).
+Accessibility 96: every failing node is a colour-contrast check caused by the scroll-linked section blends, which Lighthouse measures at load, before each section's ground settles. The owner chose to keep the blend (see DECISIONS.md).

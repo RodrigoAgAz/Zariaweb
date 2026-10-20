@@ -1,6 +1,6 @@
 # Zaria Capital website
 
-The public website of Zaria Capital: a static, bilingual (English and Spanish) site built with [Astro](https://astro.build) 7. No CMS, no forms, no cookies, no database, no third-party requests.
+The public website of Zaria Capital: a static, English-only site built with [Astro](https://astro.build) 7. No CMS, no forms, no cookies, no database, no third-party requests.
 
 - **Preview:** `https://rodrigoagaz.github.io/Zariaweb/` (GitHub Pages, every page `noindex`), live once Pages is switched on (see [Deploy](#deploy)). The production host will be chosen later.
 - **Design:** [`DESIGN.md`](DESIGN.md). **Decisions:** [`DECISIONS.md`](DECISIONS.md).
@@ -10,15 +10,15 @@ The public website of Zaria Capital: a static, bilingual (English and Spanish) s
 
 The site is one page (the hero with its Z reveal, 01 Where we work with the corridor map, 02 What we do, 03 Founder, and the footer, which is also the Contact anchor). There are no legal notice, privacy or cookies pages (owner decision, see `DECISIONS.md`). The homepage design is specified in the redesign handoff (`HANDOFF.md` in the handoff pack); the map geometry and its generator are in `scripts/map/`. Nothing is shown for information Zaria Capital has not supplied: sentences, rows and sections that need it are simply left out, and the Regulatory information page is published only once there is something to put on it.
 
-Owner inputs are all in [`src/content/settings.yaml`](src/content/settings.yaml); all homepage copy, the founder's career and boards included, is in `src/content/pages/{en,es}/home.yaml`.
+Owner inputs are all in [`src/content/settings.yaml`](src/content/settings.yaml); all homepage copy, the founder's career and boards included, is in `src/content/pages/en/home.yaml`. The Spanish version was removed (owner decision); old `/es/` links should redirect to the homepage (`public/_redirects`, or the equivalent line in the live host's `.htaccess`).
 
 | Not yet supplied | What appears once it is | Where to enter it |
 |---|---|---|
 | Spanish entity: registered name, NIF, registered address, Registro Mercantil details | Regulatory information page | `entities.spain.*` |
 | ADGM entity: legal name, registration number, address | Regulatory information page | `entities.adgm.*` |
-| One regulatory sentence per entity | Footer of every page; Regulatory information page | `entities.*.regulatoryStatement` (en and es) |
+| One regulatory sentence per entity | Footer of every page; Regulatory information page | `entities.*.regulatoryStatement.en` |
 | Perpetua WOFF2 files | The house face everywhere | See [Switching to Perpetua](#switching-eb-garamond-to-perpetua) |
-| Production domain | Canonicals, hreflang, sitemap | `site` in `astro.config.mjs` (currently `https://zariacapital.es`) |
+| Production domain | Canonicals, sitemap | `site` in `astro.config.mjs` (currently `https://zariacapital.es`) |
 
 A caution before the site goes live on the real domain: Spanish law (LSSI-CE, article 10) requires a business website to identify its owner (registered name, NIF, registered address, registry details), and the GDPR expects a privacy notice wherever personal data is processed (the host's server logs, emails sent to the published address). The legal notice and privacy pages were removed at the owner's request; filling in `entities.spain.*` publishes the identification on the Regulatory information page, which is the quickest way back to compliance.
 
@@ -26,8 +26,7 @@ A caution before the site goes live on the real domain: Spanish law (LSSI-CE, ar
 
 1. **A Spanish lawyer** confirms the site can launch without a legal notice and privacy notice (LSSI-CE, GDPR, LOPDGDD).
 2. **Regulatory counsel in Spain and in ADGM** confirms that "The firm" paragraphs (advice on M&A, partnerships, market entry, capital formation and structured financing; principal investment) and the regulatory sentences are appropriate for a public website.
-3. **A native Spanish speaker** reviews all Spanish copy (`src/content/pages/es/`, `src/content/ui/es.yaml`). The homepage Spanish is the handoff's draft translation table and still needs the client's approval.
-4. **Alonso Aznar approves the founder section** (lead, career and boards, both languages).
+3. **Alonso Aznar approves the founder section** (lead, career and boards).
 
 ## Run, build, deploy
 
@@ -74,9 +73,9 @@ The footer reads "© {year} Zaria Capital", with the year computed at build time
 
 All copy lives in `src/content/`, separate from the components.
 
-- `src/content/pages/en/home.yaml`, `src/content/pages/es/home.yaml`: the home page (hero lines and corridors, the map's cities, the three services, the founder's lead, career and boards, the share-image alt text).
-- `src/content/pages/{en,es}/regulatory.yaml`: Regulatory information (published once entity details are supplied).
-- `src/content/ui/en.yaml`, `es.yaml`: header, footer and other interface text.
+- `src/content/pages/en/home.yaml`: the home page (hero lines and corridors, the map's cities, the three services, the founder's lead, career and boards, the share-image alt text).
+- `src/content/pages/en/regulatory.yaml`: Regulatory information (published once entity details are supplied).
+- `src/content/ui/en.yaml`: header, footer and other interface text.
 - `src/content/settings.yaml`: owner inputs (email, entities).
 - Every page file has `title` and `description` (140 to 160 characters; the build fails otherwise). In paragraph text you can write `[link text](https://…)`, `*italic*`, and `{tokens}` such as `{email}` or `{spainName}` (full list in `src/lib/tokens.ts`); a paragraph whose token has no value is left out.
 
@@ -84,7 +83,7 @@ Copy rules: only facts the firm has approved; no clients, deals, numbers, rankin
 
 ### URLs
 
-Every URL in both languages is defined once in `src/lib/routes.ts`; it generates the pages, the language switcher, `hreflang` links and `sitemap.xml`.
+Every URL is defined once in `src/lib/routes.ts`; it generates the pages and `sitemap.xml`.
 
 ## Switching EB Garamond to Perpetua
 
@@ -97,7 +96,7 @@ To switch: put the licensed Perpetua WOFF2 files (regular and italic, Latin and 
 The current zariacapital.es runs on WordPress. This build does not touch its DNS or hosting.
 
 1. **List the old URLs.** Fetch `https://zariacapital.es/wp-json/wp/v2/pages?per_page=100` and `/wp-json/wp/v2/posts?per_page=100` (and the sitemap at `/wp-sitemap.xml` if present), and note every public URL, including `/en/` or language-prefixed variants. This could not be done from the build environment, whose network policy blocked the domain.
-2. **Map them** in `public/_redirects`, one line each, to the nearest new page with status 301 (e.g. `/about-us/ /firm/ 301`, `/servicios/ /es/que-hacemos/ 301`). Send anything without an equivalent to the home page of its language. The old News/Insights link pointed to `#` and needs no redirect.
+2. **Map them** in `public/_redirects`, one line each, to the nearest new page with status 301 (e.g. `/about-us/ / 301`). Send anything without an equivalent to the home page. The old News/Insights link pointed to `#` and needs no redirect.
 3. **Deploy to the production host** on its temporary address. Run `npm run check:csp` against it and check every redirect.
 4. **Check other subdomains** (mail, webmail, `www`, any client portals) before adding `includeSubDomains` to HSTS. The shipped header is `max-age=31536000` without `includeSubDomains`; add it, and consider preload, only once every subdomain serves HTTPS.
 5. **Switch DNS** for `zariacapital.es` (and `www`) to the new host, keeping MX and other mail records unchanged. Keep the WordPress site available on another address for a few weeks, then retire it.

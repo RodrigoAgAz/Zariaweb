@@ -2,3 +2,5 @@
 # Old WordPress URLs on zariacapital.es: fill in from the live site before cut-over (see README).
 # Format: <old path> <new path> 301
 # /old-page/  /firm/  301
+# The Spanish site was removed (owner decision): send old /es/ links to the homepage.
+/es/* / 301

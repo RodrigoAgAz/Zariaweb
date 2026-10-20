@@ -22,34 +22,4 @@ const pts = {
   mexico: P(-99.13, 19.43), guayaquil: P(-79.9, -2.19), buenosaires: P(-58.38, -34.60),
   bogota: P(-74.07, 4.71), lima: P(-77.04, -12.05), santiago: P(-70.67, -33.45), washington: P(-77.04, 38.91),
 };
-// bend: fraction of chord; sign +1 = bulge to the left of travel direction, -1 = right
-function arc(a, b, bend, sign) {
-  const [x1, y1] = pts[a], [x2, y2] = pts[b];
-  const dx = x2 - x1, dy = y2 - y1, d = Math.hypot(dx, dy);
-  const nx = (dy / d) * sign, ny = (-dx / d) * sign; // left normal in screen coords (y down)
-  const cx = (x1 + x2) / 2 + nx * d * bend, cy = (y1 + y2) / 2 + ny * d * bend;
-  return `M${x1} ${y1}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x2} ${y2}`;
-}
-// Every route starts in Abu Dhabi; sign -1 bows each arc northwards. len feeds the light timing.
-function length(d) {
-  const [x1, y1, cx, cy, x2, y2] = d.match(/-?[\d.]+/g).map(Number);
-  let L = 0, px = x1, py = y1;
-  for (let i = 1; i <= 400; i++) {
-    const t = i / 400, x = (1 - t) ** 2 * x1 + 2 * (1 - t) * t * cx + t * t * x2, y = (1 - t) ** 2 * y1 + 2 * (1 - t) * t * cy + t * t * y2;
-    L += Math.hypot(x - px, y - py); px = x; py = y;
-  }
-  return +L.toFixed(1);
-}
-const legs = [
-  ['madrid', 0.22, 'eu'],
-  ['newyork', 0.26, 'us'],
-  ['sanfrancisco', 0.3, 'us'],
-  ['mexico', 0.24, 'eu'],
-  ['guayaquil', 0.2, 'eu'],
-  ['buenosaires', 0.1, 'eu'],
-  ['bogota', 0.23, 'eu'],
-  ['lima', 0.17, 'eu'],
-  ['santiago', 0.15, 'eu'],
-  ['washington', 0.21, 'us'],
-].map(([b, bend, g], i) => { const d = arc('abudhabi', b, bend, -1); return { i, from: 'abudhabi', to: b, group: g, d, len: length(d) }; });
-console.log(JSON.stringify({ dots: dots.length, pts, legs }));
+console.log(JSON.stringify({ dots: dots.length, pts }));

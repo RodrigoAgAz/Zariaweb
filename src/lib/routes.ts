@@ -1,13 +1,14 @@
-// The route map: the single source of truth for page URLs in both languages.
-// It drives page generation, the language switcher, hreflang links, navigation and the sitemap.
+// The route map: the single source of truth for page URLs. The site is English only (owner
+// decision); `languages` is kept so page generation and copy lookup stay keyed by language.
+// It drives page generation, navigation and the sitemap.
 // Paths are written without the deployment base; use `url()` to make a link.
 
-export const languages = ['en', 'es'] as const;
+export const languages = ['en'] as const;
 export type Lang = (typeof languages)[number];
 
 export const routes = {
-	home: { en: '/', es: '/es/' },
-	regulatory: { en: '/regulatory/', es: '/es/informacion-regulatoria/' },
+	home: { en: '/' },
+	regulatory: { en: '/regulatory/' },
 } as const satisfies Record<string, Record<Lang, `/${string}`>>;
 
 export type PageKey = keyof typeof routes;

@@ -20,8 +20,7 @@ hero:
 reach:
   label: Where we work
   heading: [Three corridors., "*One network.*"]
-  toggleLabel: Highlight a corridor on the map
-  mapLabel: Route map from Abu Dhabi to Madrid, New York, San Francisco, Mexico City, Guayaquil and Buenos Aires
+  mapLabel: Map of the firm's network linking Abu Dhabi, Madrid, Washington, New York, San Francisco, Mexico City, Bogotá, Guayaquil, Lima, Santiago and Buenos Aires
   cities:
     abudhabi: Abu Dhabi
     madrid: Madrid
@@ -40,20 +39,20 @@ services:
   statement: Zaria Capital is an independent advisory and investment firm, working alongside companies, families and institutions on *complex cross-border situations.*
   items:
     - title: Strategic Advisory
-      text: Advice on complex cross-border situations for companies, families and institutions, much of it originating from relationships built over decades.
+      text: Advice from the first approach to completion, on transactions that often span more than one region.
       caps: [Cross-border M&A, Strategic partnerships, Market entry]
     - title: Financing
-      text: Raising and structuring capital for cross-border transactions, drawing on relationships across the firm's three corridors.
+      text: Capital for transactions, from investors and lenders across the firm's three corridors.
       caps: [Capital formation, Structured financing]
     - title: Principal Investing
-      text: Zaria Capital invests as principal through joint ventures and co-investments in Spain and Abu Dhabi, with operational involvement from day one.
+      text: The firm commits its own capital in Spain and Abu Dhabi and works alongside management from day one.
       caps: [Joint ventures, Co-investments, Operational involvement]
 
 founder:
   label: Founder
   role: Founder and Chief Executive
   name: [Alonso, "*Aznar*"]
-  lead: Advises and invests alongside companies, families and institutions on complex cross-border situations across Southern Europe and Latin America, the Middle East and the United States, much of it originating from relationships built over more than twenty years.
+  lead: Advises and invests across Southern Europe and Latin America, the Middle East and the United States, much of it originating from relationships built over more than twenty years.
   careerLabel: Career
   career:
     - { firm: Consello, role: "Managing Director, advising CEOs of Fortune 100 companies and institutional leaders", places: [United States, Abu Dhabi] }
@@ -63,4 +62,4 @@ founder:
   boardsLabel: Boards
   boards:
     - { firm: Banco Guayaquil, role: Board of Directors, places: [Ecuador] }
-    - { firm: Arsenale Group, role: Advisory Board, places: [] }
+    - { firm: Arsenale Group, role: Advisory Board, places: [Italy] }

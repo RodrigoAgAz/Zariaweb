@@ -1,0 +1,170 @@
+[
+	{
+		"i": 0,
+		"from": "abudhabi",
+		"to": "madrid",
+		"office": true,
+		"d": "M1051.4 235.8Q919.1 118.7 743.4 137.1",
+		"len": 333.6
+	},
+	{
+		"i": 1,
+		"from": "madrid",
+		"to": "newyork",
+		"office": false,
+		"d": "M743.4 137.1Q571.9 67.4 399.6 135.3",
+		"len": 352.8
+	},
+	{
+		"i": 2,
+		"from": "washington",
+		"to": "madrid",
+		"office": false,
+		"d": "M383 146.4Q561.7 84.1 743.4 137.1",
+		"len": 366.6
+	},
+	{
+		"i": 3,
+		"from": "abudhabi",
+		"to": "newyork",
+		"office": false,
+		"d": "M1051.4 235.8Q751.6 16.1 399.6 135.3",
+		"len": 688.1
+	},
+	{
+		"i": 4,
+		"from": "madrid",
+		"to": "mexico",
+		"office": false,
+		"d": "M743.4 137.1Q473.1 104.3 254.7 266.9",
+		"len": 518.8
+	},
+	{
+		"i": 5,
+		"from": "bogota",
+		"to": "madrid",
+		"office": false,
+		"d": "M381.9 357.6Q531.8 196.7 743.4 137.1",
+		"len": 428.9
+	},
+	{
+		"i": 6,
+		"from": "madrid",
+		"to": "buenosaires",
+		"office": false,
+		"d": "M743.4 137.1Q663.7 401.1 472.8 600.1",
+		"len": 541.4
+	},
+	{
+		"i": 7,
+		"from": "lima",
+		"to": "madrid",
+		"office": false,
+		"d": "M367.5 460.7Q581.3 329 743.4 137.1",
+		"len": 498.1
+	},
+	{
+		"i": 8,
+		"from": "abudhabi",
+		"to": "buenosaires",
+		"office": false,
+		"d": "M1051.4 235.8Q725.7 360.1 472.8 600.1",
+		"len": 688.3
+	},
+	{
+		"i": 9,
+		"from": "santiago",
+		"to": "abudhabi",
+		"office": false,
+		"d": "M410.5 593Q788.1 516.9 1051.4 235.8",
+		"len": 746
+	},
+	{
+		"i": 10,
+		"from": "abudhabi",
+		"to": "bogota",
+		"office": false,
+		"d": "M1051.4 235.8Q689.9 149.4 381.9 357.6",
+		"len": 701.8
+	},
+	{
+		"i": 11,
+		"from": "newyork",
+		"to": "sanfrancisco",
+		"office": false,
+		"d": "M399.6 135.3Q275.2 100.8 157.4 153.4",
+		"len": 248
+	},
+	{
+		"i": 12,
+		"from": "sanfrancisco",
+		"to": "mexico",
+		"office": false,
+		"d": "M157.4 153.4Q181.1 231.6 254.7 266.9",
+		"len": 154.2
+	},
+	{
+		"i": 13,
+		"from": "newyork",
+		"to": "mexico",
+		"office": false,
+		"d": "M399.6 135.3Q348.2 224.3 254.7 266.9",
+		"len": 199
+	},
+	{
+		"i": 14,
+		"from": "mexico",
+		"to": "bogota",
+		"office": false,
+		"d": "M254.7 266.9Q300.2 337.7 381.9 357.6",
+		"len": 160.3
+	},
+	{
+		"i": 15,
+		"from": "washington",
+		"to": "bogota",
+		"office": false,
+		"d": "M383 146.4Q407.8 252.1 381.9 357.6",
+		"len": 213.2
+	},
+	{
+		"i": 16,
+		"from": "bogota",
+		"to": "guayaquil",
+		"office": false,
+		"d": "M381.9 357.6Q361.2 375.1 350.7 400",
+		"len": 53.1
+	},
+	{
+		"i": 17,
+		"from": "guayaquil",
+		"to": "lima",
+		"office": false,
+		"d": "M350.7 400Q351.8 432.4 367.5 460.7",
+		"len": 63.6
+	},
+	{
+		"i": 18,
+		"from": "lima",
+		"to": "santiago",
+		"office": false,
+		"d": "M367.5 460.7Q370.5 532.9 410.5 593",
+		"len": 140.9
+	},
+	{
+		"i": 19,
+		"from": "santiago",
+		"to": "buenosaires",
+		"office": false,
+		"d": "M410.5 593Q439.9 612.1 472.8 600.1",
+		"len": 65.2
+	},
+	{
+		"i": 20,
+		"from": "buenosaires",
+		"to": "newyork",
+		"office": false,
+		"d": "M472.8 600.1Q501.3 357.5 399.6 135.3",
+		"len": 476.6
+	}
+]
