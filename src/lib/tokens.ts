@@ -9,10 +9,7 @@ export async function pageTokens(lang: Lang): Promise<Tokens> {
 	const { spain, adgm } = s.entities;
 	const text = (v: string | null | undefined) => (v ? esc(v) : null);
 	const link = (key: keyof typeof routes, label: string) => `<a href="${url(routes[key][lang])}">${esc(label)}</a>`;
-	const labels = {
-		en: { privacy: 'privacy notice', cookies: 'cookies page', regulatory: 'regulatory information', legal: 'legal notice' },
-		es: { privacy: 'política de privacidad', cookies: 'página de cookies', regulatory: 'información regulatoria', legal: 'aviso legal' },
-	}[lang];
+	const labels = { en: { regulatory: 'regulatory information' }, es: { regulatory: 'información regulatoria' } }[lang];
 	return {
 		spainName: text(spain.legalName),
 		spainTaxId: text(spain.taxId),
@@ -24,11 +21,6 @@ export async function pageTokens(lang: Lang): Promise<Tokens> {
 		adgmAddress: text(adgm.address),
 		adgmRegulatory: text(adgm.regulatoryStatement[lang]),
 		email: s.email ? emailHtml(s.email) : null,
-		hostingProvider: text(s.hosting.provider),
-		hostingLogs: text(s.hosting.logDetails[lang]),
-		privacyLink: link('privacy', labels.privacy),
-		cookiesLink: link('cookies', labels.cookies),
 		regulatoryLink: (await isPublished('regulatory')) ? link('regulatory', labels.regulatory) : null,
-		legalLink: link('legalNotice', labels.legal),
 	};
 }

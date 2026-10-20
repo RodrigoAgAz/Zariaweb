@@ -4,14 +4,8 @@
 # details or regulatory sentence is filled in.
 
 site:
-  # General contact address. Used on Contact, the legal pages and JSON-LD.
+  # General contact address. Shown in the footer and in the JSON-LD.
   email: info@zariacapital.es
-
-  offices:
-    madrid:
-      phone: null # optional, e.g. "+34 91 000 00 00"; omitted from the page while null
-    abuDhabi:
-      phone: null # optional
 
   entities:
     spain:
@@ -34,10 +28,3 @@ site:
       regulatoryStatement:
         en: null
         es: null
-
-  # The production host, named in the privacy notice once chosen.
-  hosting:
-    provider: null # e.g. "Cloudflare, Inc." or "GitHub, Inc."
-    logDetails: # retention period, location and transfer safeguard for server logs
-      en: null
-      es: null

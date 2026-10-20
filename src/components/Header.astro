@@ -215,7 +215,11 @@ const otherHref = url(page ? routes[page][other] : routes.home[other]);
 			opacity: 1;
 		}
 		.hdr-progress {
-			animation: hdr-grow auto linear both;
+			/* Longhands only: the minifier would fold a shorthand and the timeline into one invalid declaration. */
+			animation-name: hdr-grow;
+			animation-duration: auto;
+			animation-timing-function: linear;
+			animation-fill-mode: both;
 			animation-timeline: scroll(root);
 		}
 	}

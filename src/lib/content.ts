@@ -10,9 +10,6 @@ export type Settings = Awaited<ReturnType<typeof getSettings>>;
 
 const fileNames: Record<PageKey, string> = {
 	home: 'home',
-	legalNotice: 'legal-notice',
-	privacy: 'privacy',
-	cookies: 'cookies',
 	regulatory: 'regulatory',
 };
 

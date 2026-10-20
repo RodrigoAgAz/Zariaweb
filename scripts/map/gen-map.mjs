@@ -29,12 +29,22 @@ function arc(a, b, bend, sign) {
   const cx = (x1 + x2) / 2 + nx * d * bend, cy = (y1 + y2) / 2 + ny * d * bend;
   return `M${x1} ${y1}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x2} ${y2}`;
 }
+// Every route starts in Abu Dhabi; sign -1 bows each arc northwards. len feeds the light timing.
+function length(d) {
+  const [x1, y1, cx, cy, x2, y2] = d.match(/-?[\d.]+/g).map(Number);
+  let L = 0, px = x1, py = y1;
+  for (let i = 1; i <= 400; i++) {
+    const t = i / 400, x = (1 - t) ** 2 * x1 + 2 * (1 - t) * t * cx + t * t * x2, y = (1 - t) ** 2 * y1 + 2 * (1 - t) * t * cy + t * t * y2;
+    L += Math.hypot(x - px, y - py); px = x; py = y;
+  }
+  return +L.toFixed(1);
+}
 const legs = [
-  ['abudhabi', 'madrid', 0.22, -1, 'me'],
-  ['madrid', 'newyork', 0.20, -1, 'us'],
-  ['newyork', 'sanfrancisco', 0.18, -1, 'us'],
-  ['sanfrancisco', 'mexico', 0.22, 1, 'eu'],
-  ['mexico', 'guayaquil', 0.25, 1, 'eu'],
-  ['guayaquil', 'buenosaires', 0.25, 1, 'eu'],
-].map(([a, b, bend, s, g], i) => ({ i, from: a, to: b, group: g, d: arc(a, b, bend, s) }));
+  ['madrid', 0.22, 'eu'],
+  ['newyork', 0.26, 'us'],
+  ['sanfrancisco', 0.3, 'us'],
+  ['mexico', 0.24, 'eu'],
+  ['guayaquil', 0.2, 'eu'],
+  ['buenosaires', 0.14, 'eu'],
+].map(([b, bend, g], i) => { const d = arc('abudhabi', b, bend, -1); return { i, from: 'abudhabi', to: b, group: g, d, len: length(d) }; });
 console.log(JSON.stringify({ dots: dots.length, pts, legs }));

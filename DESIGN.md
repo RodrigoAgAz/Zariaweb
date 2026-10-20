@@ -3,17 +3,17 @@
 The homepage follows the approved redesign handoff (`HANDOFF.md` and the `Main`, `Mobile` and `Share` mockups in the handoff pack). Where this file and the handoff differ, the handoff wins.
 
 ## Positioning
-A discreet presence, not a services brochure. One page plus the legal pages the law requires, linked from the footer. No team page, no addresses, no office times, no portrait, no contact form or call to action, no client names, no statistics.
+A discreet presence, not a services brochure. One page. No legal notice, privacy or cookies pages (owner decision); Regulatory information appears, linked from the footer, only once entity details are supplied. No team page, no addresses, no office times, no portrait, no contact form or call to action, no client names, no statistics.
 
 ## Structure (homepage)
 1. **Header**, fixed: white horizontal logo, caps links (Where we work, What we do, Founder, Contact), EN / ES. Transparent over the hero; after 120 px of scroll it condenses to a blurred deep-green bar with the Z mark and a gold reading-progress line. Below 860 px the links move into a full-screen menu. Without JavaScript the header is not fixed and the menu opens through its `#site-menu` anchor.
 2. **Hero**: the Madrid photograph (slow 30 s zoom), tinted, with grain and a faint vertical grid; eyebrow "Advisory · Financing · Investing"; the H1 "Independent advice and *investment.*" rising line by line; the three corridors as a strip that advances every 6.5 s with a gold progress bar, plus the photo caption. On the first visit of a session a Z-shaped window opens onto the photograph (the opening animation); later visits skip it.
-3. **01 Where we work** (dark green): "Three corridors. *One network.*", the dot map with the route Abu Dhabi, Madrid, New York, San Francisco, Mexico City, Guayaquil, Buenos Aires, and three corridor toggles that dim the other corridors.
+3. **01 Where we work** (dark green): "Three corridors. *One network.*", the dot map with six routes radiating from Abu Dhabi to Madrid, New York, San Francisco, Mexico City, Guayaquil and Buenos Aires, a light running along each route, and three corridor toggles (Southern Europe and Latin America, the United States; the Middle East, as the hub, keeps every route lit).
 4. **02 What we do** (ivory): one statement and three numbered rows (Advisory, Financing, Investing) with italic gold numerals and a caps list each.
 5. **03 Founder** (ivory): role, name, lead, Career and Boards lists.
-6. **Footer** (deep green, also the Contact anchor): logo, email, legal links, EN / ES, regulatory sentences once supplied, the disclaimer, copyright.
+6. **Footer** (deep green, also the Contact anchor): logo, email, EN / ES, the Regulatory information link once published, regulatory sentences once supplied, the disclaimer, copyright.
 
-Inner (legal) pages open with a dark green band carrying their H1 and the Z diagonal.
+Regulatory information, when published, opens with a dark green band carrying its H1 and the Z diagonal.
 
 ## Type
 One family, **Zaria Serif** (EB Garamond files until the Perpetua WOFF2 files are supplied), regular and italic, no bold, no sans-serif. The redesign introduces letter-spaced caps (12.5 px, 12 px on phones, 0.2 em tracking) for navigation, labels and lists, and italic gold numerals.
@@ -27,7 +27,7 @@ One family, **Zaria Serif** (EB Garamond files until the Perpetua WOFF2 files ar
 ## Motion
 CSS plus three small vanilla modules (`src/scripts/`); no libraries.
 - Opening Z reveal (first visit per session), hero line rise, corridor strip.
-- Map: where the browser supports scroll timelines, the legs draw with the scroll in route order and the labels follow; elsewhere the route draws in sequence when the map enters the viewport. Without JavaScript it is simply drawn.
+- Map: where the browser supports scroll timelines, the routes draw out of Abu Dhabi with the scroll, one after another, and are complete before the map reaches the middle of the screen; the labels and lights follow. Elsewhere the routes draw in sequence when the map enters the viewport. Without JavaScript they are simply drawn. Each route's light runs Abu Dhabi to city, rests and repeats, timed to the route's length.
 - Sections morph in on scroll where scroll timelines are supported.
 - `prefers-reduced-motion`: no intro, no zoom, no pulses, no auto-advance; everything is shown in its final state.
 
@@ -36,7 +36,4 @@ CSS plus three small vanilla modules (`src/scripts/`); no libraries.
 | Page | English | Spanish |
 |---|---|---|
 | Home | `/` | `/es/` |
-| Legal notice | `/legal-notice/` | `/es/aviso-legal/` |
-| Privacy | `/privacy/` | `/es/privacidad/` |
-| Cookies | `/cookies/` | `/es/cookies/` |
 | Regulatory information (published only once an entity's details or regulatory sentence are supplied) | `/regulatory/` | `/es/informacion-regulatoria/` |

@@ -9,10 +9,6 @@ const settings = defineCollection({
 	loader: file('src/content/settings.yaml'),
 	schema: z.object({
 		email: z.string().email().nullable(),
-		offices: z.object({
-			madrid: z.object({ phone: z.string().nullable() }),
-			abuDhabi: z.object({ phone: z.string().nullable() }),
-		}),
 		entities: z.object({
 			spain: z.object({
 				legalName: z.string().nullable(),
@@ -27,10 +23,6 @@ const settings = defineCollection({
 				address: z.string().nullable(),
 				regulatoryStatement: optionalBilingual,
 			}),
-		}),
-		hosting: z.object({
-			provider: z.string().nullable(),
-			logDetails: optionalBilingual,
 		}),
 	}),
 });

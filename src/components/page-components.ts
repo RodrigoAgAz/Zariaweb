@@ -5,8 +5,5 @@ import Legal from './pages/Legal.astro';
 
 export const pageComponents: Record<PageKey, any> = {
 	home: Home,
-	legalNotice: Legal,
-	privacy: Legal,
-	cookies: Legal,
 	regulatory: Legal,
 };

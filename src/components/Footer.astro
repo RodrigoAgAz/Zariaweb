@@ -33,8 +33,14 @@ const year = new Date().getFullYear();
 				<img src={logoWhite} alt="" width="172" height="30" />
 			</a>
 			{settings.email && <a class="flink foot-mail" href={`mailto:${settings.email}`}>{settings.email}</a>}
-			<nav class="foot-nav" aria-label={ui.legalNavLabel}>
-				{legalLinks.map((key) => <a class="flink caps" href={url(routes[key][lang])}>{ui.nav[key]}</a>)}
+			<div class="foot-nav">
+				{
+					legalLinks.length > 0 && (
+						<nav class="foot-legal" aria-label={ui.legalNavLabel}>
+							{legalLinks.map((key) => <a class="flink caps" href={url(routes[key][lang])}>{ui.nav[key]}</a>)}
+						</nav>
+					)
+				}
 				<span class="foot-lang caps">
 					<span aria-current="true">
 						{ui.current[lang].code}<span class="visually-hidden">{ui.current[lang].hidden}</span>
@@ -44,7 +50,7 @@ const year = new Date().getFullYear();
 						{ui.switchTo[other].code}<span class="visually-hidden">{ui.switchTo[other].hidden}</span>
 					</a>
 				</span>
-			</nav>
+			</div>
 		</div>
 		<div class="foot-bottom">
 			<div class="foot-notes">
@@ -105,13 +111,20 @@ const year = new Date().getFullYear();
 		align-items: center;
 		gap: 12px 36px;
 	}
-	.foot-nav > a {
+	.foot-legal {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px 36px;
+	}
+	.foot-legal > a {
 		padding-block: 12px;
 	}
 	.foot-lang {
 		display: flex;
 		align-items: center;
 		gap: 10px;
+	}
+	.foot-legal + .foot-lang {
 		padding-inline-start: 32px;
 		border-inline-start: 1px solid rgb(243 240 232 / 0.22);
 	}
@@ -172,7 +185,7 @@ const year = new Date().getFullYear();
 			gap: 4px 28px;
 			margin-block-start: 28px;
 		}
-		.foot-lang {
+		.foot-legal + .foot-lang {
 			padding-inline-start: 0;
 			border-inline-start: 0;
 		}

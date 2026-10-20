@@ -1,7 +1,7 @@
 ---
 // 01 Where we work (HANDOFF.md "01 Where we work"). Heading, the corridor toggle, and the route map:
-// a dotted world map with one chain of six legs from Abu Dhabi to Buenos Aires, office rings, city
-// labels and a travelling light. Geometry from scripts/map/map-geometry.json (1200 x 680 space).
+// a dotted world map with six routes radiating from Abu Dhabi to each city, office rings, city
+// labels and a light travelling along every route. Geometry from scripts/map/map-geometry.json (1200 x 680 space).
 // The map is drawn twice, for desktop and for phones, because labels, stroke widths and dot sizes
 // differ between the two mockups; only one is displayed at a time.
 import dotmap from '../../assets/home/zaria-dotmap.svg?url';
@@ -22,17 +22,18 @@ const pts: Record<City, [number, number]> = {
 	guayaquil: [350.7, 400],
 	buenosaires: [472.8, 600.1],
 };
-// Corridor grouping for the toggle: Middle East = leg 1; United States = legs 2 and 3;
-// Southern Europe and Latin America = legs 4 to 6.
+// Every route starts in Abu Dhabi. Corridor grouping for the toggle: Southern Europe and Latin
+// America = Madrid, Mexico City, Guayaquil, Buenos Aires; United States = New York, San Francisco;
+// the Middle East is the hub, so it keeps every route lit.
 const legs = [
-	{ group: 'me', d: 'M1051.4 235.8Q919.1 118.7 743.4 137.1' },
-	{ group: 'us', d: 'M743.4 137.1Q571.9 67.4 399.6 135.3' },
-	{ group: 'us', d: 'M399.6 135.3Q275.2 100.8 157.4 153.4' },
-	{ group: 'eu', d: 'M157.4 153.4Q231.0 188.7 254.7 266.9' },
-	{ group: 'eu', d: 'M254.7 266.9Q336.0 309.4 350.7 400' },
-	{ group: 'eu', d: 'M350.7 400Q461.8 469.5 472.8 600.1' },
+	{ group: 'eu', d: 'M1051.4 235.8Q919.1 118.7 743.4 137.1' },
+	{ group: 'us', d: 'M1051.4 235.8Q751.6 16.1 399.6 135.3' },
+	{ group: 'us', d: 'M1051.4 235.8Q629.1 -73.6 157.4 153.4' },
+	{ group: 'eu', d: 'M1051.4 235.8Q645.6 60.1 254.7 266.9' },
+	{ group: 'eu', d: 'M1051.4 235.8Q668.2 177.8 350.7 400' },
+	{ group: 'eu', d: 'M1051.4 235.8Q711.1 336.9 472.8 600.1' },
 ];
-// City dots appear as each leg arrives (in route order).
+// City dots appear as each route arrives.
 const stops: { city: City; group: string }[] = [
 	{ city: 'newyork', group: 'us' },
 	{ city: 'sanfrancisco', group: 'us' },
@@ -40,25 +41,26 @@ const stops: { city: City; group: string }[] = [
 	{ city: 'guayaquil', group: 'eu' },
 	{ city: 'buenosaires', group: 'eu' },
 ];
-// Label positions per mockup; chosen to clear the lines.
+// Label positions: searched for the nearest spot that clears every route, dot and other label
+// (about 10 map units of space on desktop, 16 on phones).
 const labels = {
 	desktop: [
-		{ city: 'abudhabi', x: 1064, y: 268, size: 26, office: true },
-		{ city: 'madrid', x: 752, y: 170, size: 26, office: true },
-		{ city: 'newyork', x: 399.6, y: 114, size: 18, anchor: 'middle' },
-		{ city: 'sanfrancisco', x: 146, y: 150, size: 18, anchor: 'end' },
-		{ city: 'mexico', x: 266, y: 262, size: 18 },
-		{ city: 'guayaquil', x: 336, y: 410, size: 18, anchor: 'end' },
-		{ city: 'buenosaires', x: 488, y: 612, size: 18 },
+		{ city: 'abudhabi', x: 1069, y: 267, size: 26, office: true },
+		{ city: 'madrid', x: 683, y: 135, size: 26, office: true, anchor: 'middle' },
+		{ city: 'newyork', x: 348, y: 132, size: 18, anchor: 'middle' },
+		{ city: 'sanfrancisco', x: 221, y: 174, size: 18, anchor: 'middle' },
+		{ city: 'mexico', x: 315, y: 285, size: 18, anchor: 'middle' },
+		{ city: 'guayaquil', x: 369, y: 415, size: 18 },
+		{ city: 'buenosaires', x: 413, y: 591, size: 18, anchor: 'middle' },
 	],
 	mobile: [
-		{ city: 'abudhabi', x: 1040, y: 296, size: 44, office: true, anchor: 'end' },
-		{ city: 'madrid', x: 752, y: 190, size: 44, office: true },
-		{ city: 'newyork', x: 400, y: 178, size: 32, anchor: 'middle' },
-		{ city: 'sanfrancisco', x: 62, y: 116, size: 32 },
-		{ city: 'mexico', x: 268, y: 258, size: 32 },
-		{ city: 'guayaquil', x: 336, y: 416, size: 32, anchor: 'end' },
-		{ city: 'buenosaires', x: 488, y: 616, size: 32 },
+		{ city: 'abudhabi', x: 1133, y: 312, size: 44, office: true, anchor: 'end' },
+		{ city: 'madrid', x: 741, y: 210, size: 44, office: true, anchor: 'end' },
+		{ city: 'newyork', x: 378, y: 184, size: 32, anchor: 'end' },
+		{ city: 'sanfrancisco', x: 227, y: 211, size: 32, anchor: 'end' },
+		{ city: 'mexico', x: 355, y: 310, size: 32, anchor: 'middle' },
+		{ city: 'guayaquil', x: 381, y: 425, size: 32 },
+		{ city: 'buenosaires', x: 495, y: 649, size: 32 },
 	],
 } as const;
 const variants = [
@@ -99,25 +101,25 @@ const corridorGroups = ['eu', 'me', 'us'];
 								</defs>
 								<g>
 									{legs.map((leg, i) => (
-										<path class={`arc l${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+										<path class={`arc l${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
 									))}
 								</g>
 								<g class="pulses">
 									<g filter={`url(#zglow-${v.key})`}>
 										{legs.map((leg, i) => (
-											<path class={`tail c${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+											<path class={`tail c${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
 										))}
 										{legs.map((leg, i) => (
-											<path class={`mid c${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+											<path class={`mid c${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
 										))}
 									</g>
 									{legs.map((leg, i) => (
-										<path class={`head c${i} g-${leg.group}`} pathLength="1" d={leg.d} />
+										<path class={`head c${i} g-${leg.group} g-me`} pathLength="1" d={leg.d} />
 									))}
 								</g>
 								<g class="eps">
 									{stops.map((s, i) => (
-										<circle class={`ep e${i} g-${s.group}`} cx={pts[s.city][0]} cy={pts[s.city][1]} r={v.dot} />
+										<circle class={`ep e${i} g-${s.group} g-me`} cx={pts[s.city][0]} cy={pts[s.city][1]} r={v.dot} />
 									))}
 								</g>
 								<g>
@@ -167,7 +169,10 @@ const corridorGroups = ['eu', 'me', 'us'];
 <style>
 	.reach {
 		position: relative;
+		/* clip, not hidden: hidden would make the section a scroll container and freeze the map's
+		   scroll timeline. */
 		overflow: hidden;
+		overflow: clip;
 		background: var(--zc-logo-ink);
 		color: var(--zc-on-dark);
 		padding-block: var(--home-pad-top) var(--home-pad-bottom);
@@ -331,80 +336,96 @@ const corridorGroups = ['eu', 'me', 'us'];
 	.tail {
 		fill: none;
 		stroke-linecap: round;
-		animation-duration: 8.4s;
 		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
 		animation-iteration-count: infinite;
 		animation-fill-mode: both;
 		transition: opacity 0.7s;
 	}
+	/* Each route has its own light, running from Abu Dhabi to the city, resting, and repeating.
+	   Paths use pathLength 1, so --k (1 / the route's length in map units) keeps the light the same
+	   size on every route, and each route's cycle is timed to its length (about 220 units a second).
+	   The keyframes use plain numbers: Chrome will not interpolate an offset written with var(). */
 	.head {
 		stroke: #fff6dc;
 		stroke-width: 2.4;
-		stroke-dasharray: 0.02 2;
+		stroke-dasharray: calc(6 * var(--k)) 2;
 		stroke-dashoffset: 0.02;
-		animation-name: reach-hop-head;
+		animation-name: reach-run-head;
 	}
 	.mid {
 		stroke: #f3dc9c;
 		stroke-width: 4;
 		stroke-opacity: 0.7;
-		stroke-dasharray: 0.08 2;
-		stroke-dashoffset: 0.08;
-		animation-name: reach-hop-mid;
+		stroke-dasharray: calc(24 * var(--k)) 2;
+		stroke-dashoffset: 0.075;
+		animation-name: reach-run-mid;
 	}
 	.tail {
 		stroke: #e0bd6a;
 		stroke-width: 7;
 		stroke-opacity: 0.35;
-		stroke-dasharray: 0.18 2;
-		stroke-dashoffset: 0.18;
-		animation-name: reach-hop-tail;
+		stroke-dasharray: calc(56 * var(--k)) 2;
+		stroke-dashoffset: 0.17;
+		animation-name: reach-run-tail;
 	}
-	@keyframes reach-hop-head {
+	@keyframes reach-run-head {
 		0% {
 			stroke-dashoffset: 0.02;
 		}
-		14.2857%,
+		70%,
 		100% {
 			stroke-dashoffset: -1;
 		}
 	}
-	@keyframes reach-hop-mid {
+	@keyframes reach-run-mid {
 		0% {
-			stroke-dashoffset: 0.08;
+			stroke-dashoffset: 0.075;
 		}
-		14.2857%,
+		70%,
 		100% {
-			stroke-dashoffset: -0.94;
+			stroke-dashoffset: -1;
 		}
 	}
-	@keyframes reach-hop-tail {
+	@keyframes reach-run-tail {
 		0% {
-			stroke-dashoffset: 0.18;
+			stroke-dashoffset: 0.17;
 		}
-		14.2857%,
+		70%,
 		100% {
-			stroke-dashoffset: -0.84;
+			stroke-dashoffset: -1;
 		}
 	}
-	/* Leg n of the light starts 1.2s after leg n minus 1, once the route has been drawn. */
+	/* Lengths: Madrid 334, New York 688, San Francisco 949, Mexico City 827, Guayaquil 738,
+	   Buenos Aires 693. The lights start once the routes are drawn, a little apart. */
 	.c0 {
-		animation-delay: 4s;
+		--k: 0.002998;
+		animation-duration: 2.2s;
+		animation-delay: 3.4s;
 	}
 	.c1 {
-		animation-delay: 5.2s;
+		--k: 0.001453;
+		animation-duration: 4.5s;
+		animation-delay: 3.9s;
 	}
 	.c2 {
-		animation-delay: 6.4s;
+		--k: 0.001054;
+		animation-duration: 6.2s;
+		animation-delay: 4.4s;
 	}
 	.c3 {
-		animation-delay: 7.6s;
+		--k: 0.001209;
+		animation-duration: 5.4s;
+		animation-delay: 4.9s;
 	}
 	.c4 {
-		animation-delay: 8.8s;
+		--k: 0.001354;
+		animation-duration: 4.8s;
+		animation-delay: 5.4s;
 	}
 	.c5 {
-		animation-delay: 10s;
+		--k: 0.001444;
+		animation-duration: 4.5s;
+		animation-delay: 5.9s;
 	}
 	.ep {
 		fill: var(--zc-on-dark);
@@ -545,44 +566,64 @@ const corridorGroups = ['eu', 'me', 'us'];
 		:global(.js) .map .arc,
 		:global(.js) .map.is-in .arc {
 			stroke-dashoffset: 1;
-			animation: zc-draw auto linear both;
+			/* Longhands only: the minifier would fold a shorthand and the timeline into one invalid declaration. */
+			animation-name: zc-draw;
+			animation-duration: auto;
+			animation-timing-function: linear;
+			animation-fill-mode: both;
 			animation-timeline: --map;
 			animation-delay: 0s !important;
 		}
-		.map .arc.l0 {
-			animation-range: entry 10% cover 34%;
+		/* All routes leave Abu Dhabi together, a little apart, and are drawn before the map reaches
+		   the middle of the screen; the lights follow. */
+		:global(.js) .map .arc.l0,
+		:global(.js) .map.is-in .arc.l0 {
+			animation-range: entry 10% cover 28%;
 		}
-		.map .arc.l1 {
-			animation-range: entry 30% cover 38%;
+		:global(.js) .map .arc.l1,
+		:global(.js) .map.is-in .arc.l1 {
+			animation-range: entry 20% cover 31%;
 		}
-		.map .arc.l2 {
-			animation-range: entry 50% cover 42%;
+		:global(.js) .map .arc.l2,
+		:global(.js) .map.is-in .arc.l2 {
+			animation-range: entry 30% cover 34%;
 		}
-		.map .arc.l3 {
-			animation-range: entry 70% cover 46%;
+		:global(.js) .map .arc.l3,
+		:global(.js) .map.is-in .arc.l3 {
+			animation-range: entry 40% cover 37%;
 		}
-		.map .arc.l4 {
-			animation-range: entry 90% cover 50%;
+		:global(.js) .map .arc.l4,
+		:global(.js) .map.is-in .arc.l4 {
+			animation-range: entry 50% cover 40%;
 		}
-		.map .arc.l5 {
-			animation-range: cover 40% cover 54%;
+		:global(.js) .map .arc.l5,
+		:global(.js) .map.is-in .arc.l5 {
+			animation-range: entry 60% cover 42%;
 		}
 		:global(.js) .map .ep,
 		:global(.js) .map .lbl,
 		:global(.js) .map.is-in .ep,
 		:global(.js) .map.is-in .lbl {
 			opacity: 0;
-			animation: zc-appear auto linear both;
+			/* Longhands only: the minifier would fold a shorthand and the timeline into one invalid declaration. */
+			animation-name: zc-appear;
+			animation-duration: auto;
+			animation-timing-function: linear;
+			animation-fill-mode: both;
 			animation-timeline: --map;
-			animation-range: cover 40% cover 55%;
+			animation-range: cover 28% cover 42%;
 			animation-delay: 0s !important;
 		}
 		:global(.js) .map .pulses,
 		:global(.js) .map:not(.is-in) .pulses {
 			opacity: 0;
-			animation: zc-appear auto linear both;
+			/* Longhands only: the minifier would fold a shorthand and the timeline into one invalid declaration. */
+			animation-name: zc-appear;
+			animation-duration: auto;
+			animation-timing-function: linear;
+			animation-fill-mode: both;
 			animation-timeline: --map;
-			animation-range: cover 50% cover 58%;
+			animation-range: cover 38% cover 45%;
 		}
 		:global(.js) .map:not(.is-in) .pulses path {
 			animation-play-state: running;

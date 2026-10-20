@@ -2,6 +2,14 @@
 
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
+## 2026-10-20 (owner review of the redesign)
+
+- **Score not a target (owner).** The grounds blend stays; homepage Lighthouse accessibility stays at 96 for the reason below.
+- **Routes radiate from Abu Dhabi (owner, departing from the handoff).** The map no longer draws one chain from Abu Dhabi to Buenos Aires: six routes leave Abu Dhabi, one to each city, each with its own travelling light. Corridor toggles: Southern Europe and Latin America lights Madrid, Mexico City, Guayaquil and Buenos Aires; the United States lights New York and San Francisco; the Middle East is the hub every route leaves from, so it keeps all of them lit. Labels were repositioned to clear the new lines.
+- **Founder lead without a pronoun (owner).** "He advises and invests…" became "Advises and invests…", matching the Spanish, which already had no pronoun.
+- **Legal notice, privacy and cookies pages removed (owner).** The footer carries the email, EN / ES, the disclaimer and the copyright; Regulatory information still appears once entity details are supplied. Risk recorded: LSSI-CE article 10 requires a Spanish business website to identify its owner, and a privacy notice is expected where personal data is processed (host logs, emails to the published address). The site sets no cookies, so the cookies page was not required. The `hosting` and `offices` settings, used only by those pages, were removed.
+- **Scroll-linked map and header progress line fixed (build).** In the first redesign deploy they never ran in Chrome: the CSS minifier folded each `animation` shorthand and its `animation-timeline` into one declaration that browsers reject, so the map fell back to its timed draw and the lights stayed hidden; the section's `overflow: hidden` also made it a scroll container, which would have frozen the map's timeline. Both are fixed (animation longhands; `overflow: clip`).
+
 ## 2026-10-20 (homepage redesign, branch `redesign-homepage`)
 
 - **Approved redesign implemented (owner).** The homepage follows the handoff pack (`PROMPT.md`, `HANDOFF.md`, mockups). It supersedes several earlier rules: letter-spaced caps are now used for navigation, labels and lists; ivory replaces white for the light sections; gold returns (route, rules, numerals); the header is fixed and condenses on scroll.
