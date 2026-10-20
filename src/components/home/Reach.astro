@@ -22,7 +22,8 @@ type City =
 	| 'buenosaires'
 	| 'bogota'
 	| 'lima'
-	| 'santiago';
+	| 'santiago'
+	| 'washington';
 const pts: Record<City, [number, number]> = {
 	abudhabi: [1051.4, 235.8],
 	madrid: [743.4, 137.1],
@@ -34,9 +35,11 @@ const pts: Record<City, [number, number]> = {
 	bogota: [381.9, 357.6],
 	lima: [367.5, 460.7],
 	santiago: [410.5, 593],
+	washington: [383, 146.4],
 };
 // Every route starts in Abu Dhabi. Corridor grouping for the toggle: Southern Europe and Latin
-// America = Madrid, Mexico City, Guayaquil, Buenos Aires, Bogotá, Lima, Santiago; United States = New York, San Francisco;
+// America = Madrid, Mexico City, Guayaquil, Buenos Aires, Bogotá, Lima, Santiago; United States = New York,
+// San Francisco, Washington;
 // the Middle East is the hub, so it keeps every route lit.
 const legs = [
 	{ group: 'eu', d: 'M1051.4 235.8Q919.1 118.7 743.4 137.1' },
@@ -48,6 +51,7 @@ const legs = [
 	{ group: 'eu', d: 'M1051.4 235.8Q688.6 142.7 381.9 357.6' },
 	{ group: 'eu', d: 'M1051.4 235.8Q671.2 232.0 367.5 460.7' },
 	{ group: 'eu', d: 'M1051.4 235.8Q677.4 318.3 410.5 593' },
+	{ group: 'us', d: 'M1051.4 235.8Q736.0 50.7 383 146.4' },
 ];
 // City dots appear as each route arrives.
 const stops: { city: City; group: string }[] = [
@@ -59,6 +63,7 @@ const stops: { city: City; group: string }[] = [
 	{ city: 'bogota', group: 'eu' },
 	{ city: 'lima', group: 'eu' },
 	{ city: 'santiago', group: 'eu' },
+	{ city: 'washington', group: 'us' },
 ];
 // Label positions: searched for the nearest spot that clears every route, dot and other label
 // (about 10 map units of space on desktop and on phones). Phone office labels are 36 units, the
@@ -66,22 +71,25 @@ const stops: { city: City; group: string }[] = [
 const labels = {
 	desktop: [
 		{ city: 'abudhabi', x: 1069, y: 267, size: 26, office: true },
-		{ city: 'madrid', x: 683, y: 135, size: 26, office: true, anchor: 'middle' },
-		{ city: 'newyork', x: 348, y: 132, size: 18, anchor: 'middle' },
+		{ city: 'madrid', x: 659, y: 186, size: 26, office: true },
+		{ city: 'newyork', x: 360, y: 117, size: 18, anchor: 'middle' },
 		{ city: 'sanfrancisco', x: 221, y: 174, size: 18, anchor: 'middle' },
-		{ city: 'mexico', x: 315, y: 285, size: 18, anchor: 'middle' },
+		{ city: 'mexico', x: 247, y: 261, size: 18, anchor: 'end' },
 		{ city: 'guayaquil', x: 338, y: 406, size: 18, anchor: 'end' },
 		{ city: 'buenosaires', x: 423, y: 633, size: 18 },
 		{ city: 'bogota', x: 370, y: 364, size: 18, anchor: 'end' },
 		{ city: 'lima', x: 355, y: 467, size: 18, anchor: 'end' },
 		{ city: 'santiago', x: 401, y: 623, size: 18, anchor: 'end' },
+		{ city: 'washington', x: 365, y: 146, size: 18, anchor: 'end' },
 	],
+	// New York and Washington are about 7px apart on a phone, too close for a label each, so they
+	// share one ("New York · Washington") below and left of the pair.
 	mobile: [
 		{ city: 'abudhabi', x: 1134, y: 306, size: 36, office: true, anchor: 'end' },
-		{ city: 'madrid', x: 728, y: 138, size: 36, office: true, anchor: 'end' },
-		{ city: 'newyork', x: 378, y: 184, size: 32, anchor: 'end' },
-		{ city: 'sanfrancisco', x: 227, y: 211, size: 32, anchor: 'end' },
-		{ city: 'mexico', x: 225, y: 301, size: 32, anchor: 'end' },
+		{ city: 'madrid', x: 627, y: 197, size: 36, office: true },
+		{ city: 'newyork', join: ['newyork', 'washington'], x: 380, y: 195, size: 32, anchor: 'end' },
+		{ city: 'sanfrancisco', x: 145, y: 108, size: 32, anchor: 'middle' },
+		{ city: 'mexico', x: 110, y: 309, size: 32 },
 		{ city: 'guayaquil', x: 334, y: 412, size: 32, anchor: 'end' },
 		{ city: 'buenosaires', x: 495, y: 649, size: 32 },
 		{ city: 'bogota', x: 366, y: 364, size: 32, anchor: 'end' },
@@ -163,7 +171,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 											font-size={l.size}
 											text-anchor={'anchor' in l ? l.anchor : undefined}
 										>
-											{copy.cities[l.city]}
+											{'join' in l ? l.join.map((c) => copy.cities[c]).join(' · ') : copy.cities[l.city]}
 										</text>
 									))}
 								</g>
@@ -422,7 +430,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 		}
 	}
 	/* Lengths: Madrid 334, New York 688, San Francisco 949, Mexico City 827, Guayaquil 738,
-	   Buenos Aires 688, Bogotá 704, Lima 734, Santiago 745. The lights start once the routes are drawn, a little apart. */
+	   Buenos Aires 688, Bogotá 704, Lima 734, Santiago 745, Washington 694. The lights start once the routes are drawn, a little apart. */
 	.c0 {
 		--k: 0.002998;
 		animation-duration: 2.2s;
@@ -467,6 +475,11 @@ const corridorGroups = ['eu', 'me', 'us'];
 		--k: 0.001343;
 		animation-duration: 4.8s;
 		animation-delay: 7.4s;
+	}
+	.c9 {
+		--k: 0.001442;
+		animation-duration: 4.5s;
+		animation-delay: 7.9s;
 	}
 	.ep {
 		fill: var(--zc-on-dark);
@@ -573,6 +586,9 @@ const corridorGroups = ['eu', 'me', 'us'];
 	.map.is-in .l8 {
 		animation-delay: 3.9s;
 	}
+	.map.is-in .l9 {
+		animation-delay: 4.35s;
+	}
 	.map.is-in .e0 {
 		animation-delay: 1.95s;
 	}
@@ -596,6 +612,9 @@ const corridorGroups = ['eu', 'me', 'us'];
 	}
 	.map.is-in .e7 {
 		animation-delay: 5.1s;
+	}
+	.map.is-in .e8 {
+		animation-delay: 5.55s;
 	}
 	.map.is-in .t0 {
 		animation-delay: 0.4s;
@@ -626,6 +645,9 @@ const corridorGroups = ['eu', 'me', 'us'];
 	}
 	.map.is-in .t9 {
 		animation-delay: 5.15s;
+	}
+	.map.is-in .t10 {
+		animation-delay: 5.6s;
 	}
 
 	/* Scroll-linked draw where supported: the legs draw with the scroll, in route order. Scoped to
@@ -679,6 +701,10 @@ const corridorGroups = ['eu', 'me', 'us'];
 		:global(.js) .map .arc.l8,
 		:global(.js) .map.is-in .arc.l8 {
 			animation-range: entry 90% cover 45%;
+		}
+		:global(.js) .map .arc.l9,
+		:global(.js) .map.is-in .arc.l9 {
+			animation-range: entry 95% cover 46%;
 		}
 		:global(.js) .map .ep,
 		:global(.js) .map .lbl,

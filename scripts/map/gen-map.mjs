@@ -20,7 +20,7 @@ const P = (lon, lat) => proj([lon, lat]).map(v => +v.toFixed(1));
 const pts = {
   abudhabi: P(54.37, 24.45), madrid: P(-3.70, 40.42), newyork: P(-74.0, 40.71), sanfrancisco: P(-122.42, 37.77),
   mexico: P(-99.13, 19.43), guayaquil: P(-79.9, -2.19), buenosaires: P(-58.38, -34.60),
-  bogota: P(-74.07, 4.71), lima: P(-77.04, -12.05), santiago: P(-70.67, -33.45),
+  bogota: P(-74.07, 4.71), lima: P(-77.04, -12.05), santiago: P(-70.67, -33.45), washington: P(-77.04, 38.91),
 };
 // bend: fraction of chord; sign +1 = bulge to the left of travel direction, -1 = right
 function arc(a, b, bend, sign) {
@@ -50,5 +50,6 @@ const legs = [
   ['bogota', 0.23, 'eu'],
   ['lima', 0.17, 'eu'],
   ['santiago', 0.15, 'eu'],
+  ['washington', 0.21, 'us'],
 ].map(([b, bend, g], i) => { const d = arc('abudhabi', b, bend, -1); return { i, from: 'abudhabi', to: b, group: g, d, len: length(d) }; });
 console.log(JSON.stringify({ dots: dots.length, pts, legs }));

@@ -33,6 +33,7 @@ reach:
     bogota: Bogotá
     lima: Lima
     santiago: Santiago
+    washington: Washington
 
 services:
   label: What we do

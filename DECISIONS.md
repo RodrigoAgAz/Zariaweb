@@ -4,6 +4,8 @@ Newest first. Decisions taken by the owner are marked **(owner)**; defaults take
 
 ## 2026-10-20 (later)
 
+- **Final city list (owner):** Abu Dhabi, Madrid, Washington, New York, San Francisco, Mexico City, Bogotá, Guayaquil, Santiago, Lima, Buenos Aires. Washington added (United States corridor); nothing removed. On phones New York and Washington are about 7 px apart, too close for a label each, so they share one label, "New York · Washington". Labels were re-placed for both languages: on the Spanish map "Ciudad de México" had run off the phone's left edge and crossed its route on desktop.
+- **Santiago label (build).** The owner's list says "Santiago de Chile"; the map keeps "Santiago", which is unambiguous beside Buenos Aires and fits the crowded Southern Cone.
 - **Bogotá, Lima and Santiago added (owner).** Nine routes now leave Abu Dhabi; the three new cities join the Southern Europe and Latin America corridor. Positions come from the same projection as the original seven (`scripts/map/`). On phones the Abu Dhabi and Madrid labels drop from 44 to 36 map units, the largest size that fits beside Madrid between the New York, Mexico City and Bogotá routes.
 
 ## 2026-10-20 (owner review of the redesign)
