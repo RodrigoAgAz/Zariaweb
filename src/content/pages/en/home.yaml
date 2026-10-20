@@ -39,13 +39,13 @@ services:
   statement: Zaria Capital is an independent advisory and investment firm, working alongside companies, families and institutions on *complex cross-border situations.*
   items:
     - title: Strategic Advisory
-      text: Counsel to owners and boards, from the first conversation to the close.
+      text: Advising shareholders, boards and management teams on mergers, acquisitions and other strategic transactions.
       caps: [Cross-border M&A, Strategic partnerships, Market entry]
     - title: Financing
-      text: Capital for transactions, from investors and lenders across the firm's three corridors.
+      text: Raising and structuring debt and equity for growth, recapitalisations and refinancings.
       caps: [Capital formation, Structured financing]
     - title: Principal Investing
-      text: The firm's own capital, invested in Spain and Abu Dhabi, with a seat at the table.
+      text: Investing the firm's own capital in companies and assets worldwide, with an active role in each.
       caps: [Joint ventures, Co-investments, Operational involvement]
 
 founder:
