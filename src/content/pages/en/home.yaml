@@ -30,6 +30,9 @@ reach:
     mexico: Mexico City
     guayaquil: Guayaquil
     buenosaires: Buenos Aires
+    bogota: Bogotá
+    lima: Lima
+    santiago: Santiago
 
 services:
   label: What we do

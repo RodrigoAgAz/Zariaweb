@@ -2,6 +2,10 @@
 
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
+## 2026-10-20 (later)
+
+- **Bogotá, Lima and Santiago added (owner).** Nine routes now leave Abu Dhabi; the three new cities join the Southern Europe and Latin America corridor. Positions come from the same projection as the original seven (`scripts/map/`). On phones the Abu Dhabi and Madrid labels drop from 44 to 36 map units, the largest size that fits beside Madrid between the New York, Mexico City and Bogotá routes.
+
 ## 2026-10-20 (owner review of the redesign)
 
 - **Score not a target (owner).** The grounds blend stays; homepage Lighthouse accessibility stays at 96 for the reason below.

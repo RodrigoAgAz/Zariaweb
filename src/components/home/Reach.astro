@@ -12,7 +12,17 @@ interface Props {
 }
 const { copy } = Astro.props;
 
-type City = 'abudhabi' | 'madrid' | 'newyork' | 'sanfrancisco' | 'mexico' | 'guayaquil' | 'buenosaires';
+type City =
+	| 'abudhabi'
+	| 'madrid'
+	| 'newyork'
+	| 'sanfrancisco'
+	| 'mexico'
+	| 'guayaquil'
+	| 'buenosaires'
+	| 'bogota'
+	| 'lima'
+	| 'santiago';
 const pts: Record<City, [number, number]> = {
 	abudhabi: [1051.4, 235.8],
 	madrid: [743.4, 137.1],
@@ -21,9 +31,12 @@ const pts: Record<City, [number, number]> = {
 	mexico: [254.7, 266.9],
 	guayaquil: [350.7, 400],
 	buenosaires: [472.8, 600.1],
+	bogota: [381.9, 357.6],
+	lima: [367.5, 460.7],
+	santiago: [410.5, 593],
 };
 // Every route starts in Abu Dhabi. Corridor grouping for the toggle: Southern Europe and Latin
-// America = Madrid, Mexico City, Guayaquil, Buenos Aires; United States = New York, San Francisco;
+// America = Madrid, Mexico City, Guayaquil, Buenos Aires, Bogotá, Lima, Santiago; United States = New York, San Francisco;
 // the Middle East is the hub, so it keeps every route lit.
 const legs = [
 	{ group: 'eu', d: 'M1051.4 235.8Q919.1 118.7 743.4 137.1' },
@@ -31,7 +44,10 @@ const legs = [
 	{ group: 'us', d: 'M1051.4 235.8Q629.1 -73.6 157.4 153.4' },
 	{ group: 'eu', d: 'M1051.4 235.8Q645.6 60.1 254.7 266.9' },
 	{ group: 'eu', d: 'M1051.4 235.8Q668.2 177.8 350.7 400' },
-	{ group: 'eu', d: 'M1051.4 235.8Q711.1 336.9 472.8 600.1' },
+	{ group: 'eu', d: 'M1051.4 235.8Q725.7 360.1 472.8 600.1' },
+	{ group: 'eu', d: 'M1051.4 235.8Q688.6 142.7 381.9 357.6' },
+	{ group: 'eu', d: 'M1051.4 235.8Q671.2 232.0 367.5 460.7' },
+	{ group: 'eu', d: 'M1051.4 235.8Q677.4 318.3 410.5 593' },
 ];
 // City dots appear as each route arrives.
 const stops: { city: City; group: string }[] = [
@@ -40,9 +56,13 @@ const stops: { city: City; group: string }[] = [
 	{ city: 'mexico', group: 'eu' },
 	{ city: 'guayaquil', group: 'eu' },
 	{ city: 'buenosaires', group: 'eu' },
+	{ city: 'bogota', group: 'eu' },
+	{ city: 'lima', group: 'eu' },
+	{ city: 'santiago', group: 'eu' },
 ];
 // Label positions: searched for the nearest spot that clears every route, dot and other label
-// (about 10 map units of space on desktop, 16 on phones).
+// (about 10 map units of space on desktop and on phones). Phone office labels are 36 units, the
+// largest that fits beside Madrid between the New York, Mexico City and Bogotá routes.
 const labels = {
 	desktop: [
 		{ city: 'abudhabi', x: 1069, y: 267, size: 26, office: true },
@@ -50,17 +70,23 @@ const labels = {
 		{ city: 'newyork', x: 348, y: 132, size: 18, anchor: 'middle' },
 		{ city: 'sanfrancisco', x: 221, y: 174, size: 18, anchor: 'middle' },
 		{ city: 'mexico', x: 315, y: 285, size: 18, anchor: 'middle' },
-		{ city: 'guayaquil', x: 369, y: 415, size: 18 },
-		{ city: 'buenosaires', x: 413, y: 591, size: 18, anchor: 'middle' },
+		{ city: 'guayaquil', x: 338, y: 406, size: 18, anchor: 'end' },
+		{ city: 'buenosaires', x: 423, y: 633, size: 18 },
+		{ city: 'bogota', x: 370, y: 364, size: 18, anchor: 'end' },
+		{ city: 'lima', x: 355, y: 467, size: 18, anchor: 'end' },
+		{ city: 'santiago', x: 401, y: 623, size: 18, anchor: 'end' },
 	],
 	mobile: [
-		{ city: 'abudhabi', x: 1133, y: 312, size: 44, office: true, anchor: 'end' },
-		{ city: 'madrid', x: 741, y: 210, size: 44, office: true, anchor: 'end' },
+		{ city: 'abudhabi', x: 1134, y: 306, size: 36, office: true, anchor: 'end' },
+		{ city: 'madrid', x: 728, y: 138, size: 36, office: true, anchor: 'end' },
 		{ city: 'newyork', x: 378, y: 184, size: 32, anchor: 'end' },
 		{ city: 'sanfrancisco', x: 227, y: 211, size: 32, anchor: 'end' },
-		{ city: 'mexico', x: 355, y: 310, size: 32, anchor: 'middle' },
-		{ city: 'guayaquil', x: 381, y: 425, size: 32 },
+		{ city: 'mexico', x: 225, y: 301, size: 32, anchor: 'end' },
+		{ city: 'guayaquil', x: 334, y: 412, size: 32, anchor: 'end' },
 		{ city: 'buenosaires', x: 495, y: 649, size: 32 },
+		{ city: 'bogota', x: 366, y: 364, size: 32, anchor: 'end' },
+		{ city: 'lima', x: 350, y: 476, size: 32, anchor: 'end' },
+		{ city: 'santiago', x: 351, y: 648, size: 32, anchor: 'middle' },
 	],
 } as const;
 const variants = [
@@ -396,7 +422,7 @@ const corridorGroups = ['eu', 'me', 'us'];
 		}
 	}
 	/* Lengths: Madrid 334, New York 688, San Francisco 949, Mexico City 827, Guayaquil 738,
-	   Buenos Aires 693. The lights start once the routes are drawn, a little apart. */
+	   Buenos Aires 688, Bogotá 704, Lima 734, Santiago 745. The lights start once the routes are drawn, a little apart. */
 	.c0 {
 		--k: 0.002998;
 		animation-duration: 2.2s;
@@ -423,9 +449,24 @@ const corridorGroups = ['eu', 'me', 'us'];
 		animation-delay: 5.4s;
 	}
 	.c5 {
-		--k: 0.001444;
+		--k: 0.001453;
 		animation-duration: 4.5s;
 		animation-delay: 5.9s;
+	}
+	.c6 {
+		--k: 0.001421;
+		animation-duration: 4.6s;
+		animation-delay: 6.4s;
+	}
+	.c7 {
+		--k: 0.001363;
+		animation-duration: 4.8s;
+		animation-delay: 6.9s;
+	}
+	.c8 {
+		--k: 0.001343;
+		animation-duration: 4.8s;
+		animation-delay: 7.4s;
 	}
 	.ep {
 		fill: var(--zc-on-dark);
@@ -523,6 +564,15 @@ const corridorGroups = ['eu', 'me', 'us'];
 	.map.is-in .l5 {
 		animation-delay: 2.55s;
 	}
+	.map.is-in .l6 {
+		animation-delay: 3s;
+	}
+	.map.is-in .l7 {
+		animation-delay: 3.45s;
+	}
+	.map.is-in .l8 {
+		animation-delay: 3.9s;
+	}
 	.map.is-in .e0 {
 		animation-delay: 1.95s;
 	}
@@ -537,6 +587,15 @@ const corridorGroups = ['eu', 'me', 'us'];
 	}
 	.map.is-in .e4 {
 		animation-delay: 3.75s;
+	}
+	.map.is-in .e5 {
+		animation-delay: 4.2s;
+	}
+	.map.is-in .e6 {
+		animation-delay: 4.65s;
+	}
+	.map.is-in .e7 {
+		animation-delay: 5.1s;
 	}
 	.map.is-in .t0 {
 		animation-delay: 0.4s;
@@ -558,6 +617,15 @@ const corridorGroups = ['eu', 'me', 'us'];
 	}
 	.map.is-in .t6 {
 		animation-delay: 3.8s;
+	}
+	.map.is-in .t7 {
+		animation-delay: 4.25s;
+	}
+	.map.is-in .t8 {
+		animation-delay: 4.7s;
+	}
+	.map.is-in .t9 {
+		animation-delay: 5.15s;
 	}
 
 	/* Scroll-linked draw where supported: the legs draw with the scroll, in route order. Scoped to
@@ -599,6 +667,18 @@ const corridorGroups = ['eu', 'me', 'us'];
 		:global(.js) .map .arc.l5,
 		:global(.js) .map.is-in .arc.l5 {
 			animation-range: entry 60% cover 42%;
+		}
+		:global(.js) .map .arc.l6,
+		:global(.js) .map.is-in .arc.l6 {
+			animation-range: entry 70% cover 43%;
+		}
+		:global(.js) .map .arc.l7,
+		:global(.js) .map.is-in .arc.l7 {
+			animation-range: entry 80% cover 44%;
+		}
+		:global(.js) .map .arc.l8,
+		:global(.js) .map.is-in .arc.l8 {
+			animation-range: entry 90% cover 45%;
 		}
 		:global(.js) .map .ep,
 		:global(.js) .map .lbl,
