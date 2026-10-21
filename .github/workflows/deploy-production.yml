@@ -1,0 +1,53 @@
+# Builds the production site and uploads it to the zariacapital.es hosting over FTP on every push to main.
+# One-time setup by the repository owner: Settings > Secrets and variables > Actions > New repository secret,
+# three secrets: FTP_SERVER (zariacapital-es.espacioseguro.com), FTP_USERNAME and FTP_PASSWORD (the hosting's FTP account).
+# The connection is FTPS (FTP SSL is switched on in the hosting panel), so the password never travels in clear.
+#
+# Only files this workflow uploaded are ever replaced or deleted on the server: the old WordPress files kept in
+# www (switched off by the generated .htaccess) are never touched. The 1 January schedule rebuilds the site so
+# the footer's copyright year never goes stale.
+name: Deploy production to zariacapital.es
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '10 0 1 1 *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ZARIA_BUILD: production
+      ZARIA_BASE: /
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx astro build
+      # Translate dist/_headers and dist/_redirects into .htaccess files for the Apache host.
+      - run: node scripts/build-htaccess.mjs
+      - run: rm dist/_headers dist/_redirects
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          security: strict
+          port: 21
+          local-dir: ./dist/
+          server-dir: /www/
+          dry-run: true
