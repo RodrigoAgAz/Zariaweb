@@ -3,6 +3,11 @@
 Newest first. Decisions taken by the owner are marked **(owner)**; defaults taken by the build are marked **(build)**.
 
 
+
+## 2026-10-24
+
+- **Service descriptions supplied by the owner (owner).** Strategic Advisory, Capital Advisory (renamed from Financing, with a third tag "Long-term capital partners") and Principal Investing now use the owner's own wording, verbatim. Principal Investing speaks as "our own capital"; the rest of the site is in the third person.
+
 ## 2026-10-20 (evening)
 
 - **English only (owner).** The Spanish site is removed: no `/es/` pages, no language switch, no hreflang, one share image. Old `/es/` links should redirect to the homepage (`public/_redirects`; on the live Apache host this needs the same rule in `.htaccess`).
